@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Home from './pages/Home';
 import History from './pages/History';
 import About from './pages/About';
@@ -79,6 +80,8 @@ function App() {
         <div className="text-6xl grayscale">🍚</div>
         <div className="text-6xl grayscale">🌻</div>
       </div>
+      
+      <Analytics />
     </div>
   );
 }
