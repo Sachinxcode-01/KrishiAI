@@ -1,0 +1,21 @@
+{
+  "name": "FarmCure AI",
+  "short_name": "FarmCure",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1f0e",
+  "theme_color": "#2ecc71",
+  "description": "Detect Crop Disease Instantly",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2913/2913520.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2913/2913520.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
