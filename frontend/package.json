@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@react-google-maps/api": "^2.20.8",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-tflite": "^0.0.1-alpha.10",
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.6.8",
     "browser-image-compression": "^2.0.2",
     "firebase": "^12.12.1",

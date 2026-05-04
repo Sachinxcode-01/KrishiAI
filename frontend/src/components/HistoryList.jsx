@@ -2,77 +2,97 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { translations } from '../utils/translations';
 
-const HistoryList = ({ lang, history, onDelete, onClear, onViewItem }) => {
+const HistoryList = ({ lang, history, onDelete, onViewItem }) => {
   const t = translations[lang];
 
   if (!history || history.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
-        <div className="text-6xl opacity-20">📜</div>
-        <p className="text-text/40 font-medium">{t.noHistory}</p>
-      </div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex flex-col items-center justify-center p-20 text-center space-y-6 bg-white/[0.02] border border-dashed border-white/10 rounded-[2rem]"
+      >
+        <div className="text-6xl opacity-10 filter grayscale">📜</div>
+        <div className="space-y-1">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted/40">Archive Empty</p>
+          <p className="text-xs text-muted/20">{t.noHistory}</p>
+        </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center px-2">
-        <h2 className="text-lg font-bold text-white">{t.historyBtn}</h2>
-        <button
-          onClick={onClear}
-          className="text-xs font-bold text-error hover:opacity-80 transition-all uppercase tracking-widest"
-        >
-          {t.clearHistory}
-        </button>
-      </div>
-
-      <div className="space-y-3 pb-24">
-        <AnimatePresence>
-          {history.map((item) => (
+    <div className="space-y-6 pb-32">
+      <div className="grid gap-4">
+        <AnimatePresence mode="popLayout">
+          {history.map((item, index) => (
             <motion.div
               key={item._id}
-              initial={{ opacity: 0, x: -10 }}
+              initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="glass-card flex items-center gap-4 cursor-pointer hover:bg-white/10 transition-all relative overflow-hidden"
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
+              layout
+              className="card-premium group relative overflow-hidden cursor-pointer"
               onClick={() => onViewItem(item)}
             >
-              <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-white/5">
-                <img src={item.imageUrl} alt={item.cropName} className="w-full h-full object-cover" />
-              </div>
+              {/* Hover Glow */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-white truncate">
-                  {lang === 'en' ? item.cropName : item.cropNameKannada}
-                </h3>
-                <p className="text-xs text-text/60 truncate">
-                  {lang === 'en' ? item.diseaseName : item.diseaseNameKannada}
-                </p>
-                <p className="text-[10px] text-text/40 mt-1">
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </p>
-              </div>
+              <div className="relative p-5 flex items-center gap-5">
+                {/* Image Preview */}
+                <div className="relative h-16 w-16 flex-shrink-0 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.cropName} 
+                    className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                </div>
+                
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="px-2 py-0.5 bg-primary/10 text-primary text-[8px] font-black uppercase tracking-widest rounded-md border border-primary/20">
+                      {lang === 'en' ? item.cropName : item.cropNameKannada}
+                    </span>
+                    <span className="text-[9px] text-muted/40 font-medium">
+                      {new Date(item.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-sm font-bold text-white truncate group-hover:text-primary transition-colors">
+                    {lang === 'en' ? item.diseaseName : item.diseaseNameKannada}
+                  </h3>
+                  
+                  <div className="mt-2 flex items-center gap-3">
+                    <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider
+                      ${item.severity === 'High' ? 'text-red-400 bg-red-400/10' : 
+                        item.severity === 'Medium' ? 'text-orange-400 bg-orange-400/10' : 
+                        'text-emerald-400 bg-emerald-400/10'}
+                    `}>
+                      <span className="w-1 h-1 rounded-full bg-current animate-pulse" />
+                      {lang === 'en' ? item.severity : 
+                        item.severity === 'High' ? t.high : 
+                        item.severity === 'Medium' ? t.medium : t.low}
+                    </div>
+                  </div>
+                </div>
 
-              <div className="flex flex-col items-end gap-2">
+                {/* Delete Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onDelete(item._id);
                   }}
-                  className="p-2 text-text/20 hover:text-error transition-all"
+                  className="p-3 bg-white/[0.03] hover:bg-red-500/10 text-muted/30 hover:text-red-400 rounded-xl border border-white/5 hover:border-red-500/20 transition-all active:scale-90"
                 >
-                  🗑️
+                  <span className="text-sm">🗑️</span>
                 </button>
-                <div className={`px-2 py-0.5 rounded-full text-[8px] font-bold uppercase border
-                  ${item.severity === 'High' ? 'text-error border-error/20 bg-error/5' : 
-                    item.severity === 'Medium' ? 'text-warning border-warning/20 bg-warning/5' : 
-                    'text-primary border-primary/20 bg-primary/5'}
-                `}>
-                  {lang === 'en' ? item.severity : 
-                    item.severity === 'High' ? t.high : 
-                    item.severity === 'Medium' ? t.medium : t.low}
-                </div>
               </div>
+
+              {/* Progress Line */}
+              <div className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-primary/50 to-transparent w-0 group-hover:w-full transition-all duration-700" />
             </motion.div>
           ))}
         </AnimatePresence>

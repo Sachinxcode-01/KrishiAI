@@ -1,28 +1,50 @@
-# Node
+# Dependencies
 node_modules/
+**/node_modules/
+
+# Build outputs
 dist/
-dist-ssr/
-*.local
+**/dist/
+build/
+**/build/
 
-# Env
+# Environment variables
 .env
+**/.env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
-# IDE
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Firebase & Credentials
+serviceAccountKey.json
+**/serviceAccountKey.json
+*.pem
+*.key
 
-# OS
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS/IDE
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# Firebase Credentials
-serviceAccountKey.json
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Data & Models
+dataset/
+**/dataset/
+*.h5
+*.tflite
+*.zip
+*.rar
