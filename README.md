@@ -1,7 +1,7 @@
-# 🌿 FarmCure AI (ಫಾರ್ಮ್ಕ್ಯೂರ್ AI)
+# 🌿 Krishi AI (ಕೃಷಿ AI)
 ### ಬೆಳೆ ರೋಗ ತಕ್ಷಣ ಪತ್ತೆ ಮಾಡಿ | Detect Crop Disease Instantly
 
-FarmCure AI is a production-ready, AI-powered web application designed for farmers in Karnataka, India. It helps detect crop diseases in real-time by analyzing photos of infected leaves and provides actionable treatment steps and medicine advice in both Kannada and English.
+Krishi AI is a production-ready, AI-powered web application designed for farmers in Karnataka, India. It helps detect crop diseases in real-time by analyzing photos of infected leaves and provides actionable treatment steps and medicine advice in both Kannada and English.
 
 ![Banner](https://images.unsplash.com/photo-1592919016382-354bce365312?auto=format&fit=crop&q=80&w=1000)
 

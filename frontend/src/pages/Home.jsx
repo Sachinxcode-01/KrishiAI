@@ -156,7 +156,7 @@ const Home = ({ lang }) => {
       )}
 
       <div className="pt-20 pb-12 text-center border-t border-white/5 mt-12">
-        <p className="text-[9px] text-text/10 uppercase tracking-[0.5em] font-black">FarmCure AI Global Node • Secure Processing Active</p>
+        <p className="text-[9px] text-text/10 uppercase tracking-[0.5em] font-black">Krishi AI Global Node • Secure Processing Active</p>
       </div>
     </div>
   );

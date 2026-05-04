@@ -10,12 +10,12 @@ const About = ({ lang }) => {
         
         <div className="space-y-2">
           <h2 className="text-2xl font-bold text-white">
-            {lang === 'en' ? 'About FarmCure AI' : 'FarmCure AI ಬಗ್ಗೆ'}
+            {lang === 'en' ? 'About Krishi AI' : 'Krishi AI ಬಗ್ಗೆ'}
           </h2>
           <p className="text-sm text-text/60 leading-relaxed">
             {lang === 'en' 
-              ? 'FarmCure AI is an advanced agricultural tool designed to help Indian farmers detect crop diseases instantly using AI technology.' 
-              : 'FarmCure AI ಎನ್ನುವುದು AI ತಂತ್ರಜ್ಞಾನವನ್ನು ಬಳಸಿಕೊಂಡು ಬೆಳೆ ರೋಗಗಳನ್ನು ತಕ್ಷಣವೇ ಪತ್ತೆಹಚ್ಚಲು ಭಾರತೀಯ ರೈತರಿಗೆ ಸಹಾಯ ಮಾಡಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಮುಂದುವರಿದ ಕೃಷಿ ಸಾಧನವಾಗಿದೆ.'}
+              ? 'Krishi AI is an advanced agricultural tool designed to help Indian farmers detect crop diseases instantly using AI technology.' 
+              : 'Krishi AI ಎನ್ನುವುದು AI ತಂತ್ರಜ್ಞಾನವನ್ನು ಬಳಸಿಕೊಂಡು ಬೆಳೆ ರೋಗಗಳನ್ನು ತಕ್ಷಣವೇ ಪತ್ತೆಹಚ್ಚಲು ಭಾರತೀಯ ರೈತರಿಗೆ ಸಹಾಯ ಮಾಡಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಮುಂದುವರಿದ ಕೃಷಿ ಸಾಧನವಾಗಿದೆ.'}
           </p>
         </div>
 

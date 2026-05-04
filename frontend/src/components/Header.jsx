@@ -37,7 +37,7 @@ const Header = ({ lang, onToggleLang }) => {
           </div>
           <div>
             <h1 className="text-xl font-black tracking-tight text-white leading-none">
-              FarmCure <span className="text-primary italic">AI</span>
+              Krishi <span className="text-primary italic">AI</span>
             </h1>
             <p className="text-[9px] text-primary font-black uppercase tracking-[0.2em] mt-1 opacity-70">
               {t.tagline}
