@@ -18,4 +18,19 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@tensorflow')) return 'vendor-tf';
+            if (id.includes('firebase')) return 'vendor-firebase';
+            if (id.includes('framer-motion')) return 'vendor-motion';
+            return 'vendor';
+          }
+        }
+      }
+    }
+  }
 })
