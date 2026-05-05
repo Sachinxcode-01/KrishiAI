@@ -1,4 +1,4 @@
-const { analyzeImage, diagnoseText: diagnoseTextService } = require('../services/claudeService');
+const { analyzeImage, diagnoseText: diagnoseTextService } = require('../services/aiService');
 const Diagnosis = require('../models/Diagnosis');
 
 const analyze = async (req, res, next) => {

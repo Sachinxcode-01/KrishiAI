@@ -7,7 +7,7 @@ const supabase = require('./config/supabase');
 
 const server = new Server(
   {
-    name: 'farmcure-ai-mcp',
+    name: 'krishi-ai-mcp',
     version: '1.0.0',
   },
   {
@@ -95,7 +95,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('FarmCure AI MCP Server running on stdio');
+  console.error('Krishi AI MCP Server running on stdio');
 }
 
 main().catch((error) => {

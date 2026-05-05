@@ -12,17 +12,21 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Debug log to check for placeholders
+if (firebaseConfig.appId?.includes('YOUR_APP_ID')) {
+  console.warn("⚠️ Firebase Warning: YOUR_APP_ID placeholder detected. Google Sign-In will NOT work until you update frontend/.env with real values from Firebase Console.");
+}
+
 let app, auth, db, storage;
 
 try {
-  // Initialize Firebase
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getFirestore(app);
   storage = getStorage(app);
-  console.log("Firebase initialized successfully");
+  console.log("✅ Firebase Service initialized.");
 } catch (error) {
-  console.error("Firebase initialization error:", error);
+  console.error("❌ Firebase Initialization Error:", error);
 }
 
 export { auth, db, storage };

@@ -26,9 +26,11 @@ const Header = ({ lang, onToggleLang }) => {
   const handleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      console.log('Successfully signed in:', result.user);
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error('Firebase Auth Error:', error.code, error.message);
+      alert(`Sign-in failed: ${error.message}`);
     }
   };
 

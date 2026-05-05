@@ -1,5 +1,11 @@
 {
+  "name": "krishi-ai",
+  "description": "Krishi AI - Agricultural Intelligence Platform",
   "dependencies": {
-    "@vercel/analytics": "^2.0.1"
+    "@vercel/analytics": "^2.0.1",
+    "axios": "^1.16.0",
+    "dotenv": "^17.4.2",
+    "node-fetch": "^3.3.2",
+    "openai": "^6.36.0"
   }
 }

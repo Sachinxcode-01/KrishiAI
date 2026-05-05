@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { dataset } from '../data/dataset';
+import { getWeatherForecast } from '../utils/api';
 
 const AgriStats = ({ lang }) => {
   const prices = dataset.marketPrices;
+  const [weatherStatus, setWeatherStatus] = useState('Optimal');
+  const [isNvidiaActive, setIsNvidiaActive] = useState(false);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const res = await getWeatherForecast();
+        if (res.data.status === 'processing' || res.data.status === 'completed' || res.data.requestId) {
+          setIsNvidiaActive(true);
+        }
+      } catch (err) {
+        console.error('Weather fetch error:', err);
+      }
+    };
+    fetchWeather();
+  }, []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -15,11 +32,16 @@ const AgriStats = ({ lang }) => {
         <div className="absolute -right-8 -top-8 text-8xl opacity-5 group-hover:scale-125 transition-transform duration-1000 ease-out select-none">☀️</div>
         
         <div className="relative z-10 space-y-4">
-          <div>
+          <div className="flex flex-col">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-2">Atmospheric Intelligence</p>
             <div className="flex items-end gap-3">
               <span className="text-4xl font-black text-white tracking-tighter">28°C</span>
-              <span className="text-xs font-bold text-muted mb-1.5 uppercase tracking-widest">Optimal Conditions</span>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-black text-muted uppercase tracking-[0.2em] mb-0.5">FourCastNet V2</span>
+                <span className={`text-[10px] font-black uppercase tracking-widest ${isNvidiaActive ? 'text-primary' : 'text-muted'}`}>
+                  {isNvidiaActive ? '● Active Neural Sim' : 'Offline'}
+                </span>
+              </div>
             </div>
           </div>
           

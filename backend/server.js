@@ -9,6 +9,8 @@ const errorHandler = require('./middleware/errorHandler');
 const analyzeRoutes = require('./routes/analyzeRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const weatherRoutes = require('./routes/weatherRoutes');
+
 
 dotenv.config();
 
@@ -31,6 +33,8 @@ if (firebaseAdmin) {
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/weather', weatherRoutes);
+
 
 // Health check
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
