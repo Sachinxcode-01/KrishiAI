@@ -36,6 +36,15 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/weather', weatherRoutes);
 
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: "Krishi AI Backend Command Center - Online",
+    version: "2.0.0-Flash",
+    endpoints: ["/api/analyze", "/api/chat", "/api/history", "/api/weather", "/health"]
+  });
+});
+
 // Health check
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
 
