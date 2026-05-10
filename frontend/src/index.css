@@ -413,3 +413,49 @@ h1, h2, h3, h4, h5, h6 {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 768px) {
+  :root {
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
+  }
+
+  section {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  .hero-heading {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    line-height: 1;
+    text-align: center;
+  }
+
+  .btn-premium {
+    width: 100%;
+    padding: 1.25rem 2rem;
+    font-size: 0.85rem;
+  }
+
+  .glass-panel {
+    padding: 1.5rem !important;
+  }
+
+  /* Prevent text overflow on small screens */
+  p, span, h1, h2, h3 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: 2.8rem;
+  }
+  
+  .px-\[6\%\] {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}

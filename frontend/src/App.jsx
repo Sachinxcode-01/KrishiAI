@@ -66,9 +66,9 @@ function App() {
         </Routes>
       </main>
 
-      {/* Global Status HUD: Absolute Perfection */}
-      <div className="fixed bottom-0 left-0 w-full z-[9999] pointer-events-none px-10 pb-10 flex justify-between items-end">
-        <div className="flex flex-col gap-1 backdrop-blur-xl bg-black/40 p-5 rounded-2xl border border-white/5 shadow-2xl hero-fade animate-float-tactical">
+      {/* Global Status HUD: Absolute Perfection - Responsive Hide */}
+      <div className="fixed bottom-0 left-0 w-full z-[9999] pointer-events-none px-6 md:px-10 pb-6 md:pb-10 flex justify-between items-end">
+        <div className="hidden md:flex flex-col gap-1 backdrop-blur-xl bg-black/40 p-5 rounded-2xl border border-white/5 shadow-2xl hero-fade animate-float-tactical">
           <div className="flex items-center gap-3">
             <div className="size-2 rounded-full bg-[var(--primary)] animate-pulse shadow-[0_0_15px_var(--primary-glow)]" />
             <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-[var(--primary)] font-black">

@@ -40,7 +40,7 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
   };
 
   return (
-    <div className="glass-card p-6 sm:p-8 lg:p-12 w-full max-w-4xl mx-auto">
+    <div className="glass-card p-6 md:p-8 lg:p-12 w-full max-w-4xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
@@ -57,7 +57,7 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
         {/* Left: Upload Area */}
         <div className="space-y-6">
           <div 
-            className={`relative group h-[380px] border-2 border-dashed rounded-3xl flex flex-col items-center justify-center transition-all duration-500 overflow-hidden ${
+            className={`relative group h-[300px] md:h-[380px] border-2 border-dashed rounded-3xl flex flex-col items-center justify-center transition-all duration-500 overflow-hidden ${
               dragActive ? 'border-[var(--primary)] bg-[var(--primary)]/5 scale-[0.99]' : 'border-white/10 bg-white/[0.02] hover:border-white/20'
             }`}
             onDragEnter={handleDrag}

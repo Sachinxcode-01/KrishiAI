@@ -98,17 +98,17 @@ export default function Hero() {
         </p>
 
         {/* CTA Group */}
-        <div className="hero-fade flex flex-wrap justify-center gap-6 mb-24">
+        <div className="hero-fade flex flex-col sm:flex-row justify-center items-center gap-6 mb-24 w-full sm:w-auto">
           <button 
             onClick={() => document.getElementById('detect')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-premium btn-premium-primary group"
+            className="btn-premium btn-premium-primary group w-full sm:w-auto"
           >
             Analyze My Crop
             <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
           </button>
           <button 
             onClick={() => window.location.href = '/library'}
-            className="btn-premium btn-premium-secondary group"
+            className="btn-premium btn-premium-secondary group w-full sm:w-auto"
           >
             <Play className="mr-2 size-5 fill-current" />
             Explore Library

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Leaf, Menu, X, ShieldCheck } from 'lucide-react';
+import { Menu, X, ShieldCheck } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,8 +25,8 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-700 px-[6%] flex items-center justify-between ${
-        scrolled ? 'h-[70px] bg-background/80 backdrop-blur-2xl border-b border-white/5' : 'h-[100px] bg-transparent'
+      className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-700 px-4 md:px-[6%] flex items-center justify-between ${
+        scrolled ? 'h-[60px] md:h-[70px] bg-background/80 backdrop-blur-2xl border-b border-white/5' : 'h-[80px] md:h-[100px] bg-transparent'
       }`}
     >
       {/* Logo */}

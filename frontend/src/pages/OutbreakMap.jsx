@@ -463,9 +463,9 @@ const OutbreakMap = ({ lang }) => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-[400px] bg-gradient-to-t from-primary/50 to-transparent origin-bottom animate-radar-sweep" />
             </div>
 
-            {/* Climate Intelligence HUD */}
-            <div className="absolute top-8 left-8 z-30 space-y-4">
-              <div className="px-6 py-4 bg-black/60 backdrop-blur-3xl border border-white/10 rounded-2xl flex flex-col gap-4">
+            {/* Climate Intelligence HUD - Responsive Hide */}
+            <div className="absolute top-4 left-4 md:top-8 md:left-8 z-30 space-y-4 hidden sm:block">
+              <div className="px-4 py-3 md:px-6 md:py-4 bg-black/60 backdrop-blur-3xl border border-white/10 rounded-2xl flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <CloudRain className="size-4 text-primary" />
                   <span className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">Climate_Intelligence_V4</span>
@@ -519,8 +519,8 @@ const OutbreakMap = ({ lang }) => {
               </div>
             </div>
 
-            {/* Coordinate HUD */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-12 px-8 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-full">
+            {/* Coordinate HUD - Hide on mobile */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-12 px-8 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-full">
               <div className="flex flex-col items-center">
                 <span className="text-[7px] font-black text-white/20 uppercase tracking-[0.4em]">Longitude</span>
                 <span className="text-[10px] font-mono font-bold text-primary">{viewport.center[0].toFixed(4)}°E</span>
