@@ -1,134 +1,118 @@
-import React, { useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
-import History from './pages/History';
-import About from './pages/About';
+import HistoryPage from './pages/History';
+import LibraryPage from './pages/Library';
 import OutbreakMap from './pages/OutbreakMap';
-import Header from './components/Header';
-import LiveBackground from './components/LiveBackground';
-import Library from './pages/Library';
-import Chat from './pages/Chat';
-import FloatingChat from './components/FloatingChat';
-import { Analytics } from '@vercel/analytics/react';
+import AboutPage from './pages/About';
+import ChatPage from './pages/Chat';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Loader from './components/Loader';
+import FloatingChatbot from './components/FloatingChatbot';
+import { initAnimations } from './utils/animations';
+import heroBg from './assets/hero-bg.png';
+import { DiagnosisProvider } from './context/DiagnosisContext';
 
 function App() {
-  const [lang, setLang] = useState('kn');
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
-  const toggleLang = () => {
-    setLang(prev => prev === 'en' ? 'kn' : 'en');
-  };
+  useEffect(() => {
+    if (!loading) {
+      initAnimations();
+    }
+  }, [loading]);
 
-  const isActive = (path) => location.pathname === path;
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
 
   return (
-    <div className="min-h-screen bg-background text-text selection:bg-primary/30 relative overflow-x-hidden pb-24">
-      {/* Background stays full screen */}
-      <LiveBackground />
+    <DiagnosisProvider>
+      <div className="relative min-h-screen bg-black text-white selection:bg-[var(--primary)] selection:text-black overflow-x-hidden">
+        {loading && <Loader onComplete={() => setLoading(false)} />}
       
-      <Header lang={lang} onToggleLang={toggleLang} />
+      {/* Global Cinematic Background */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
+        <img 
+          src={heroBg} 
+          alt="Global Background" 
+          className="w-full h-full object-cover grayscale-[0.5] contrast-[1.2]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+      </div>
 
-      {/* Main Container - Responsive width */}
-      <main className="relative z-10 mx-auto w-full lg:max-w-[1200px] px-4">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Home lang={lang} />} />
-            <Route path="/chat" element={<Chat lang={lang} />} />
-            <Route path="/history" element={<History lang={lang} />} />
-            <Route path="/library" element={<Library lang={lang} />} />
-            <Route path="/map" element={<OutbreakMap lang={lang} />} />
-            <Route path="/about" element={<About lang={lang} />} />
-          </Routes>
-        </AnimatePresence>
+      <Navbar />
+      
+      <main className="relative z-10">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/library" element={<LibraryPage />} />
+          <Route path="/map" element={<OutbreakMap />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
       </main>
 
-      {/* Navigation - Centered bottom bar */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[540px]">
-        <motion.div 
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", damping: 20, stiffness: 100 }}
-          className="bg-surface/80 backdrop-blur-3xl border border-white/10 p-2 rounded-[2.5rem] flex items-center justify-between shadow-2xl"
-        >
-          <Link 
-            to="/" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">🌿</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'Scan' : 'ಪರೀಕ್ಷೆ'}</span>
-          </Link>
-          <Link 
-            to="/chat" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/chat') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/chat') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">💬</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'Chat' : 'ಚಾಟ್'}</span>
-          </Link>
-          <Link 
-            to="/history" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/history') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/history') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">📜</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'History' : 'ಇತಿಹಾಸ'}</span>
-          </Link>
-          <Link 
-            to="/map" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/map') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/map') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">🗺️</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'Alerts' : 'ಎಚ್ಚರಿಕೆ'}</span>
-          </Link>
-          <Link 
-            to="/library" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/library') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/library') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">📚</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'Library' : 'ಮಾಹಿತಿ'}</span>
-          </Link>
-          <Link 
-            to="/about" 
-            className={`flex-1 flex flex-col items-center py-3 transition-all relative rounded-[2rem] ${isActive('/about') ? 'text-primary' : 'text-muted hover:text-text/60'}`}
-          >
-            {isActive('/about') && (
-              <motion.div layoutId="nav-bg" className="absolute inset-0 bg-primary/10 rounded-[2rem]" />
-            )}
-            <span className="text-xl relative z-10">ℹ️</span>
-            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider relative z-10">{lang === 'en' ? 'About' : 'ಬಗ್ಗೆ'}</span>
-          </Link>
-        </motion.div>
-      </nav>
+      {/* Global Status HUD: Absolute Perfection */}
+      <div className="fixed bottom-0 left-0 w-full z-[9999] pointer-events-none px-10 pb-10 flex justify-between items-end">
+        <div className="flex flex-col gap-1 backdrop-blur-xl bg-black/40 p-5 rounded-2xl border border-white/5 shadow-2xl hero-fade animate-float-tactical">
+          <div className="flex items-center gap-3">
+            <div className="size-2 rounded-full bg-[var(--primary)] animate-pulse shadow-[0_0_15px_var(--primary-glow)]" />
+            <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-[var(--primary)] font-black">
+              Neural_Link: Active
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 ml-5">
+            <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-white/40 font-bold">
+              Inference_Nodes: Cluster_08
+            </span>
+            <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-white/40 font-bold">
+              Geo_Sync: Secure_Channel_7
+            </span>
+          </div>
+          {/* Micro Progress Bars */}
+          <div className="flex gap-1 mt-3 ml-5">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+              <div key={i} className={`h-1 w-3 rounded-full ${i < 6 ? 'bg-[var(--primary)]/40' : 'bg-white/10'}`} />
+            ))}
+          </div>
+        </div>
 
-      
-      {/* Decorative side elements for desktop */}
-      <div className="hidden xl:block fixed top-1/2 left-8 -translate-y-1/2 space-y-12 opacity-10 pointer-events-none">
-        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="text-6xl">🌾</motion.div>
-        <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 5, repeat: Infinity }} className="text-6xl">🚜</motion.div>
-        <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 6, repeat: Infinity }} className="text-6xl">🌧️</motion.div>
+        <div className="hidden lg:flex flex-col gap-1 items-end backdrop-blur-xl bg-black/40 p-5 rounded-2xl border border-white/5 shadow-2xl hero-fade animate-float-tactical" style={{ animationDelay: '-2s' }}>
+           <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-white/60 font-black">
+              System_Telemetry
+            </span>
+            <div className="flex gap-6 mt-2">
+              <div className="text-right">
+                <span className="block text-[0.5rem] font-bold text-white/30 uppercase tracking-widest">Latency</span>
+                <span className="block text-xs font-black text-[var(--primary)]">14ms</span>
+              </div>
+              <div className="text-right">
+                <span className="block text-[0.5rem] font-bold text-white/30 uppercase tracking-widest">Efficiency</span>
+                <span className="block text-xs font-black text-[var(--primary)]">98.2%</span>
+              </div>
+            </div>
+        </div>
       </div>
-      <div className="hidden xl:block fixed top-1/2 right-8 -translate-y-1/2 space-y-12 opacity-10 pointer-events-none text-right">
-        <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 4.5, repeat: Infinity }} className="text-6xl">🍅</motion.div>
-        <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 5.5, repeat: Infinity }} className="text-6xl">🍚</motion.div>
-        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 6.5, repeat: Infinity }} className="text-6xl">🌻</motion.div>
+
+      <FloatingChatbot />
+
+      <Footer />
       </div>
-      <FloatingChat lang={lang} />
-      <Analytics />
-    </div>
+    </DiagnosisProvider>
   );
 }
 

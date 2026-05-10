@@ -11,18 +11,25 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@react-google-maps/api": "^2.20.8",
+    "@radix-ui/react-slot": "^1.2.4",
     "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-tflite": "^0.0.1-alpha.10",
     "@vercel/analytics": "^2.0.1",
-    "axios": "^1.6.8",
+    "axios": "^1.16.0",
     "browser-image-compression": "^2.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "firebase": "^12.12.1",
     "framer-motion": "^11.1.7",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.14.0",
+    "maplibre-gl": "^5.24.0",
     "openai": "^6.36.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

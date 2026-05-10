@@ -3,22 +3,22 @@ import { useState, useCallback } from 'react';
 export const useVoice = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
+  const stop = useCallback(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  }, []);
+
   const speak = useCallback((text, lang = 'en-IN') => {
     if (!window.speechSynthesis) return;
 
-    // Stop existing speech
-    window.speechSynthesis.cancel();
+    // Stop any existing speech
+    stop();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Set language
-    if (lang === 'kn-IN' || lang === 'kn') {
-      utterance.lang = 'kn-IN';
-    } else {
-      utterance.lang = 'en-IN';
-    }
-
-    utterance.rate = 0.85;
+    utterance.lang = lang;
+    utterance.rate = 0.88;
     utterance.pitch = 1;
 
     utterance.onstart = () => setIsSpeaking(true);
@@ -26,12 +26,11 @@ export const useVoice = () => {
     utterance.onerror = () => setIsSpeaking(false);
 
     window.speechSynthesis.speak(utterance);
-  }, []);
+  }, [stop]);
 
-  const stop = useCallback(() => {
-    window.speechSynthesis.cancel();
-    setIsSpeaking(false);
-  }, []);
-
-  return { speak, stop, isSpeaking };
+  return {
+    speak,
+    stop,
+    isSpeaking
+  };
 };

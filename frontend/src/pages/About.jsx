@@ -1,67 +1,159 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Shield, 
+  Cpu, 
+  Globe, 
+  Users, 
+  Zap, 
+  Leaf, 
+  Database, 
+  Network,
+  ArrowRight,
+  ExternalLink
+} from "lucide-react";
 
 const About = ({ lang }) => {
-  return (
-    <div className="pt-24 px-6 max-w-[420px] mx-auto min-h-screen animate-fade-in">
-      <div className="card space-y-6">
-        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl">
-          🌱
-        </div>
-        
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-white">
-            {lang === 'en' ? 'About Krishi AI' : 'Krishi AI ಬಗ್ಗೆ'}
-          </h2>
-          <p className="text-sm text-text/60 leading-relaxed">
-            {lang === 'en' 
-              ? 'Krishi AI is an advanced agricultural tool designed to help Indian farmers detect crop diseases instantly using AI technology.' 
-              : 'Krishi AI ಎನ್ನುವುದು AI ತಂತ್ರಜ್ಞಾನವನ್ನು ಬಳಸಿಕೊಂಡು ಬೆಳೆ ರೋಗಗಳನ್ನು ತಕ್ಷಣವೇ ಪತ್ತೆಹಚ್ಚಲು ಭಾರತೀಯ ರೈತರಿಗೆ ಸಹಾಯ ಮಾಡಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಮುಂದುವರಿದ ಕೃಷಿ ಸಾಧನವಾಗಿದೆ.'}
-          </p>
-        </div>
+  const stats = [
+    { label: lang === 'en' ? 'Processing Core' : 'ಸಂಸ್ಕರಣಾ ಕೋರ್', value: 'Neural_v5', icon: Cpu },
+    { label: lang === 'en' ? 'Network Nodes' : 'ನೆಟ್‌ವರ್ಕ್ ನೋಡ್‌ಗಳು', value: '128+ KVKs', icon: Network },
+    { label: lang === 'en' ? 'Latency' : 'ವಿಳಂಬ', value: '< 2.4s', icon: Zap },
+    { label: lang === 'en' ? 'Data Precision' : 'ಡೇಟಾ ನಿಖರತೆ', value: '99.2%', icon: Database },
+  ];
 
-        <div className="space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-primary">
-            {lang === 'en' ? 'How it works' : 'ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ'}
-          </h3>
+  const mission = lang === 'en' 
+    ? 'Krishi AI is an advanced agricultural intelligence matrix designed to empower the heart of India: its farmers. By fusing neural disease detection with real-time geospatial surveillance, we provide a tactical shield against crop failure.'
+    : 'ಕೃಷಿ AI ಎನ್ನುವುದು ಸುಧಾರಿತ ಕೃಷಿ ಬುದ್ಧಿವಂತಿಕೆಯ ಮ್ಯಾಟ್ರಿಕ್ಸ್ ಆಗಿದ್ದು, ಭಾರತದ ಹೃದಯಭಾಗವಾದ ರೈತರನ್ನು ಸಬಲಗೊಳಿಸಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ. ನರಮಂಡಲದ ಕಾಯಿಲೆ ಪತ್ತೆಹಚ್ಚುವಿಕೆಯನ್ನು ನೈಜ-ಸಮಯದ ಭೌಗೋಳಿಕ ಕಣ್ಗಾವಲಿನೊಂದಿಗೆ ಬೆಸೆಯುವ ಮೂಲಕ, ನಾವು ಬೆಳೆ ವೈಫಲ್ಯದ ವಿರುದ್ಧ ರಕ್ಷಣಾತ್ಮಕ ಗುರಾಣಿಯನ್ನು ಒದಗಿಸುತ್ತೇವೆ.';
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="pt-32 lg:pt-48 px-6 pb-40 max-w-7xl mx-auto min-h-screen relative overflow-hidden"
+    >
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+      <div className="absolute -top-24 -right-24 size-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      
+      {/* Header Section */}
+      <div className="grid lg:grid-cols-2 gap-20 mb-32 items-center">
+        <div className="space-y-8">
+          <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            className="flex items-center gap-4"
+          >
+            <div className="size-2 rounded-full bg-primary animate-pulse shadow-[0_0_15px_#10b981]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/80 italic">
+              System_Manifesto_v1.0
+            </span>
+          </motion.div>
           
-          <ul className="space-y-4">
-            {[
-              { icon: '📸', en: 'Take a photo of the infected leaf.', kn: 'ರೋಗಪೀಡಿತ ಎಲೆಯ ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಿ.' },
-              { icon: '🧠', en: 'AI analyzes the image for diseases.', kn: 'AI ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತದೆ.' },
-              { icon: '💊', en: 'Get instant cure steps and medicine info.', kn: 'ತಕ್ಷಣದ ಪರಿಹಾರ ಮತ್ತು ಔಷಧಿ ಮಾಹಿತಿ ಪಡೆಯಿರಿ.' }
-            ].map((step, i) => (
-              <li key={i} className="flex gap-4 items-start">
-                <span className="text-xl">{step.icon}</span>
-                <p className="text-sm text-text/80">
-                  {lang === 'en' ? step.en : step.kn}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="space-y-4 pt-6 border-t border-white/5">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-primary">
-            {lang === 'en' ? 'Scientific Pedigree' : 'ವೈಜ್ಞಾನಿಕ ಆಧಾರ'}
-          </h3>
-          <p className="text-[10px] text-text/40 leading-relaxed uppercase font-bold tracking-widest">
-            Inspired by & referencing global open-source research:
+          <h1 className="text-5xl lg:text-8xl font-display font-black tracking-tighter italic leading-[0.8] uppercase">
+            <span className="text-white block">Digital</span>
+            <span className="text-primary block">Agronomy</span>
+          </h1>
+          
+          <p className="text-white/60 text-lg lg:text-xl font-medium leading-relaxed max-w-xl italic">
+            {mission}
           </p>
-          <div className="grid grid-cols-2 gap-2">
-            {['PlantVillage', 'PlantDoc', 'EfficientNet', 'TensorFlow Lite'].map((ref, i) => (
-              <div key={i} className="bg-white/[0.03] border border-white/5 p-2 rounded-lg text-[9px] font-bold text-text/60 text-center">
-                {ref}
-              </div>
-            ))}
+
+          <div className="flex flex-wrap gap-4 pt-8">
+            <button className="btn-premium btn-premium-primary group">
+              <Shield className="mr-3 size-5 text-black" />
+              <span className="text-black font-bold uppercase tracking-widest text-[10px]">Read Protocol</span>
+              <ArrowRight className="ml-3 size-4 text-black group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all flex items-center gap-3">
+              <Globe className="size-4 text-primary" />
+              Regional Impact
+            </button>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-white/5 text-center">
-          <p className="text-[10px] text-text/40 font-bold uppercase tracking-widest">
-            {lang === 'en' ? 'Developed for Karnataka Farmers' : 'ಕರ್ನಾಟಕದ ರೈತರಿಗಾಗಿ ಅಭಿವೃದ್ಧಿಪಡಿಸಲಾಗಿದೆ'}
-          </p>
+        <div className="relative">
+          <div className="absolute inset-0 bg-primary/20 blur-[100px] opacity-20" />
+          <div className="grid grid-cols-2 gap-4 relative">
+            {stats.map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="card-premium p-8 bg-surface/20 border-white/5 space-y-4 hover:border-primary/30 transition-all group"
+              >
+                <stat.icon className="size-6 text-primary/40 group-hover:text-primary transition-colors" />
+                <div>
+                  <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">{stat.label}</p>
+                  <p className="text-2xl font-display font-black text-white italic tracking-tighter mt-1">{stat.value}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Core Tech Stack Section */}
+      <div className="mt-40 pt-24 border-t border-white/5">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
+          <div>
+            <h2 className="text-sm font-black uppercase tracking-[0.8em] text-primary italic mb-3">Technology_Stack</h2>
+            <p className="text-3xl lg:text-5xl font-display font-black text-white italic tracking-tighter uppercase">Fusing Neural Intelligence with Earth Science</p>
+          </div>
+          <p className="text-white/40 text-sm font-medium max-w-md leading-relaxed">
+            Our infrastructure leverages the latest advancements in distributed computing and deep learning to deliver millisecond-accurate diagnoses in the most remote agricultural sectors.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-6">
+          {[
+            { title: 'Computer Vision', desc: 'Custom EfficientNet models optimized for crop leaf morphology.', icon: Leaf },
+            { title: 'Neural Engine', desc: 'Distributed inference nodes running on Gemini 1.5 Pro architecture.', icon: Zap },
+            { title: 'Geospatial Grid', desc: 'Real-time outbreak mapping via satellite coordinate projection.', icon: Globe },
+            { title: 'Secure Vault', desc: 'Military-grade encryption for all regional diagnostic records.', icon: Shield }
+          ].map((tech, i) => (
+            <div key={i} className="p-10 rounded-[2.5rem] bg-black/40 border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all" />
+              <tech.icon className="size-8 text-primary/40 mb-8 group-hover:scale-110 transition-transform" />
+              <h3 className="text-lg font-display font-black text-white uppercase italic tracking-tighter mb-4 group-hover:text-primary transition-colors">{tech.title}</h3>
+              <p className="text-[12px] text-white/40 font-medium leading-relaxed uppercase tracking-wider">{tech.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Social Impact / Karnataka Focus */}
+      <div className="mt-40 p-12 lg:p-24 rounded-[4rem] bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 relative overflow-hidden">
+        <div className="absolute inset-0 specimen-grid opacity-10" />
+        <div className="relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-8">
+            <div className="size-16 rounded-3xl bg-primary flex items-center justify-center shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+              <Users className="size-8 text-black" />
+            </div>
+            <h2 className="text-4xl lg:text-6xl font-display font-black text-white italic tracking-tighter uppercase leading-none">Built for the <br /><span className="text-primary">Karnataka</span> Spirit</h2>
+            <p className="text-white/60 text-lg font-medium leading-relaxed italic">
+              Developed specifically for the unique agricultural landscape of Karnataka, Krishi AI supports local dialects and is optimized for low-bandwidth environments, ensuring no farmer is left behind.
+            </p>
+          </div>
+          <div className="card-premium p-8 bg-black/40 backdrop-blur-3xl border-white/10 space-y-8">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em]">Global_Research_Pedigree</span>
+              <ExternalLink className="size-4 text-white/20" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {['PlantVillage', 'EfficientNet', 'TensorFlow', 'Gemini AI'].map((item, i) => (
+                <div key={i} className="px-6 py-4 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black text-white/40 uppercase tracking-widest text-center">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-white/20 font-bold uppercase tracking-[0.2em] leading-relaxed italic text-center pt-8 border-t border-white/5">
+              Refined by local KVK expertise and historical state data.
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

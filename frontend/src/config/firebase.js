@@ -12,9 +12,13 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Debug log to check for placeholders
-if (firebaseConfig.appId?.includes('YOUR_APP_ID')) {
-  console.warn("⚠️ Firebase Warning: YOUR_APP_ID placeholder detected. Google Sign-In will NOT work until you update frontend/.env with real values from Firebase Console.");
+// Tactical Validation: Ensure critical telemetry nodes are configured
+const missingKeys = Object.entries(firebaseConfig)
+  .filter(([key, value]) => !value || value.includes('YOUR_'))
+  .map(([key]) => key);
+
+if (missingKeys.length > 0) {
+  console.warn(`⚠️ Firebase Intelligence Warning: Missing or placeholder values detected for [${missingKeys.join(', ')}]. Satellite data and authentication protocols may be offline.`);
 }
 
 let app, auth, db, storage;

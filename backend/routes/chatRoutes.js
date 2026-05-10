@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { chatWithAssistant } = require('../services/aiService');
+const { chatWithLangchain } = require('../services/langchainService');
 
 router.post('/', async (req, res) => {
   try {
@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    await chatWithAssistant(question, context, lang, (chunk) => {
+    await chatWithLangchain(question, context, lang, (chunk) => {
       res.write(`data: ${JSON.stringify({ chunk })}\n\n`);
     });
 

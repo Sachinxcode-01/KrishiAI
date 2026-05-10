@@ -9,7 +9,10 @@ const api = axios.create({
   }
 });
 
+// Use the standard backend API route which works correctly on Vercel deployment
 export const analyzeImage = (image, description) => api.post('/analyze', { image, description });
+
+  
 export const getHistory = () => api.get('/history');
 export const saveToHistory = (data) => api.post('/history/save', data);
 export const deleteHistoryItem = (id) => api.delete(`/history/${id}`);

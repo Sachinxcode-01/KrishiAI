@@ -1,9 +1,9 @@
 const { analyzeImage, diagnoseText: diagnoseTextService } = require('../services/aiService');
-const Diagnosis = require('../models/Diagnosis');
+const admin = require('../config/firebase');
 
 const analyze = async (req, res, next) => {
   try {
-    const { image, description } = req.body;
+    const { image, description, location } = req.body;
 
     if (!image) {
       return res.status(400).json({ success: false, message: 'No image provided' });
@@ -11,11 +11,25 @@ const analyze = async (req, res, next) => {
 
     const diagnosisData = await analyzeImage(image, description);
 
+    // Auto-save to history
+    let savedId = null;
+    if (admin) {
+      const db = admin.firestore();
+      const docRef = await db.collection('diagnoses').add({
+        ...diagnosisData,
+        imageUrl: image,
+        location: location || null,
+        created_at: admin.firestore.FieldValue.serverTimestamp()
+      });
+      savedId = docRef.id;
+    }
+
     res.json({
       success: true,
       data: {
         ...diagnosisData,
-        imageUrl: image 
+        imageUrl: image,
+        _id: savedId
       }
     });
   } catch (error) {
@@ -33,9 +47,25 @@ const diagnoseText = async (req, res) => {
 
     const diagnosisData = await diagnoseTextService(symptoms);
     
+    // Auto-save manual diagnosis to history
+    let savedId = null;
+    if (admin) {
+      const db = admin.firestore();
+      const docRef = await db.collection('diagnoses').add({
+        ...diagnosisData,
+        symptoms: symptoms,
+        isManual: true,
+        created_at: admin.firestore.FieldValue.serverTimestamp()
+      });
+      savedId = docRef.id;
+    }
+    
     res.json({
       success: true,
-      data: diagnosisData
+      data: {
+        ...diagnosisData,
+        _id: savedId
+      }
     });
   } catch (error) {
     console.error('Text Diagnosis Controller Error:', error);

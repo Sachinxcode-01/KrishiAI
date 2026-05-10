@@ -1,12 +1,10 @@
-const OpenAI = require("openai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const openai = new OpenAI({
-  apiKey: process.env.NVIDIA_API_KEY,
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-});
+// Initialize Google Generative AI
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
 
 const SYSTEM_PROMPT = `
 You are Dr. KrishiAI, a senior agricultural scientist with 20+ years of experience 
@@ -44,144 +42,91 @@ Schema:
 }
 `;
 
-const checkContentSafety = async (text, base64Image = null) => {
-  try {
-    console.log(`[${new Date().toISOString()}] Checking Content Safety (Nemotron-3)...`);
-    
-    const messages = [];
-    if (base64Image) {
-      messages.push({
-        role: "user",
-        content: [
-          { type: "text", text: `Is this query and image safe? Query: ${text}` },
-          { type: "image_url", image_url: { url: base64Image } }
-        ]
-      });
-    } else {
-      messages.push({ role: "user", content: text });
-    }
-
-    const response = await openai.chat.completions.create({
-      model: "nvidia/nemotron-3-content-safety",
-      messages: messages,
-      max_tokens: 64,
-      temperature: 0.1
-    });
-
-    const result = response.choices[0].message.content.toLowerCase();
-    console.log(`[${new Date().toISOString()}] Safety Check Result: ${result}`);
-    
-    return result.includes("safe") && !result.includes("unsafe");
-  } catch (error) {
-    console.error('Safety Check Error:', error.message);
-    return true; // Fail safe (allow) if the guardrail itself errors
-  }
-};
-
 const analyzeImage = async (base64Image, description) => {
   try {
-    // Content Safety Check
-    const isSafe = await checkContentSafety(description || "Analyze this image", base64Image);
-    if (!isSafe) {
-      throw new Error("KrishiAI Safety Guard: The provided content contains unsafe or prohibited information.");
+    console.log(`[${new Date().toISOString()}] Calling Gemini AI (Vision)...`);
+    
+    // Parse the data URI to extract mimeType and base64 string
+    const mimeType = base64Image.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || "image/jpeg";
+    const data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const prompt = `${SYSTEM_PROMPT}\n\nFarmer's Description: ${description || "Analyze this image for crop diseases."}\nReturn ONLY the raw JSON object.`;
+    
+    const imageParts = [{
+      inlineData: {
+        data,
+        mimeType
+      }
+    }];
+
+    const result = await model.generateContent([prompt, ...imageParts]);
+    let text = result.response.text();
+    
+    // Clean up potential markdown formatting from Gemini
+    text = text.trim();
+    if (text.startsWith('```json')) {
+        text = text.replace(/^```json/, '').replace(/```$/, '').trim();
+    } else if (text.startsWith('```')) {
+        text = text.replace(/^```/, '').replace(/```$/, '').trim();
     }
 
-    console.log(`[${new Date().toISOString()}] Calling NVIDIA AI (Vision)...`);
-    
-    // Ensure base64 image is in the correct format for NVIDIA (standard data URI)
-    const response = await openai.chat.completions.create({
-      model: process.env.NVIDIA_VISION_MODEL || "meta/llama-3.2-11b-vision-instruct",
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: `${SYSTEM_PROMPT}\n\nFarmer's Description: ${description || "Analyze this image for crop diseases."}` },
-            {
-              type: "image_url",
-              image_url: {
-                url: base64Image, // NVIDIA supports data URIs
-              },
-            },
-          ],
-        },
-      ],
-      max_tokens: 1024,
-      response_format: { type: "json_object" }
-    });
-
-    const text = response.choices[0].message.content.trim();
-    console.log(`[${new Date().toISOString()}] NVIDIA Response received.`);
+    console.log(`[${new Date().toISOString()}] Gemini Vision Response received.`);
     return JSON.parse(text);
   } catch (error) {
-    console.error('NVIDIA AI Error:', error.message);
+    console.error('Gemini AI Error:', error.message);
     throw error;
   }
 };
 
 const chatWithAssistant = async (question, context, lang, onChunk) => {
   try {
-    // Content Safety Check
-    const isSafe = await checkContentSafety(question);
-    if (!isSafe) {
-      if (onChunk) onChunk("KrishiAI Safety Guard: This request cannot be fulfilled as it violates safety guidelines.");
-      return "Unsafe content blocked.";
-    }
+    console.log(`[${new Date().toISOString()}] Calling Gemini AI (Chat Streaming)...`);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    
+    const prompt = `System: You are Dr. KrishiAI agricultural assistant. Respond simply and helpfully. Max 2-3 short sentences.
+    
+Diagnosis Context: ${JSON.stringify(context || {})}
+Farmer's Question: ${question}
+Language requested: ${lang === 'kn' ? 'Kannada' : 'English'}`;
 
-    console.log(`[${new Date().toISOString()}] Calling NVIDIA AI (Chat Streaming: ${process.env.NVIDIA_CHAT_MODEL})...`);
-    const stream = await openai.chat.completions.create({
-      model: process.env.NVIDIA_CHAT_MODEL || "meta/llama-3.1-8b-instruct",
-      messages: [
-        {
-          role: "system",
-          content: "You are Dr. KrishiAI agricultural assistant. Respond simply and helpfully. Max 2-3 short sentences."
-        },
-        {
-          role: "user",
-          content: `Diagnosis Context: ${JSON.stringify(context)}\nFarmer's Question: ${question}\nLanguage: ${lang === 'kn' ? 'Kannada' : 'English'}`
-        }
-      ],
-      max_tokens: 500,
-      stream: true,
-    });
+    const result = await model.generateContentStream(prompt);
 
     let fullText = '';
-    for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content || '';
-      fullText += content;
-      if (onChunk) onChunk(content);
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      fullText += chunkText;
+      if (onChunk) onChunk(chunkText);
     }
 
     return fullText;
   } catch (error) {
-    console.error('NVIDIA Chat Error:', error.message);
+    console.error('Gemini Chat Error:', error.message);
     throw error;
   }
 };
 
 const diagnoseText = async (symptoms) => {
   try {
-    // Content Safety Check
-    const isSafe = await checkContentSafety(symptoms);
-    if (!isSafe) {
-      throw new Error("KrishiAI Safety Guard: The provided content contains unsafe or prohibited information.");
+    console.log(`[${new Date().toISOString()}] Calling Gemini AI (Text Only)...`);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    
+    const prompt = `${SYSTEM_PROMPT}\n\nFarmer's Symptom Description: ${symptoms}\nIdentify the disease and provide a solution in the specified JSON format. Return ONLY the raw JSON object.`;
+    
+    const result = await model.generateContent(prompt);
+    let text = result.response.text();
+    
+    // Clean up potential markdown formatting from Gemini
+    text = text.trim();
+    if (text.startsWith('```json')) {
+        text = text.replace(/^```json/, '').replace(/```$/, '').trim();
+    } else if (text.startsWith('```')) {
+        text = text.replace(/^```/, '').replace(/```$/, '').trim();
     }
 
-    console.log(`[${new Date().toISOString()}] Calling NVIDIA AI (Text Only: ${process.env.NVIDIA_VISION_MODEL})...`);
-    const response = await openai.chat.completions.create({
-      model: process.env.NVIDIA_VISION_MODEL || "meta/llama-3.2-11b-vision-instruct",
-      messages: [
-        {
-          role: "user",
-          content: `${SYSTEM_PROMPT}\n\nFarmer's Symptom Description: ${symptoms}\nIdentify the disease and provide a solution in the specified JSON format.`
-        }
-      ],
-      response_format: { type: "json_object" }
-    });
-
-    const text = response.choices[0].message.content.trim();
     return JSON.parse(text);
   } catch (error) {
-    console.error('NVIDIA Text AI Error:', error.message);
+    console.error('Gemini Text AI Error:', error.message);
     throw error;
   }
 };

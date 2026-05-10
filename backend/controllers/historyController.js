@@ -11,8 +11,9 @@ const getHistory = async (req, res, next) => {
       .get();
 
     const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
+      _id: doc.id,
+      ...doc.data(),
+      id: doc.id // Keep both just in case
     }));
 
     res.json({ success: true, data });

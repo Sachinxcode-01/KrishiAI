@@ -1,5 +1,5 @@
 export const dataset = {
-  // Common Crop Diseases Encyclopedia for Karnataka
+  // Common Crop Diseases Encyclopedia for Karnataka & India
   diseaseEncyclopedia: [
     {
       id: "paddy-blast",
@@ -98,6 +98,48 @@ export const dataset = {
         kn: "ಕಾರ್ಬೆಂಡಾಜಿಮ್‌ನೊಂದಿಗೆ ಬೀಜೋಪಚಾರ. ಮಣ್ಣನ್ನು ಉಪಚರಿಸಿ."
       },
       severity: "High"
+    },
+    {
+      id: "wheat-rust",
+      crop: { en: "Wheat", kn: "ಗೋಧಿ" },
+      disease: { en: "Stem Rust", kn: "ಕಾಂಡದ ತುಕ್ಕು ರೋಗ" },
+      symptoms: {
+        en: "Reddish-brown pustules on stems and leaves.",
+        kn: "ಕಾಂಡ ಮತ್ತು ಎಲೆಗಳ ಮೇಲೆ ಕೆಂಪು-ಕಂದು ಬಣ್ಣದ ಗುಳ್ಳೆಗಳು."
+      },
+      treatment: {
+        en: "Spray Propiconazole (1ml/L) or Tebuconazole (1ml/L).",
+        kn: "ಪ್ರೊಪಿಕೊನಜೋಲ್ (1ಮಿಲಿ/ಲೀ) ಅಥವಾ ಟೆಬುಕೊನಜೋಲ್ (1ಮಿಲಿ/ಲೀ) ಸಿಂಪಡಿಸಿ."
+      },
+      severity: "High"
+    },
+    {
+      id: "potato-late-blight",
+      crop: { en: "Potato", kn: "ಆಲೂಗಡ್ಡೆ" },
+      disease: { en: "Late Blight", kn: "ಲೇಟ್ ಬ್ಲೈಟ್ ರೋಗ" },
+      symptoms: {
+        en: "Irregular, water-soaked spots on leaves that turn brown/black.",
+        kn: "ಎಲೆಗಳ ಮೇಲೆ ಅನಿಯಮಿತ, ನೀರು-ನೆನೆದ ಚುಕ್ಕೆಗಳು ಕಂದು/ಕಪ್ಪು ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತವೆ."
+      },
+      treatment: {
+        en: "Spray Mancozeb (2.5g/L) or Metalaxyl (2g/L).",
+        kn: "ಮ್ಯಾಂಕೋಜೆಬ್ (2.5ಗ್ರಾಂ/ಲೀ) ಅಥವಾ ಮೆಟಲಾಕ್ಸಿಲ್ (2ಗ್ರಾಂ/ಲೀ) ಸಿಂಪಡಿಸಿ."
+      },
+      severity: "Critical"
+    },
+    {
+      id: "apple-scab",
+      crop: { en: "Apple", kn: "ಸೇಬು" },
+      disease: { en: "Apple Scab", kn: "ಸೇಬು ಸ್ಕ್ಯಾಬ್" },
+      symptoms: {
+        en: "Olive-green to black, velvety spots on leaves and fruit.",
+        kn: "ಎಲೆಗಳು ಮತ್ತು ಹಣ್ಣುಗಳ ಮೇಲೆ ಆಲಿವ್-ಹಸಿರು ಅಥವಾ ಕಪ್ಪು, ವೆಲ್ವೆಟ್ ಚುಕ್ಕೆಗಳು."
+      },
+      treatment: {
+        en: "Spray Captan (2g/L) or Difenoconazole (0.3ml/L).",
+        kn: "ಕ್ಯಾಪ್ಟಾನ್ (2ಗ್ರಾಂ/ಲೀ) ಅಥವಾ ಡಿಫೆನೊಕೊನಜೋಲ್ (0.3ಮಿಲಿ/ಲೀ) ಸಿಂಪಡಿಸಿ."
+      },
+      severity: "Medium"
     }
   ],
 
@@ -187,6 +229,7 @@ export const dataset = {
     { crop: { en: "Paddy", kn: "ಭತ್ತ" }, price: "₹2,200 - ₹2,500", unit: "100kg", trend: "up" },
     { crop: { en: "Ragi", kn: "ರಾಗಿ" }, price: "₹3,800 - ₹4,200", unit: "100kg", trend: "stable" },
     { crop: { en: "Tomato", kn: "ಟೊಮ್ಯಾಟೊ" }, price: "₹1,500 - ₹2,000", unit: "100kg", trend: "down" },
-    { crop: { en: "Cotton", kn: "ಹತ್ತಿ" }, price: "₹7,000 - ₹7,500", unit: "100kg", trend: "up" }
+    { crop: { en: "Cotton", kn: "ಹತ್ತಿ" }, price: "₹7,000 - ₹7,500", unit: "100kg", trend: "up" },
+    { crop: { en: "Wheat", kn: "ಗೋಧಿ" }, price: "₹2,800 - ₹3,100", unit: "100kg", trend: "stable" }
   ]
 };

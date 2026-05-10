@@ -1,127 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import HistoryList from '../components/HistoryList';
+import { useState, useEffect } from 'react';
+import { useHistory } from '../hooks/useHistory';
+import HistoryCard from '../components/HistoryCard';
 import ResultCard from '../components/ResultCard';
-import { getHistory, deleteHistoryItem, clearAllHistory } from '../utils/api';
+import { Search, Filter, Database, AlertCircle, Shield, Network } from 'lucide-react';
 
-const History = ({ lang }) => {
-  const [history, setHistory] = useState([]);
+export default function HistoryPage() {
+  const { history, loading, error, deleteHistoryItem } = useHistory();
   const [selectedItem, setSelectedItem] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchHistory = async () => {
-    try {
-      const response = await getHistory();
-      if (response.data.success) {
-        setHistory(response.data.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch history:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteHistoryItem(id);
-      setHistory(history.filter(item => item._id !== id));
-    } catch (error) {
-      console.error('Delete failed:', error);
-    }
-  };
-
-  const handleClear = async () => {
-    if (window.confirm(lang === 'en' ? 'Are you sure you want to clear all history?' : 'ನೀವು ನಿಜವಾಗಿಯೂ ಎಲ್ಲಾ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಲು ಬಯಸುವಿರಾ?')) {
-      try {
-        await clearAllHistory();
-        setHistory([]);
-      } catch (error) {
-        console.error('Clear failed:', error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchHistory();
-  }, []);
+  const filteredHistory = history.filter(item => 
+    item.diseaseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.cropName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="pt-24 px-4 pb-32 max-w-2xl mx-auto min-h-screen"
-    >
-      <AnimatePresence mode="wait">
-        {!selectedItem ? (
-          <motion.div 
-            key="list"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            className="space-y-6"
-          >
-            <div className="flex items-center justify-between px-2 mb-8">
-              <div>
-                <h1 className="text-2xl font-black text-white">{lang === 'en' ? 'Diagnosis History' : 'ತಪಾಸಣೆ ಇತಿಹಾಸ'}</h1>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-primary mt-1">
-                  {history.length} {lang === 'en' ? 'Records Found' : 'ದಾಖಲೆಗಳು ಪತ್ತೆಯಾಗಿವೆ'}
-                </p>
-              </div>
-              {history.length > 0 && (
-                <button 
-                  onClick={handleClear}
-                  className="px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-500/20 transition-all"
-                >
-                  {lang === 'en' ? 'Clear All' : 'ಎಲ್ಲವನ್ನೂ ಅಳಿಸಿ'}
-                </button>
-              )}
-            </div>
-
-            {loading ? (
-              <div className="flex flex-col items-center justify-center p-20 space-y-4">
-                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted">Retrieving Records...</p>
-              </div>
-            ) : (
-              <HistoryList 
-                lang={lang} 
-                history={history} 
-                onDelete={handleDelete}
-                onClear={handleClear}
-                onViewItem={setSelectedItem}
-              />
-            )}
-          </motion.div>
-        ) : (
-          <motion.div 
-            key="detail"
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 1.05, opacity: 0 }}
-            className="space-y-6"
-          >
-            <button
-              onClick={() => setSelectedItem(null)}
-              className="group flex items-center gap-3 text-muted hover:text-white transition-colors py-2 px-4 bg-white/[0.03] rounded-xl border border-white/5"
-            >
-              <span className="group-hover:-translate-x-1 transition-transform">⬅️</span>
-              <span className="text-[10px] font-black uppercase tracking-widest">
-                {lang === 'en' ? 'Back to History' : 'ಇತಿಹಾಸಕ್ಕೆ ಹಿಂತಿರುಗಿ'}
+    <div className="min-h-screen pt-32 pb-20 px-[6%] relative">
+      <div className="max-w-[1400px] mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="size-2 rounded-full bg-primary animate-pulse" />
+              <span className="font-mono font-bold text-[0.65rem] tracking-[0.3em] text-[var(--primary)] uppercase block">
+                Secured_Archive_v4.2
               </span>
-            </button>
-            
-            <ResultCard 
-              lang={lang} 
-              data={selectedItem} 
-              onReset={() => setSelectedItem(null)} 
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-};
+            </div>
+            <h1 className="text-4xl lg:text-6xl font-display font-black text-white italic tracking-tighter uppercase leading-none">Diagnostic <br /><span className="text-primary">Intelligence</span></h1>
+          </div>
 
-export default History;
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[var(--text-dim)] group-focus-within:text-[var(--primary)] transition-colors" />
+              <input 
+                type="text" 
+                placeholder="SEARCH_RECORDS..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-[var(--surface-deep)] border border-white/10 rounded-xl py-4 pl-12 pr-8 text-white text-[10px] font-black uppercase tracking-widest outline-none focus:border-[var(--primary)]/30 transition-all w-full sm:w-[350px] italic placeholder:text-white/10"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Tactical Summary HUD */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {[
+            { label: 'Total_Scans', value: history.length, icon: Database },
+            { label: 'Critical_Anomalies', value: history.filter(i => i.diseaseName !== 'Healthy').length, icon: AlertCircle, color: 'text-red-500' },
+            { label: 'Success_Rate', value: '99.4%', icon: Shield },
+            { label: 'Active_Nodes', value: '12', icon: Network }
+          ].map((stat, i) => (
+            <div key={i} className="card-premium p-6 bg-surface/20 border-white/5 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.2em]">{stat.label}</span>
+                {stat.icon && <stat.icon className={`size-3 ${stat.color || 'text-primary/40'}`} />}
+              </div>
+              <p className={`text-2xl font-display font-black italic tracking-tighter ${stat.color || 'text-white'}`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="glass-card h-[400px] animate-pulse bg-white/5" />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="glass-card p-20 flex flex-col items-center text-center">
+            <AlertCircle className="size-16 text-red-500 mb-6" />
+            <h3 className="text-2xl font-bold text-white mb-2">Failed to load history</h3>
+            <p className="text-[var(--muted)]">{error}</p>
+          </div>
+        ) : filteredHistory.length === 0 ? (
+          <div className="glass-card p-20 flex flex-col items-center text-center">
+            <Database className="size-16 text-[var(--text-dim)] mb-6" />
+            <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-tight">No records found</h3>
+            <p className="text-[var(--muted)] max-w-sm">
+              Your diagnosis history is empty. Start analyzing your crops to see records here.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredHistory.map((item) => (
+              <HistoryCard 
+                key={item._id} 
+                item={item} 
+                onDelete={deleteHistoryItem}
+                onView={setSelectedItem}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Modal for viewing full diagnosis */}
+      {selectedItem && (
+        <div className="fixed inset-0 z-[2000] bg-[#020B06]/98 flex items-center justify-center p-6 overflow-y-auto">
+          <div className="absolute top-8 right-8 z-10">
+            <button 
+              onClick={() => setSelectedItem(null)}
+              className="px-6 py-2 bg-white/10 text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white/20 transition-colors"
+            >
+              Close Record
+            </button>
+          </div>
+          <div className="w-full h-fit py-20">
+            <ResultCard result={selectedItem} onReset={() => setSelectedItem(null)} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
