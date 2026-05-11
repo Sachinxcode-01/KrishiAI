@@ -15,7 +15,7 @@ export default function HistoryPage() {
   );
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-[6%] relative">
+    <div className="min-h-screen pt-24 md:pt-32 pb-16 md:pb-20 px-[5%] md:px-[6%] relative">
       <div className="max-w-[1400px] mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
@@ -26,7 +26,7 @@ export default function HistoryPage() {
                 Secured_Archive_v4.2
               </span>
             </div>
-            <h1 className="text-4xl lg:text-6xl font-display font-black text-white italic tracking-tighter uppercase leading-none">Diagnostic <br /><span className="text-primary">Intelligence</span></h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white italic tracking-tighter uppercase leading-[0.85]">Diagnostic <br /><span className="text-primary">Intelligence</span></h1>
           </div>
 
           {/* Controls */}
@@ -45,19 +45,19 @@ export default function HistoryPage() {
         </div>
 
         {/* Tactical Summary HUD */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-12 md:mb-16">
           {[
             { label: 'Total_Scans', value: history.length, icon: Database },
             { label: 'Critical_Anomalies', value: history.filter(i => i.diseaseName !== 'Healthy').length, icon: AlertCircle, color: 'text-red-500' },
             { label: 'Success_Rate', value: '99.4%', icon: Shield },
             { label: 'Active_Nodes', value: '12', icon: Network }
           ].map((stat, i) => (
-            <div key={i} className="card-premium p-6 bg-surface/20 border-white/5 space-y-3">
+            <div key={i} className="card-premium p-3.5 sm:p-4 md:p-6 bg-surface/20 border-white/5 space-y-1.5 md:space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.2em]">{stat.label}</span>
+                <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.2em]">{stat.label}</span>
                 {stat.icon && <stat.icon className={`size-3 ${stat.color || 'text-primary/40'}`} />}
               </div>
-              <p className={`text-2xl font-display font-black italic tracking-tighter ${stat.color || 'text-white'}`}>{stat.value}</p>
+              <p className={`text-lg md:text-2xl font-display font-black italic tracking-tighter ${stat.color || 'text-white'}`}>{stat.value}</p>
             </div>
           ))}
         </div>
@@ -99,17 +99,21 @@ export default function HistoryPage() {
 
       {/* Modal for viewing full diagnosis */}
       {selectedItem && (
-        <div className="fixed inset-0 z-[2000] bg-[#020B06]/98 flex items-center justify-center p-6 overflow-y-auto">
-          <div className="absolute top-8 right-8 z-10">
+        <div className="fixed inset-0 z-[2000] bg-[#020B06]/98 flex items-start md:items-center justify-center p-4 md:p-6 overflow-y-auto">
+          <div className="absolute top-6 right-6 md:top-8 md:right-8 z-[2010]">
             <button 
               onClick={() => setSelectedItem(null)}
-              className="px-6 py-2 bg-white/10 text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white/20 transition-colors"
+              className="px-6 py-2 bg-white/10 text-white rounded-full font-bold uppercase tracking-widest text-[10px] md:text-xs hover:bg-white/20 transition-colors backdrop-blur-md border border-white/10"
             >
               Close Record
             </button>
           </div>
-          <div className="w-full h-fit py-20">
-            <ResultCard result={selectedItem} onReset={() => setSelectedItem(null)} />
+          <div className="w-full h-fit py-12 md:py-20">
+            <ResultCard 
+              lang={lang} 
+              data={{ ...selectedItem, imageUrl: selectedItem.imageUrl || '/specimen.png' }} 
+              onReset={() => setSelectedItem(null)} 
+            />
           </div>
         </div>
       )}

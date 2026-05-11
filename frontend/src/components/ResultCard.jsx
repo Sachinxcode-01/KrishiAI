@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Volume2, VolumeX, ShieldCheck, AlertCircle, Info, ChevronDown, Share2, Copy, RefreshCw, AlertTriangle, Zap, Leaf, Download, MessageSquare } from 'lucide-react';
+import { Volume2, VolumeX, ShieldCheck, AlertCircle, Info, ChevronDown, Share2, Copy, RefreshCw, AlertTriangle, Zap, Leaf, Download, MessageSquare, Globe } from 'lucide-react';
 import { useVoice } from '../hooks/useVoice';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
@@ -90,25 +90,25 @@ export default function ResultCard({ result, onReset }) {
   };
 
   return (
-    <div className="result-card-anim glass-panel p-6 sm:p-10 lg:p-16 w-full max-w-5xl mx-auto relative overflow-hidden">
+    <div className="result-card-anim glass-panel p-6 md:p-10 lg:p-16 w-full max-w-5xl mx-auto relative overflow-hidden">
       {/* Aesthetic Backdrop */}
       <div className="absolute top-0 right-0 size-96 bg-[var(--primary)]/5 blur-[100px] -translate-y-1/2 translate-x-1/2 rounded-full pointer-events-none" />
       
       {/* Header Section */}
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-10 mb-10 md:mb-16">
-        <div className="flex items-start gap-6 md:gap-8">
-          <div className={`size-20 rounded-3xl flex items-center justify-center border-2 ${result.diseaseName === 'Healthy' ? 'border-[var(--primary)] bg-[var(--primary)]/10 shadow-[0_0_30px_rgba(0,255,135,0.2)]' : 'border-red-500/30 bg-red-500/10 shadow-[0_0_30px_rgba(239,68,68,0.2)]'}`}>
-            {result.diseaseName === 'Healthy' ? <Leaf className="size-10 text-[var(--primary)]" /> : <AlertTriangle className="size-10 text-red-500" />}
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-8 md:gap-10 mb-10 md:mb-16">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 md:gap-8 w-full md:w-auto">
+          <div className={`size-20 md:size-24 rounded-2xl md:rounded-3xl flex items-center justify-center border-2 shrink-0 ${result.diseaseName === 'Healthy' ? 'border-[var(--primary)] bg-[var(--primary)]/10 shadow-[0_0_30px_rgba(0,255,135,0.2)]' : 'border-red-500/30 bg-red-500/10 shadow-[0_0_30px_rgba(239,68,68,0.2)]'}`}>
+            {result.diseaseName === 'Healthy' ? <Leaf className="size-10 md:size-12 text-[var(--primary)]" /> : <AlertTriangle className="size-10 md:size-12 text-red-500" />}
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[0.65rem] font-bold tracking-[0.4em] text-[var(--muted)] uppercase">Diagnosis_Report</span>
+          <div className="space-y-2 flex-1">
+            <div className="flex items-center justify-center sm:justify-start gap-3">
+              <span className="font-mono text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.4em] text-[var(--muted)] uppercase">Diagnosis_Report</span>
               <div className="size-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
             </div>
-            <h3 className="text-5xl md:text-6xl font-display font-black text-white uppercase italic tracking-tighter leading-none">
+            <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-white uppercase italic tracking-tighter leading-[0.85]">
               {result.diseaseName}
             </h3>
-            <p className="font-kannada text-2xl text-[var(--primary)] font-bold">
+            <p className="font-kannada text-xl md:text-2xl lg:text-3xl text-[var(--primary)] font-bold">
               {result.diseaseNameKannada}
             </p>
           </div>
@@ -116,13 +116,13 @@ export default function ResultCard({ result, onReset }) {
 
         <button 
           onClick={() => isSpeaking ? stop() : speak(`${result.diseaseName}. ${result.description}`)}
-          className={`px-8 py-4 rounded-2xl flex items-center gap-4 border transition-all duration-500 group ${
+          className={`w-full md:w-auto px-6 md:px-8 py-4 rounded-2xl flex items-center justify-center gap-4 border transition-all duration-500 group ${
             isSpeaking 
               ? 'bg-[var(--primary)] text-black border-[var(--primary)] shadow-[0_0_30px_var(--primary-glow)]' 
               : 'bg-white/5 text-[var(--primary)] border-[var(--primary)]/20 hover:bg-[var(--primary)]/10'
           }`}
         >
-          <span className="font-mono text-[0.7rem] font-black uppercase tracking-[0.2em]">
+          <span className="font-mono text-[0.65rem] md:text-[0.7rem] font-black uppercase tracking-[0.2em]">
             {isSpeaking ? 'Interrupt_Playback' : 'Execute_Audio_Link'}
           </span>
           {isSpeaking ? <VolumeX className="size-5 animate-pulse" /> : <Volume2 className="size-5 group-hover:scale-110 transition-transform" />}
@@ -164,48 +164,48 @@ export default function ResultCard({ result, onReset }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
             <button 
               onClick={handleDownloadPDF}
               disabled={isGeneratingPdf}
-              className="w-full btn-premium !py-6 flex items-center justify-center gap-4 group bg-white/5 border-white/10 hover:bg-white/10"
+              className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group bg-white/5 border-white/10 hover:bg-white/10"
             >
               {isGeneratingPdf ? (
                 <RefreshCw className="size-5 animate-spin" />
               ) : (
                 <Download className="size-5 group-hover:-translate-y-1 transition-transform" />
               )}
-              <span>{isGeneratingPdf ? 'Generating_Report...' : 'Download_PDF_Report'}</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">{isGeneratingPdf ? 'Generating_Report...' : 'Download_PDF_Report'}</span>
             </button>
-
+            
             <button 
               onClick={() => {
                 if (result.location) {
-                  navigate('/outbreak-map', { state: { focusLocation: result.location } });
+                  navigate('/map', { state: { focusLocation: result.location } });
                 } else {
-                  navigate('/outbreak-map');
+                  navigate('/map');
                 }
               }}
-              className="w-full btn-premium !py-6 flex items-center justify-center gap-4 group bg-primary/10 border-primary/20 hover:bg-primary/20 text-primary"
+              className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group bg-primary/10 border-primary/20 hover:bg-primary/20 text-primary"
             >
               <Globe className="size-5 group-hover:rotate-180 transition-transform duration-1000" />
-              <span>Locate_on_Command_Map</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Locate_on_Command_Map</span>
             </button>
 
             <button 
               onClick={handleConsultAI}
-              className="w-full btn-premium !py-6 flex items-center justify-center gap-4 group bg-white/5 border-white/10 hover:bg-white/10"
+              className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group bg-white/5 border-white/10 hover:bg-white/10"
             >
               <MessageSquare className="size-5 group-hover:scale-110 transition-transform" />
-              <span>Consult_AI_Expert</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Consult_AI_Expert</span>
             </button>
 
             <button 
               onClick={onReset}
-              className="w-full btn-premium !py-6 flex items-center justify-center gap-4 group"
+              className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group"
             >
               <RefreshCw className="size-5 group-hover:rotate-180 transition-transform duration-700" />
-              <span>New_Specimen_Scan</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">New_Specimen_Scan</span>
             </button>
           </div>
         </div>
@@ -213,36 +213,36 @@ export default function ResultCard({ result, onReset }) {
         {/* Right Col: Details Accordion */}
         <div className="lg:col-span-8 space-y-4">
           {sections.map((section) => (
-            <div key={section.id} className={`group border rounded-3xl transition-all duration-500 overflow-hidden ${openSection === section.id ? 'bg-white/[0.04] border-white/10' : 'bg-transparent border-white/5 hover:border-white/10'}`}>
+            <div key={section.id} className={`group border rounded-2xl md:rounded-3xl transition-all duration-500 overflow-hidden ${openSection === section.id ? 'bg-white/[0.04] border-white/10' : 'bg-transparent border-white/5 hover:border-white/10'}`}>
               <button 
                 onClick={() => setOpenSection(openSection === section.id ? null : section.id)}
-                className="w-full flex items-center justify-between p-8 text-left"
+                className="w-full flex items-center justify-between p-6 md:p-8 text-left"
               >
-                <div className="flex items-center gap-6">
-                  <div className={`size-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${openSection === section.id ? 'bg-[var(--primary)] text-black' : 'bg-white/5 text-white/40'}`}>
+                <div className="flex items-center gap-4 md:gap-6">
+                  <div className={`size-10 md:size-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 ${openSection === section.id ? 'bg-[var(--primary)] text-black' : 'bg-white/5 text-white/40'}`}>
                     {(() => {
                       const Icon = section.icon;
-                      return <Icon className="size-6" />;
+                      return <Icon className="size-5 md:size-6" />;
                     })()}
                   </div>
-                  <span className={`font-display font-black text-xl uppercase tracking-tighter transition-colors ${openSection === section.id ? 'text-white' : 'text-white/40'}`}>
+                  <span className={`font-display font-black text-lg md:text-xl uppercase tracking-tighter transition-colors ${openSection === section.id ? 'text-white' : 'text-white/40'}`}>
                     {section.title}
                   </span>
                 </div>
-                <ChevronDown className={`size-6 text-white/20 transition-transform duration-500 ${openSection === section.id ? 'rotate-180 text-[var(--primary)]' : ''}`} />
+                <ChevronDown className={`size-5 md:size-6 text-white/20 transition-transform duration-500 ${openSection === section.id ? 'rotate-180 text-[var(--primary)]' : ''}`} />
               </button>
               
               {openSection === section.id && (
-                <div className="px-8 pb-10 space-y-8 animate-fade-in">
+                <div className="px-6 md:px-8 pb-8 md:pb-10 space-y-6 md:space-y-8 animate-fade-in">
                   <div className="h-px w-full bg-gradient-to-r from-white/10 via-transparent to-transparent" />
-                  <p className="text-lg text-white/70 leading-relaxed font-sans">
+                  <p className="text-base md:text-lg text-white/70 leading-relaxed font-sans">
                     {section.content}
                   </p>
-                  <div className="p-8 rounded-[2rem] bg-[var(--primary)]/5 border border-[var(--primary)]/10 relative overflow-hidden group/kannada">
+                  <div className="p-6 md:p-8 rounded-2xl md:rounded-[2rem] bg-[var(--primary)]/5 border border-[var(--primary)]/10 relative overflow-hidden group/kannada">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
-                      <span className="font-kannada text-4xl font-black">ಕನ್ನಡ</span>
+                      <span className="font-kannada text-2xl md:text-4xl font-black">ಕನ್ನಡ</span>
                     </div>
-                    <p className="font-kannada text-2xl text-white/90 font-medium leading-relaxed relative z-10">
+                    <p className="font-kannada text-xl md:text-2xl text-white/90 font-medium leading-relaxed relative z-10">
                       {section.kannada}
                     </p>
                   </div>

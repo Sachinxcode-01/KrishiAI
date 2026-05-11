@@ -1,7 +1,8 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -10,9 +11,6 @@ const analyzeRoutes = require('./routes/analyzeRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const weatherRoutes = require('./routes/weatherRoutes');
-
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -69,9 +69,9 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center">
         {/* Brand Logo in Hero */}
-        <div className="hero-fade mt-12 mb-8 size-24 rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.3)] border border-white/10 group relative cursor-pointer">
+        <div className="hero-fade mt-12 mb-6 md:mb-8 size-20 md:size-24 rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.3)] border border-white/10 group relative cursor-pointer">
           <div className="absolute inset-0 bg-[var(--primary)]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-            <Sparkles className="size-8 text-white animate-spin-slow" />
+            <Sparkles className="size-6 md:size-8 text-white animate-spin-slow" />
           </div>
           <img src="/krishiAI.png" alt="Krishi AI Logo" className="w-full h-full object-contain p-2" />
         </div>
@@ -80,7 +80,7 @@ export default function Hero() {
           <span className="block overflow-hidden h-fit">
             <span className="hero-reveal block text-white">Protecting</span>
           </span>
-          <span className="block overflow-hidden h-fit scale-90">
+          <span className="block overflow-hidden h-fit scale-[0.8] xs:scale-[0.85] sm:scale-90 md:scale-100">
             <span className="hero-reveal block text-[var(--primary)]">Your</span>
           </span>
           <span className="block overflow-hidden h-fit">
@@ -116,7 +116,7 @@ export default function Hero() {
         </div>
 
         {/* Stats Row */}
-        <div className="hero-fade grid grid-cols-2 md:grid-cols-4 gap-8 w-full border-t border-white/10 pt-16 mt-auto">
+        <div className="hero-fade grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 w-full border-t border-white/10 pt-12 md:pt-16 mt-auto">
           {[
             { value: '97.4%', label: 'Model Accuracy', detail: 'Precision Diagnosis' },
             { value: '38+', label: 'Crop Species', detail: 'Vast Database' },
@@ -124,11 +124,11 @@ export default function Hero() {
             { value: '24/7', label: 'AI Support', detail: 'Expert Guidance' }
           ].map((stat, i) => (
             <div key={i} className="flex flex-col items-center">
-              <span className="font-display font-black text-3xl text-white mb-1">{stat.value}</span>
-              <span className="font-sans text-[0.6rem] font-bold tracking-[0.2em] text-[var(--primary)] uppercase mb-1">
+              <span className="font-display font-black text-2xl md:text-3xl text-white mb-1">{stat.value}</span>
+              <span className="font-sans text-[0.55rem] md:text-[0.6rem] font-bold tracking-[0.2em] text-[var(--primary)] uppercase mb-1">
                 {stat.label}
               </span>
-              <span className="font-mono text-[0.55rem] text-[var(--muted)] uppercase">
+              <span className="font-mono text-[0.5rem] md:text-[0.55rem] text-[var(--muted)] uppercase hidden xs:block">
                 {stat.detail}
               </span>
             </div>

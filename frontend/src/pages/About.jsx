@@ -29,42 +29,42 @@ const About = ({ lang }) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="pt-32 lg:pt-48 px-6 pb-40 max-w-7xl mx-auto min-h-screen relative overflow-hidden"
+      className="pt-24 md:pt-32 lg:pt-48 px-4 md:px-6 pb-20 md:pb-40 max-w-7xl mx-auto min-h-screen relative overflow-hidden"
     >
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       <div className="absolute -top-24 -right-24 size-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       
       {/* Header Section */}
-      <div className="grid lg:grid-cols-2 gap-20 mb-32 items-center">
-        <div className="space-y-8">
+      <div className="grid lg:grid-cols-2 gap-12 lg:grid-cols-2 gap-20 mb-16 md:mb-32 items-center">
+        <div className="space-y-6 md:space-y-8">
           <motion.div 
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             className="flex items-center gap-4"
           >
             <div className="size-2 rounded-full bg-primary animate-pulse shadow-[0_0_15px_#10b981]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/80 italic">
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/80 italic">
               System_Manifesto_v1.0
             </span>
           </motion.div>
           
-          <h1 className="text-5xl lg:text-8xl font-display font-black tracking-tighter italic leading-[0.8] uppercase">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-display font-black tracking-tighter italic leading-[0.8] uppercase">
             <span className="text-white block">Digital</span>
             <span className="text-primary block">Agronomy</span>
           </h1>
           
-          <p className="text-white/60 text-lg lg:text-xl font-medium leading-relaxed max-w-xl italic">
+          <p className="text-white/60 text-base md:text-lg lg:text-xl font-medium leading-relaxed max-w-xl italic">
             {mission}
           </p>
 
-          <div className="flex flex-wrap gap-4 pt-8">
-            <button className="btn-premium btn-premium-primary group">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-6 md:pt-8">
+            <button className="btn-premium btn-premium-primary group w-full sm:w-auto">
               <Shield className="mr-3 size-5 text-black" />
               <span className="text-black font-bold uppercase tracking-widest text-[10px]">Read Protocol</span>
               <ArrowRight className="ml-3 size-4 text-black group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all flex items-center gap-3">
+            <button className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all flex items-center justify-center gap-3 w-full sm:w-auto">
               <Globe className="size-4 text-primary" />
               Regional Impact
             </button>
@@ -94,29 +94,29 @@ const About = ({ lang }) => {
       </div>
 
       {/* Core Tech Stack Section */}
-      <div className="mt-40 pt-24 border-t border-white/5">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20">
+      <div className="mt-20 md:mt-40 pt-16 md:pt-24 border-t border-white/5">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-8 md:gap-12 mb-12 md:mb-20">
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.8em] text-primary italic mb-3">Technology_Stack</h2>
-            <p className="text-3xl lg:text-5xl font-display font-black text-white italic tracking-tighter uppercase">Fusing Neural Intelligence with Earth Science</p>
+            <h2 className="text-[10px] md:text-sm font-black uppercase tracking-[0.8em] text-primary italic mb-3">Technology_Stack</h2>
+            <p className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white italic tracking-tighter uppercase leading-tight">Fusing Neural Intelligence with Earth Science</p>
           </div>
-          <p className="text-white/40 text-sm font-medium max-w-md leading-relaxed">
+          <p className="text-white/40 text-xs md:text-sm font-medium max-w-md leading-relaxed italic">
             Our infrastructure leverages the latest advancements in distributed computing and deep learning to deliver millisecond-accurate diagnoses in the most remote agricultural sectors.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { title: 'Computer Vision', desc: 'Custom EfficientNet models optimized for crop leaf morphology.', icon: Leaf },
             { title: 'Neural Engine', desc: 'Distributed inference nodes running on Gemini 1.5 Pro architecture.', icon: Zap },
             { title: 'Geospatial Grid', desc: 'Real-time outbreak mapping via satellite coordinate projection.', icon: Globe },
             { title: 'Secure Vault', desc: 'Military-grade encryption for all regional diagnostic records.', icon: Shield }
           ].map((tech, i) => (
-            <div key={i} className="p-10 rounded-[2.5rem] bg-black/40 border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
+            <div key={i} className="p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-black/40 border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all" />
-              <tech.icon className="size-8 text-primary/40 mb-8 group-hover:scale-110 transition-transform" />
-              <h3 className="text-lg font-display font-black text-white uppercase italic tracking-tighter mb-4 group-hover:text-primary transition-colors">{tech.title}</h3>
-              <p className="text-[12px] text-white/40 font-medium leading-relaxed uppercase tracking-wider">{tech.desc}</p>
+              <tech.icon className="size-6 md:size-8 text-primary/40 mb-6 md:mb-8 group-hover:scale-110 transition-transform" />
+              <h3 className="text-base md:text-lg font-display font-black text-white uppercase italic tracking-tighter mb-3 md:mb-4 group-hover:text-primary transition-colors">{tech.title}</h3>
+              <p className="text-[11px] md:text-[12px] text-white/40 font-medium leading-relaxed uppercase tracking-wider">{tech.desc}</p>
             </div>
           ))}
         </div>

@@ -124,7 +124,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Glassmorphism Re-imagined */
-.glass-panel {
+.glass-panel, .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(var(--glass-blur));
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.glass-panel:hover {
+.glass-panel:hover, .glass-card:hover {
   border-color: var(--border-bright);
   box-shadow: 
     0 35px 60px -15px rgba(0, 255, 136, 0.1),
@@ -415,47 +415,138 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 1024px) {
+  :root {
+    --glass-blur: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --radius-2xl: 1rem;
     --radius-3xl: 1.5rem;
+    --glass-blur: 15px;
   }
 
+  /* Fluid Typography for Mobile */
+  h1 { font-size: clamp(2.5rem, 12vw, 4rem) !important; line-height: 1 !important; }
+  h2 { font-size: clamp(2rem, 10vw, 3rem) !important; line-height: 1.1 !important; }
+  h3 { font-size: clamp(1.6rem, 8vw, 2.2rem) !important; }
+  h4 { font-size: clamp(1.4rem, 6vw, 1.8rem) !important; }
+
   section {
-    padding-top: 5rem !important;
-    padding-bottom: 5rem !important;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 
   .hero-heading {
-    font-size: clamp(2.5rem, 12vw, 4rem);
-    line-height: 1;
+    font-size: clamp(2.8rem, 15vw, 4.5rem);
+    line-height: 0.9;
     text-align: center;
   }
 
   .btn-premium {
     width: 100%;
-    padding: 1.25rem 2rem;
+    padding: 1.25rem 1.5rem;
     font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    border-radius: 1rem;
   }
 
-  .glass-panel {
-    padding: 1.5rem !important;
+  .glass-panel, .glass-card {
+    padding: 1.25rem !important;
+    border-radius: 1.5rem !important;
   }
 
-  /* Prevent text overflow on small screens */
-  p, span, h1, h2, h3 {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+  /* Improved Touch Targets */
+  button, a {
+    min-height: 44px;
+  }
+
+  /* Hide non-essential tactical elements on mobile to reduce clutter */
+  .animate-float-tactical, .tactical-decoration {
+    display: none !important;
+  }
+
+  .premium-grid {
+    background-size: 40px 40px;
+    opacity: 0.1;
+  }
+
+  /* Mobile Grid Fixes - Use flex for better control if grid is too rigid */
+  .responsive-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Reset some forced grids */
+  .md\:grid-cols-2 { grid-template-columns: 1fr; }
+  .md\:grid-cols-3 { grid-template-columns: 1fr; }
+  .md\:grid-cols-4 { grid-template-columns: 1fr; }
+  
+  /* Keep specifically marked grids */
+  .mobile-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  :root {
+    --glass-blur: 10px;
+  }
+
   .hero-heading {
-    font-size: 2.8rem;
+    font-size: clamp(2.2rem, 18vw, 3.2rem);
   }
   
   .px-\[6\%\] {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
   }
+
+  .card-premium {
+    padding: 1.25rem !important;
+  }
+
+  /* Extra small screen text adjustments */
+  .text-xs { font-size: 0.75rem; }
+  .text-sm { font-size: 0.85rem; }
+  .text-base { font-size: 0.95rem; }
+}
+
+/* Landscape Mode Adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .min-h-screen {
+    min-height: 150vh;
+  }
+  
+  .hero-heading {
+    font-size: 2rem;
+  }
+  
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+/* Accessibility & Interaction */
+@media (hover: none) {
+  .glass-panel:hover {
+    transform: none;
+  }
+  
+  .btn-premium:hover {
+    transform: scale(0.98); /* Subtle haptic press effect */
+  }
+}
+
+/* Fix for mobile notch / safe areas */
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }

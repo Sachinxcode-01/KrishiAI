@@ -87,18 +87,19 @@ const OutbreakMap = ({ lang }) => {
       const validOutbreaks = data.filter(d => d.location && d.location.lat && d.location.lng);
       
       // Check for new anomalies to trigger "Radar Hit" effect
-      if (outbreaks.length > 0 && validOutbreaks.length > outbreaks.length) {
-        const newest = validOutbreaks[0];
-        setLastAnomaly(newest);
-        setSystemLogs(prev => [
-          { id: Date.now(), text: `CRITICAL::NEW_ANOMALY_DETECTED::${newest.diseaseName?.toUpperCase() || 'UNKNOWN'}`, time: new Date().toLocaleTimeString() },
-          ...prev.slice(0, 5)
-        ]);
-        
-        setTimeout(() => setLastAnomaly(null), 5000);
-      }
-
-      setOutbreaks(validOutbreaks);
+      setOutbreaks(prevOutbreaks => {
+        if (prevOutbreaks.length > 0 && validOutbreaks.length > prevOutbreaks.length) {
+          const newest = validOutbreaks[0];
+          setLastAnomaly(newest);
+          setSystemLogs(logs => [
+            { id: Date.now(), text: `CRITICAL::NEW_ANOMALY_DETECTED::${newest.diseaseName?.toUpperCase() || 'UNKNOWN'}`, time: new Date().toLocaleTimeString() },
+            ...logs.slice(0, 5)
+          ]);
+          
+          setTimeout(() => setLastAnomaly(null), 5000);
+        }
+        return validOutbreaks;
+      });
       
       if (validOutbreaks.length > 0) {
         setSystemLogs(prev => [
@@ -128,7 +129,7 @@ const OutbreakMap = ({ lang }) => {
 
     fetchWeather();
     return () => unsubscribe();
-  }, [outbreaks.length]);
+  }, []);
 
   useEffect(() => {
     // Get user location
@@ -205,12 +206,12 @@ const OutbreakMap = ({ lang }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="pt-32 lg:pt-48 px-6 pb-40 max-w-7xl mx-auto min-h-screen relative"
+      className="pt-24 md:pt-32 lg:pt-48 px-4 md:px-[6%] pb-20 md:pb-40 max-w-7xl mx-auto min-h-screen relative"
     >
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       {/* Header Section */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-20">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 md:gap-12 mb-12 md:mb-20">
         <div className="max-w-3xl space-y-4">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -218,12 +219,12 @@ const OutbreakMap = ({ lang }) => {
             className="flex items-center gap-4"
           >
             <div className="size-2 rounded-full bg-primary animate-pulse shadow-[0_0_15px_#10b981]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/80 italic">
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/80 italic">
               {lang === 'en' ? 'Geospatial_Surveillance_Matrix' : 'ಭೌಗೋಳಿಕ ಬುದ್ಧಿವಂತಿಕೆ'}
             </span>
           </motion.div>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tighter italic leading-none uppercase flex flex-wrap items-center gap-x-4">
-            <span className="block overflow-hidden h-fit py-4 pr-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-black tracking-tighter italic leading-none uppercase flex flex-wrap items-center gap-x-3 md:gap-x-4">
+            <span className="block overflow-hidden h-fit py-2 md:py-4 pr-4 md:pr-6">
               <motion.span
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -233,7 +234,7 @@ const OutbreakMap = ({ lang }) => {
                 KRISHI
               </motion.span>
             </span>
-            <span className="block overflow-hidden h-fit py-4 pr-8">
+            <span className="block overflow-hidden h-fit py-2 md:py-4 pr-6 md:pr-8">
               <motion.span
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -244,7 +245,7 @@ const OutbreakMap = ({ lang }) => {
               </motion.span>
             </span>
           </h1>
-          <p className="text-white/40 text-[12px] font-black uppercase tracking-[0.2em] max-w-xl leading-relaxed italic">
+          <p className="text-white/40 text-[10px] sm:text-[11px] md:text-[12px] font-black uppercase tracking-[0.2em] max-w-xl leading-relaxed italic">
             {lang === 'en'
               ? 'Real-time monitoring of crop pathogens and agricultural expert nodes across the regional network.'
               : 'ಪ್ರದೇಶದಾದ್ಯಂತ ಬೆಳೆ ರೋಗಕಾರಕಗಳು ಮತ್ತು ಕೃಷಿ ತಜ್ಞರ ಕೇಂದ್ರಗಳ ನೈಜ-ಸಮಯದ ಮೇಲ್ವಿಚಾರಣೆ.'}
@@ -254,14 +255,14 @@ const OutbreakMap = ({ lang }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="pt-12"
+            className="pt-6 md:pt-12"
           >
             <button
               onClick={() => window.location.href = '/#detect'}
-              className="btn-premium btn-premium-primary group !py-5 !px-12"
+              className="btn-premium !py-5 md:!py-6 !px-8 md:!px-12 w-full sm:w-auto flex items-center justify-center"
             >
               <Shield className="mr-3 size-5 text-black group-hover:rotate-12 transition-transform" />
-              <span className="text-lg font-sans font-bold text-black">
+              <span className="text-base md:text-lg font-sans font-bold text-black uppercase tracking-tight">
                 {lang === 'en' ? 'Protect Your Harvest' : 'ನಿಮ್ಮ ಬೆಳೆ ರಕ್ಷಿಸಿ'}
               </span>
               <ArrowRight className="ml-3 size-5 text-black transition-transform group-hover:translate-x-1" />
@@ -269,30 +270,30 @@ const OutbreakMap = ({ lang }) => {
           </motion.div>
         </div>
 
-        <div className="flex bg-black/40 backdrop-blur-3xl border border-white/10 p-2 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <div className="flex bg-black/40 backdrop-blur-3xl border border-white/10 p-1 md:p-2 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] w-full lg:w-auto">
           <button
             onClick={() => setActiveTab('outbreaks')}
-            className={`px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center gap-3 ${activeTab === 'outbreaks' ? 'bg-primary text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'text-white/20 hover:text-white/40'}`}
+            className={`flex-1 px-4 sm:px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.4em] transition-all flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap ${activeTab === 'outbreaks' ? 'bg-primary text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'text-white/20 hover:text-white/40'}`}
           >
-            <AlertTriangle className="size-4" />
+            <AlertTriangle className="size-3 md:size-4" />
             {lang === 'en' ? 'Alerts' : 'ರೋಗದ ಎಚ್ಚರಿಕೆಗಳು'}
           </button>
           <button
             onClick={() => setActiveTab('kvks')}
-            className={`px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center gap-3 ${activeTab === 'kvks' ? 'bg-primary text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'text-white/20 hover:text-white/40'}`}
+            className={`flex-1 px-4 sm:px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.4em] transition-all flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap ${activeTab === 'kvks' ? 'bg-primary text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'text-white/20 hover:text-white/40'}`}
           >
-            <Shield className="size-4" />
+            <Shield className="size-3 md:size-4" />
             {lang === 'en' ? 'Expert_Nodes' : 'ಹತ್ತಿರದ ಕೃಷಿ ಕೇಂದ್ರ'}
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col-reverse lg:grid lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 h-auto lg:h-[800px]">
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-[360px_1fr] gap-6 md:gap-12 h-auto lg:h-[750px]">
         {/* Sidebar Controls */}
-        <div className="w-full flex flex-col gap-8">
-          <div className="card-premium bg-surface/20 border-white/10 p-8 space-y-8 relative overflow-hidden">
+        <div className="w-full flex flex-col gap-6 md:gap-8">
+          <div className="card-premium bg-surface/20 border-white/10 p-6 md:p-8 space-y-6 md:space-y-8 relative overflow-hidden">
             <div className="absolute inset-0 specimen-grid opacity-10 pointer-events-none" />
-            <div className="relative space-y-6">
+            <div className="relative space-y-4 md:space-y-6">
               <div className="relative group">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-white/20 group-focus-within:text-primary transition-colors" />
                 <input
@@ -361,27 +362,27 @@ const OutbreakMap = ({ lang }) => {
           {/* Status Log & Stats Widget */}
           <div className="flex flex-col gap-8 flex-1">
             {/* System Logs */}
-            <div className="card-premium bg-surface/20 border-white/10 p-8 relative overflow-hidden group">
+            <div className="card-premium bg-surface/20 border-white/10 p-4 sm:p-6 md:p-8 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <Activity className="size-16 text-primary" />
+                <Activity className="size-12 md:size-16 text-primary" />
               </div>
-              <div className="relative space-y-6">
+              <div className="relative space-y-4 md:space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="size-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">System_Logs</span>
+                  <div className="size-1.5 md:size-2 rounded-full bg-primary animate-pulse" />
+                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">System_Logs</span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2 md:space-y-3">
                   <AnimatePresence mode="popLayout">
-                    {systemLogs.map((log) => (
+                    {systemLogs.slice(0, 4).map((log) => (
                       <motion.div
                         key={log.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="flex items-center justify-between gap-4 p-3 bg-black/40 rounded-lg border border-white/5"
+                        className="flex items-center justify-between gap-4 p-2 md:p-3 bg-black/40 rounded-lg border border-white/5"
                       >
-                        <span className="text-[8px] font-mono text-primary/60">{log.time}</span>
-                        <span className="text-[9px] font-black text-white/40 truncate italic uppercase tracking-wider">{log.text}</span>
+                        <span className="text-[7px] md:text-[8px] font-mono text-primary/60">{log.time}</span>
+                        <span className="text-[8px] md:text-[9px] font-black text-white/40 truncate italic uppercase tracking-wider">{log.text}</span>
                       </motion.div>
                     ))}
                   </AnimatePresence>
@@ -390,48 +391,48 @@ const OutbreakMap = ({ lang }) => {
             </div>
 
             {/* Stats Widget */}
-            <div className="card-premium bg-surface/20 border-white/10 p-8 relative overflow-hidden group">
+            <div className="card-premium bg-surface/20 border-white/10 p-4 sm:p-6 md:p-8 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
-                <Crosshair className="size-20 text-primary" />
+                <Crosshair className="size-16 md:size-20 text-primary" />
               </div>
-              <div className="relative space-y-8">
+              <div className="relative space-y-6 md:space-y-8">
                 <div className="flex items-center gap-4">
-                  <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
-                    <Info className="size-4 text-primary" />
+                  <div className="size-6 md:size-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+                    <Info className="size-3.5 md:size-4 text-primary" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Live_Insights</span>
+                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Live_Insights</span>
                 </div>
-                <div className="space-y-6">
-                  <div className="p-4 bg-black/20 rounded-xl border border-white/5">
-                    <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Surveillance_Sector</span>
-                    <p className="text-lg font-display font-black text-white italic tracking-tighter mt-1">KARNATAKA_ALPHA</p>
+                <div className="space-y-4 md:space-y-6">
+                  <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
+                    <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Surveillance_Sector</span>
+                    <p className="text-sm md:text-lg font-display font-black text-white italic tracking-tighter mt-1">KARNATAKA_ALPHA</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-black/20 rounded-xl border border-white/5">
-                      <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Anomalies</span>
-                      <p className="text-2xl font-display font-black text-red-500 italic tracking-tighter mt-1">{outbreaks.length}</p>
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
+                    <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
+                      <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Anomalies</span>
+                      <p className="text-lg md:text-2xl font-display font-black text-red-500 italic tracking-tighter mt-1">{outbreaks.length}</p>
                     </div>
-                    <div className="p-4 bg-black/20 rounded-xl border border-white/5">
-                      <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">KVK_Nodes</span>
-                      <p className="text-2xl font-display font-black text-primary italic tracking-tighter mt-1">{KVKS.length}</p>
+                    <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
+                      <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">KVK_Nodes</span>
+                      <p className="text-lg md:text-2xl font-display font-black text-primary italic tracking-tighter mt-1">{KVKS.length}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Real-time Telemetry Section */}
-              <div className="flex-1 overflow-y-auto space-y-8 pr-2 custom-scrollbar">
+              {/* Real-time Telemetry Section - Adjusted for mobile */}
+              <div className="mt-8 flex-1 overflow-y-auto space-y-6 md:space-y-8 pr-2 custom-scrollbar max-h-[300px] md:max-h-none">
                 <div>
                   <div className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Localized_Intelligence</h3>
-                    <div className="size-2 rounded-full bg-[var(--primary)] animate-pulse" />
+                    <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Localized_Intelligence</h3>
+                    <div className="size-1.5 md:size-2 rounded-full bg-[var(--primary)] animate-pulse" />
                   </div>
                   <TacticalWeather />
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Specimen_Ingestion_Stream</h3>
+                    <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Specimen_Stream</h3>
                     <div className="flex gap-1">
                       <div className="size-1 bg-white/20 rounded-full" />
                       <div className="size-1 bg-white/40 rounded-full animate-pulse" />
@@ -538,13 +539,13 @@ const OutbreakMap = ({ lang }) => {
             </div>
 
             {/* View Toggle */}
-            <div className="absolute top-8 right-32 flex gap-2">
+            <div className="absolute top-4 right-4 md:top-8 md:right-32 flex gap-2 z-30">
               <button
                 onClick={() => setMapTheme(mapTheme === 'dark' ? 'satellite' : 'dark')}
-                className="px-4 py-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-all group"
+                className="px-3 md:px-4 py-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl flex items-center gap-2 hover:border-primary/50 transition-all group"
               >
                 <Globe className={`size-3 ${mapTheme === 'satellite' ? 'text-primary' : 'text-white/40'}`} />
-                <span className="text-[8px] font-black text-white uppercase tracking-widest">{mapTheme === 'dark' ? 'TERRAIN' : 'SATELLITE'}</span>
+                <span className="text-[7px] md:text-[8px] font-black text-white uppercase tracking-widest">{mapTheme === 'dark' ? 'TERRAIN' : 'SATELLITE'}</span>
               </button>
             </div>
           </div>

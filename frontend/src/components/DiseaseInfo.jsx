@@ -19,19 +19,19 @@ const DiseaseInfo = ({ lang, data }) => {
   const config = getSeverityConfig(data.severity);
 
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col md:flex-row items-start justify-between gap-8">
-        <div className="space-y-3">
+    <div className="space-y-8 md:space-y-12">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-6 md:gap-8">
+        <div className="space-y-2 md:space-y-3">
           <div className="flex items-center gap-3 text-primary">
-            <Target className="size-5" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Specimen Matrix</span>
+            <Target className="size-4 md:size-5" />
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em]">Specimen Matrix</span>
           </div>
-          <h2 className="text-5xl font-display font-black text-white tracking-tighter">
+          <h2 className="text-3xl md:text-5xl font-display font-black text-white tracking-tighter">
             {lang === 'en' ? data.cropName : data.cropNameKannada}
           </h2>
           <div className="flex items-center gap-3">
             <Activity className="size-4 text-primary/50" />
-            <p className="text-muted font-black text-sm uppercase tracking-[0.2em]">
+            <p className="text-muted font-black text-[0.7rem] md:text-sm uppercase tracking-[0.2em]">
               {lang === 'en' ? data.diseaseName : data.diseaseNameKannada}
             </p>
           </div>
@@ -40,31 +40,31 @@ const DiseaseInfo = ({ lang, data }) => {
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className={`px-8 py-4 rounded-[1.5rem] border ${config.bg} ${config.border} ${config.color} flex items-center gap-4 shadow-2xl backdrop-blur-xl`}
+          className={`w-full md:w-auto px-6 md:px-8 py-4 rounded-2xl md:rounded-[1.5rem] border ${config.bg} ${config.border} ${config.color} flex items-center gap-4 shadow-2xl backdrop-blur-xl`}
         >
-          <ShieldAlert className="size-6" />
-          <div className="flex flex-col">
+          <ShieldAlert className="size-5 md:size-6" />
+          <div className="flex flex-col text-left">
             <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Threat Status</span>
-            <span className="text-base font-display font-black uppercase tracking-widest">{config.label}</span>
+            <span className="text-sm md:text-base font-display font-black uppercase tracking-widest">{config.label}</span>
           </div>
         </motion.div>
       </div>
 
-      <div className="card-premium p-10 bg-surface/5 space-y-8 relative overflow-hidden">
+      <div className="card-premium p-6 md:p-10 bg-surface/5 space-y-6 md:space-y-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4">
-          <Percent className="size-16 text-white/[0.02]" />
+          <Percent className="size-12 md:size-16 text-white/[0.02]" />
         </div>
         
-        <div className="flex justify-between items-end relative z-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 relative z-10">
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Neural Engine Confidence</p>
-            <h3 className="text-6xl font-display font-black text-white tracking-tighter">
-              {data.confidence}<span className="text-2xl text-primary/40">%</span>
+            <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-primary">Neural Engine Confidence</p>
+            <h3 className="text-5xl md:text-6xl font-display font-black text-white tracking-tighter">
+              {data.confidence}<span className="text-xl md:text-2xl text-primary/40">%</span>
             </h3>
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <p className="text-[9px] font-black text-muted uppercase tracking-[0.2em] mb-1">Global Validation</p>
-            <p className="text-xs font-black text-primary uppercase tracking-widest">Active System</p>
+            <p className="text-[0.7rem] font-black text-primary uppercase tracking-widest">Active System</p>
           </div>
         </div>
         

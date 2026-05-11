@@ -37,22 +37,22 @@ const ManualDiagnosis = ({ lang }) => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
-            className="card-premium p-10 lg:p-16 space-y-12 bg-surface/20 border-white/10 scanner-glow max-w-4xl mx-auto"
+            className="card-premium p-6 md:p-10 lg:p-16 space-y-8 md:space-y-12 bg-surface/20 border-white/10 scanner-glow max-w-4xl mx-auto"
           >
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="size-1.5 rounded-full bg-primary animate-pulse" />
-                <h3 className="text-3xl font-display font-black text-white italic tracking-tighter uppercase">{t.manualTitle}</h3>
-                <div className="size-1.5 rounded-full bg-primary animate-pulse" />
+            <div className="text-center space-y-3 md:space-y-4">
+              <div className="flex items-center justify-center gap-3 md:gap-4 mb-4 md:mb-6">
+                <div className="size-1 md:size-1.5 rounded-full bg-primary animate-pulse" />
+                <h3 className="text-xl md:text-3xl font-display font-black text-white italic tracking-tighter uppercase">{t.manualTitle}</h3>
+                <div className="size-1 md:size-1.5 rounded-full bg-primary animate-pulse" />
               </div>
-              <p className="text-[11px] font-black text-white/30 uppercase tracking-[0.4em] max-w-xl mx-auto italic">{t.manualDesc}</p>
+              <p className="text-[10px] md:text-[11px] font-black text-white/30 uppercase tracking-[0.4em] max-w-xl mx-auto italic px-2 md:px-0">{t.manualDesc}</p>
             </div>
             
             <div className="space-y-4">
-              <div className="flex justify-between items-center px-4">
+              <div className="flex justify-between items-center px-2 md:px-4">
                 <div className="flex items-center gap-3">
-                  <Terminal className="size-4 text-primary" />
-                  <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/40">Symptom_Log_Stream</span>
+                  <Terminal className="size-3.5 md:size-4 text-primary" />
+                  <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-white/40">Symptom_Log_Stream</span>
                 </div>
                 <div className="flex gap-1">
                   {[0, 1, 2].map(i => <div key={i} className="size-1 bg-primary/20 rounded-full" />)}
@@ -62,7 +62,7 @@ const ManualDiagnosis = ({ lang }) => {
                 value={symptoms}
                 onChange={(e) => setSymptoms(e.target.value)}
                 placeholder={t.manualPlaceholder}
-                className="w-full bg-black/40 border border-white/10 rounded-[2rem] p-10 text-[15px] text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all h-48 lg:h-64 resize-none font-mono tracking-wide"
+                className="w-full bg-black/40 border border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-10 text-sm md:text-[15px] text-white placeholder:text-white/10 focus:outline-none focus:border-primary/50 transition-all h-40 md:h-64 resize-none font-mono tracking-wide"
               />
             </div>
 
@@ -117,16 +117,16 @@ const ManualDiagnosis = ({ lang }) => {
             exit={{ opacity: 0 }}
             className="space-y-12 max-w-6xl mx-auto"
           >
-            <div className="flex justify-between items-center px-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 px-2 md:px-4">
               <div className="flex items-center gap-4">
                 <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
                   <Activity className="size-4 text-primary" />
                 </div>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-primary">Neural_Diagnosis_Complete</h3>
+                <h3 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-primary">Neural_Diagnosis_Complete</h3>
               </div>
               <button 
                 onClick={() => { setResult(null); setSymptoms(''); }}
-                className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 text-[9px] font-black text-white/40 uppercase tracking-[0.4em] hover:bg-white/10 hover:text-white transition-all italic"
+                className="w-full md:w-auto px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-[9px] font-black text-white/40 uppercase tracking-[0.4em] hover:bg-white/10 hover:text-white transition-all italic"
               >
                 RESET_PROTOCOL
               </button>

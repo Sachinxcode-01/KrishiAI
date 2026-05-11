@@ -21,15 +21,15 @@ export default function HistoryCard({ item, onDelete, onView }) {
 
   return (
     <div className="glass-card p-4 group relative hover:translate-y-[-6px] transition-all duration-300">
-      {/* Delete Button */}
+      {/* Delete Button - Visible on mobile/touch, hover on desktop */}
       <button 
         onClick={(e) => {
           e.stopPropagation();
           setShowConfirm(true);
         }}
-        className="absolute top-4 right-4 size-10 rounded-full bg-red-500/10 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-500 hover:text-white z-10"
+        className="absolute top-3 right-3 md:top-4 md:right-4 size-9 md:size-10 rounded-full bg-red-500/10 text-red-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all flex items-center justify-center hover:bg-red-500 hover:text-white z-10 border border-red-500/20"
       >
-        <Trash2 className="size-4" />
+        <Trash2 className="size-3.5 md:size-4" />
       </button>
 
       {/* Confirmation Overlay */}

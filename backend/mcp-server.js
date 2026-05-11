@@ -1,9 +1,8 @@
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
-const { analyzeImage, diagnoseText } = require('./services/claudeService');
+const { analyzeImage, diagnoseText } = require('./services/aiService');
 const { dataset } = require('../frontend/src/data/dataset'); // Shared dataset
-const supabase = require('./config/supabase');
 
 const server = new Server(
   {

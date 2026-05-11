@@ -56,8 +56,8 @@ export default function HowItWorks() {
           <span className="font-display font-bold text-[0.75rem] tracking-[0.3em] text-[var(--primary)] uppercase mb-4">
             Process
           </span>
-          <h2 className="section-title text-white mb-6 uppercase">How It Works</h2>
-          <p className="font-sans text-[var(--muted)] text-lg max-w-2xl">
+          <h2 className="section-title text-3xl md:text-5xl text-white mb-6 uppercase">How It Works</h2>
+          <p className="font-sans text-[var(--muted)] text-base md:text-lg max-w-2xl">
             Three simple steps to protect your crops and ensure a healthy harvest.
           </p>
         </div>

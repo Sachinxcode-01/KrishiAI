@@ -1,11 +1,21 @@
 {
   "name": "krishi-ai",
   "description": "Krishi AI - Agricultural Intelligence Platform",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "axios": "^1.16.0",
     "dotenv": "^17.4.2",
     "node-fetch": "^3.3.2",
     "openai": "^6.36.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

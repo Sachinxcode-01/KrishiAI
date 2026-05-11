@@ -15,21 +15,21 @@ export default function AppSection() {
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-28">
-          <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/5 mb-8 animate-fade-in">
+        <div className="flex flex-col items-center text-center mb-16 md:mb-28">
+          <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/5 mb-6 md:mb-8 animate-fade-in">
             <div className="size-4 rounded-sm overflow-hidden">
               <img src="/krishiAI.png" alt="Krishi AI" className="w-full h-full object-contain" />
             </div>
-            <span className="font-mono text-[0.65rem] font-bold tracking-[0.4em] text-[var(--primary)] uppercase">
+            <span className="font-mono text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.4em] text-[var(--primary)] uppercase">
               Vision_Neural_Network_v5.0
             </span>
           </div>
           
-          <h2 className="text-6xl md:text-8xl font-display font-black text-white uppercase tracking-tighter italic mb-8 leading-[0.9]">
+          <h2 className="text-5xl md:text-8xl font-display font-black text-white uppercase tracking-tighter italic mb-6 md:mb-8 leading-[0.9] px-4">
             EXPERT <span className="text-[var(--primary)] text-stroke">DIAGNOSIS</span>
           </h2>
           
-          <p className="font-sans text-[var(--muted)] text-xl max-w-2xl leading-relaxed">
+          <p className="font-sans text-[var(--muted)] text-base md:text-xl max-w-2xl leading-relaxed">
             Upload a high-resolution specimen for real-time autonomous analysis and precision treatment protocols.
           </p>
         </div>
@@ -69,11 +69,11 @@ export default function AppSection() {
             <span className="font-mono text-[0.7rem] font-bold tracking-[0.5em] uppercase">Enterprise-Grade Security Protocol</span>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-x-16 gap-y-8 items-center opacity-30 group-hover:opacity-100 transition-opacity">
-            <span className="text-white font-black text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">CLAUDE-3.5</span>
-            <span className="text-white font-black text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">MONGODB-ALTAS</span>
-            <span className="text-white font-black text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">VITE-ENGINE</span>
-            <span className="text-white font-black text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">GSAP-CORE</span>
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 items-center opacity-30 group-hover:opacity-100 transition-opacity px-6">
+            <span className="text-white font-black text-xl md:text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">GEMINI-1.5</span>
+            <span className="text-white font-black text-xl md:text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">FIREBASE-CLOUD</span>
+            <span className="text-white font-black text-xl md:text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">NVIDIA-NIM</span>
+            <span className="text-white font-black text-xl md:text-2xl italic tracking-tighter hover:text-[var(--primary)] transition-colors cursor-default">VITE-ENGINE</span>
           </div>
         </div>
       </div>

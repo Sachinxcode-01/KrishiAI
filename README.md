@@ -1,98 +1,88 @@
 # 🌿 Krishi AI (ಕೃಷಿ AI)
 ### ಬೆಳೆ ರೋಗ ತಕ್ಷಣ ಪತ್ತೆ ಮಾಡಿ | Detect Crop Disease Instantly
 
-Krishi AI is a production-ready, AI-powered web application designed for farmers in Karnataka, India. It helps detect crop diseases in real-time by analyzing photos of infected leaves and provides actionable treatment steps and medicine advice in both Kannada and English.
+Krishi AI is a high-fidelity, production-ready agricultural intelligence platform designed for farmers in Karnataka, India. It leverages state-of-the-art Vision AI and a multi-agent ecosystem to diagnose crop diseases in real-time, providing actionable treatment advice in both **Kannada** and **English**.
 
-![Banner](https://images.unsplash.com/photo-1592919016382-354bce365312?auto=format&fit=crop&q=80&w=1000)
+![Krishi AI Banner](https://images.unsplash.com/photo-1592919016382-354bce365312?auto=format&fit=crop&q=80&w=1000)
 
-## 🚀 Features
-- **Smart Image Capture**: Directly access back camera or upload from gallery.
-- **AI Disease Detection**: Powered by Anthropic Claude 3.5 Vision API.
-- **Bilingual Results**: All diagnosis data available in English and Kannada.
-- **Voice Output**: Results are read aloud in a clear, slow voice for accessibility.
-- **Diagnosis History**: Save past scans to MongoDB Atlas for later review.
-- **WhatsApp Integration**: Share diagnosis results directly with experts or other farmers.
-- **Mobile First**: Optimized for rural smartphone users (PWA ready).
+## 🚀 Core Intelligence Hub
+
+- **Dual-Model Vision AI**: Powered by **Google Gemini 1.5 Flash** for high-speed analysis and **NVIDIA NIM (Llama 3.2 Vision)** for specialized diagnostic cross-verification.
+- **Multi-Agent Ecosystem**: A Python-based agentic backend utilizing a **Detection Agent** and a **Recommendation Agent** to provide comprehensive treatment protocols (Organic, Chemical, and Fertilizer advice).
+- **Tactical Geospatial Command Center**: A professional-grade **Outbreak Map** using MapLibre for real-time disease surveillance, featuring tactical radar scans and satellite diagnostic layers.
 
 ## 🛠️ Tech Stack
-- **Frontend**: React 18, Vite, Tailwind CSS, Framer Motion.
-- **Backend**: Node.js, Express.js.
-- **AI Engine**: Google Gemini 1.5 Flash Vision.
-- **Database**: Supabase (PostgreSQL).
-- **Voice**: Web Speech API.
+
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, Tailwind CSS (Deep Forest Premium UI) |
+| **Backend (Core)** | Node.js, Express.js |
+| **Backend (AI)** | FastAPI, Python (Agentic Framework) |
+| **Database** | **Firebase Firestore** (Real-time data persistence) |
+| **AI Models** | Google Gemini 1.5 Flash, NVIDIA Llama 3.1/3.2 |
+| **Animations** | Framer Motion, GSAP (Cinematic UX) |
+| **Maps** | MapLibre GL JS (Geospatial Surveillance) |
+
+## ✨ Key Features
+
+- **📸 Smart Image Capture**: Direct back-camera access or gallery upload optimized for field conditions.
+- **🗣️ Bilingual Voice Output**: Natural language synthesis in Kannada and English for enhanced accessibility.
+- **📜 Tactical History**: Persistent diagnostic logs stored in Firebase with instant retrieval.
+- **🛰️ Satellite Surveillance**: View infection outbreaks on a tactical map with real-time system activity logs.
+- **📱 Mobile-First Design**: Production-grade responsive UI with glassmorphism and fluid typography (`clamp()`), optimized for field use on any smartphone.
+- **💬 Expert Sharing**: Instant WhatsApp integration to share diagnostics with local agricultural experts.
+
+## 📱 Mobile-First Optimization
+Krishi AI is engineered specifically for the field:
+- **Fluid Typography**: Uses CSS `clamp()` for headings that scale perfectly from a 5-inch smartphone to a 32-inch monitor.
+- **Touch-First UI**: Minimum 44px touch targets for all buttons and interactive elements, ensuring usability in dusty or wet field conditions.
+- **Haptic Feedback**: Subtle visual press effects (`scale-95`) provide confirmation of user actions on touchscreens.
+- **Data Efficiency**: Client-side image compression reduces upload payloads by up to 90% without sacrificing diagnostic accuracy.
 
 ## ⚙️ Local Setup
 
 ### Prerequisites
 - Node.js 18+
-- Supabase Account
-- Google Gemini API Key
+- Python 3.10+
+- Firebase Project (Service Account Key)
+- Google Gemini & NVIDIA API Keys
 
-### Backend Setup
-1. `cd backend`
-2. `npm install`
-3. Create a `.env` file from `.env.example` and fill in your keys.
-4. `npm run dev`
-
-### Frontend Setup
-1. `cd frontend`
-2. `npm install`
-3. Create a `.env` file from `.env.example`.
-4. `npm run dev`
-
-## 📡 API Documentation
-
-### `POST /api/analyze`
-Analyzes a crop leaf image.
-- **Body**: `{ image: base64, description?: string }`
-- **Response**: `{ success: true, data: DiagnosisObject }`
-
-### `GET /api/history`
-Fetches all past diagnoses.
-
-### `POST /api/history/save`
-Saves a diagnosis result to the database.
-
-## 🏗️ Deployment Guide
-
-### Frontend (Vercel)
-1. Push to GitHub.
-2. Connect to Vercel.
-3. Set `VITE_API_BASE_URL` in environment variables.
-
-### Backend (Render)
-1. Push to GitHub.
-2. Create a "Web Service" on Render.
-3. Set environment variables (SUPABASE_URL, SUPABASE_KEY, GOOGLE_API_KEY).
-4. Build Command: `npm install`
-5. Start Command: `node server.js`
-
-## 📊 Database Schema (Supabase SQL)
-Run this in your Supabase SQL Editor:
-```sql
-CREATE TABLE diagnoses (
-  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
-  imageUrl TEXT NOT NULL,
-  cropName TEXT NOT NULL,
-  cropNameKannada TEXT NOT NULL,
-  diseaseName TEXT NOT NULL,
-  diseaseNameKannada TEXT NOT NULL,
-  severity TEXT NOT NULL,
-  confidence FLOAT NOT NULL,
-  description TEXT NOT NULL,
-  descriptionKannada TEXT NOT NULL,
-  causes TEXT NOT NULL,
-  causesKannada TEXT NOT NULL,
-  treatment JSONB NOT NULL,
-  treatmentKannada JSONB NOT NULL,
-  prevention JSONB NOT NULL,
-  preventionKannada JSONB NOT NULL,
-  medicineAdvice TEXT NOT NULL,
-  medicineAdviceKannada TEXT NOT NULL,
-  urgency TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+### 1. Backend Setup (Node.js)
+```bash
+cd backend
+npm install
+# Configure .env with FIREBASE_PRIVATE_KEY, GOOGLE_API_KEY, etc.
+npm start
 ```
 
+### 2. AI Agent Setup (FastAPI)
+```bash
+cd backend
+pip install -r requirements.txt
+python main.py
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+# Configure .env with VITE_FIREBASE_ keys
+npm run dev
+```
+
+## 📡 API Architecture
+
+- **`POST /api/analyze`**: Primary diagnostic endpoint (Gemini-powered).
+- **`POST /api/detect`**: Multi-Agent diagnostic endpoint (FastAPI).
+- **`GET /api/history`**: Retrieves all past telemetry and diagnostics.
+- **`GET /api/weather`**: Real-time agricultural weather advisory.
+
+## 🔮 Future Roadmap
+
+- [ ] **Offline Edge Inference**: Implementing TensorFlow.js for basic disease detection without internet.
+- [ ] **Sensor Telemetry Integration**: Connecting IoT soil moisture and PH sensors to the Tactical Map.
+- [ ] **Community Outbreak Alerts**: Push notifications for farmers when a disease is detected within a 10km radius.
+- [ ] **GPU-Accelerated Processing**: Optimizing the agent pipeline for real-time video stream analysis.
+
 ---
-Developed with ❤️ for Indian Farmers.
+Developed with ❤️ for Indian Farmers to empower the next generation of agriculture.

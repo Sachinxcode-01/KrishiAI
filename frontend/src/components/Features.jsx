@@ -13,8 +13,8 @@ export default function Features() {
     {
       icon: Cpu,
       title: 'AI Analysis',
-      desc: 'Claude Vision AI scans every detail of the leaf and identifies the exact disease in seconds.',
-      kannada: 'ಕ್ಲೌಡ್ AI ರೋಗ ಪತ್ತೆ ಮಾಡುತ್ತದೆ',
+      desc: 'Gemini Vision AI scans every detail of the leaf and identifies the exact disease in seconds.',
+      kannada: 'ಜೆಮಿನಿ AI ರೋಗ ಪತ್ತೆ ಮಾಡುತ್ತದೆ',
       step: '02'
     },
     {
@@ -65,10 +65,10 @@ export default function Features() {
               How It Works
             </span>
           </div>
-          <h2 className="font-display font-black text-5xl md:text-6xl text-white uppercase mb-6 tracking-tighter">
+          <h2 className="font-display font-black text-4xl md:text-6xl text-white uppercase mb-6 tracking-tighter">
             Seamless <span className="text-gradient">Workflow</span>
           </h2>
-          <p className="font-sans text-[var(--text-secondary)] text-lg max-w-2xl leading-relaxed">
+          <p className="font-sans text-[var(--text-secondary)] text-base md:text-lg max-w-2xl leading-relaxed">
             Enterprise-grade intelligence simplified into three intuitive steps.
           </p>
         </motion.div>

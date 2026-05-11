@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { compressImage } from '../utils/imageCompression';
 import { useDiagnosis } from '../context/DiagnosisContext';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 export const useAnalyze = () => {
   const { setLatestDiagnosis } = useDiagnosis();
@@ -52,8 +50,8 @@ export const useAnalyze = () => {
         console.warn("Location access denied or timeout.");
       }
 
-      // 4. API Call
-      const response = await axios.post(`${API_BASE_URL}/api/analyze`, {
+      // 4. API Call - Use shared API utility
+      const response = await api.post('/analyze', {
         image: base64Image,
         description,
         location
@@ -67,7 +65,7 @@ export const useAnalyze = () => {
       }
     } catch (err) {
       console.error('Analysis Error:', err);
-      setError(err.message || 'Something went wrong during analysis');
+      setError(err.response?.data?.message || err.message || 'Something went wrong during analysis');
     } finally {
       setAnalyzing(false);
     }

@@ -19,20 +19,20 @@ export default function RegionalAdvisory() {
           {/* Intelligence Header */}
           <div className="lg:w-1/3">
             <div className="flex items-center gap-3 text-[var(--primary)] mb-6">
-              <Zap className="size-5 animate-pulse" />
-              <span className="font-mono text-xs font-bold tracking-[0.4em] uppercase">Live_Threat_Intelligence</span>
+              <Zap className="size-4 md:size-5 animate-pulse" />
+              <span className="font-mono text-[0.6rem] md:text-xs font-bold tracking-[0.4em] uppercase">Live_Threat_Intelligence</span>
             </div>
             
-            <h2 className="text-5xl font-display font-black text-white uppercase tracking-tighter italic mb-8 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter italic mb-6 md:mb-8 leading-tight">
               REGIONAL <span className="text-[var(--primary)]">ADVISORY</span>
             </h2>
             
-            <p className="font-sans text-[var(--muted)] text-lg mb-10 leading-relaxed">
+            <p className="font-sans text-[var(--muted)] text-base md:text-lg mb-8 md:mb-10 leading-relaxed">
               Real-time synchronization with historical diagnostic data across Karnataka. 
               Stay informed about emerging localized outbreaks.
             </p>
 
-            <div className="p-6 rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-xl">
+            <div className="p-6 rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-xl mb-10 lg:mb-0">
               <div className="flex items-center gap-4 mb-4">
                 <div className="size-10 rounded-full bg-orange-500/10 flex items-center justify-center">
                   <TrendingUp className="size-5 text-orange-500" />

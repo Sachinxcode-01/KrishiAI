@@ -54,18 +54,18 @@ export default function Footer() {
           </div>
 
           {/* Right Column - Link Groups */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-2 xs:grid-cols-3 gap-8 md:gap-12">
             {Object.entries(links).map(([title, items]) => (
-              <div key={title} className="space-y-8">
-                <h4 className="font-display font-bold text-[0.7rem] tracking-[0.3em] text-white uppercase">
+              <div key={title} className="space-y-6 md:space-y-8">
+                <h4 className="font-display font-bold text-[0.6rem] md:text-[0.7rem] tracking-[0.3em] text-white uppercase opacity-50">
                   {title}
                 </h4>
-                <ul className="space-y-4">
+                <ul className="space-y-3 md:space-y-4">
                   {items.map((link) => (
                     <li key={link.name}>
                       <Link 
                         to={link.path}
-                        className="font-sans text-sm text-[var(--muted)] hover:text-[var(--primary)] transition-colors"
+                        className="font-sans text-xs md:text-sm text-[var(--muted)] hover:text-[var(--primary)] transition-colors"
                       >
                         {link.name}
                       </Link>

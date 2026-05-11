@@ -32,9 +32,6 @@ export default function Home() {
       <AppSection />
       
       {/* Educational Section */}
-      <HowItWorks />
-      
-      {/* Capabilities Grid */}
       <Features />
       
       {/* Subtle Bottom Spacer */}

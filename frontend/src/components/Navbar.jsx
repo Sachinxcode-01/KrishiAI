@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShieldCheck } from 'lucide-react';
+import { Menu, X, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -98,29 +98,33 @@ export default function Navbar() {
       </button>
 
       {/* Mobile Drawer */}
-      <div className={`fixed inset-0 bg-background z-[1100] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-        mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      <div className={`fixed inset-0 bg-background/95 backdrop-blur-2xl z-[1100] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+        mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
-        <div className="premium-grid" />
-        <div className="p-10 flex flex-col h-full relative z-10">
-          <div className="flex justify-between items-center mb-20">
-            <div className="flex items-center gap-4">
-              <div className="size-12 rounded-xl overflow-hidden">
-                <img src="/krishiAI.png" alt="Krishi AI Logo" className="w-full h-full object-contain" />
+        <div className="premium-grid opacity-20" />
+        
+        {/* Decorative Glow */}
+        <div className="absolute top-1/4 -right-20 size-[400px] bg-[var(--primary)]/10 blur-[100px] rounded-full pointer-events-none" />
+        
+        <div className="p-8 md:p-12 flex flex-col h-full relative z-10">
+          <div className="flex justify-between items-center mb-16">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-4">
+              <div className="size-10 rounded-xl overflow-hidden border border-white/10">
+                <img src="/krishiAI.png" alt="Krishi AI Logo" className="w-full h-full object-contain p-1" />
               </div>
-              <span className="font-display font-black text-2xl text-white uppercase italic tracking-tighter">
+              <span className="font-display font-black text-xl text-white uppercase tracking-tighter">
                 KRISHI <span className="text-[var(--primary)]">AI</span>
               </span>
-            </div>
+            </Link>
             <button 
-              className="size-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10"
+              className="size-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 active:scale-90 transition-transform"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <X className="size-8 text-white" />
+              <X className="size-6 text-white" />
             </button>
           </div>
           
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-6">
             {navLinks.map((link, i) => {
               const isActive = link.path === '/' 
                 ? location.pathname === '/' && !location.hash
@@ -133,21 +137,47 @@ export default function Navbar() {
                   key={link.name} 
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`font-display font-black text-5xl transition-all duration-300 ${
-                    isActive ? 'text-[var(--primary)]' : 'text-white hover:text-[var(--primary)]'
+                  className={`group flex items-center justify-between py-2 transition-all duration-300 ${
+                    isActive ? 'translate-x-2' : ''
                   }`}
-                  style={{ transitionDelay: `${i * 100}ms` }}
+                  style={{ transitionDelay: `${i * 50}ms` }}
                 >
-                  {link.name}
+                  <span className={`font-display font-black text-4xl uppercase tracking-tighter transition-colors ${
+                    isActive ? 'text-[var(--primary)]' : 'text-white/60 group-hover:text-white'
+                  }`}>
+                    {link.name}
+                  </span>
+                  <div className={`h-px flex-grow mx-4 transition-all duration-500 ${
+                    isActive ? 'bg-[var(--primary)] opacity-40' : 'bg-white/5 group-hover:bg-white/10'
+                  }`} />
+                  <ArrowRight className={`size-6 transition-all duration-300 ${
+                    isActive ? 'text-[var(--primary)] opacity-100' : 'text-white/20 opacity-0 group-hover:opacity-100 group-hover:translate-x-1'
+                  }`} />
                 </Link>
               );
             })}
           </div>
           
-          <div className="mt-auto">
-            <button className="w-full btn-premium btn-premium-primary !py-6 text-lg">
-              Get Started
-            </button>
+          <div className="mt-auto pt-10">
+            <div className="p-6 rounded-3xl bg-white/5 border border-white/5 backdrop-blur-xl mb-6">
+              <span className="block font-mono text-[0.6rem] font-bold tracking-[0.3em] text-[var(--primary)] uppercase mb-2">
+                System Status
+              </span>
+              <div className="flex items-center gap-3">
+                <div className="size-2 rounded-full bg-[var(--primary)] animate-pulse" />
+                <span className="text-sm font-bold text-white/80">Neural Nodes: Synchronized</span>
+              </div>
+            </div>
+            
+            <Link to="/map" onClick={() => setMobileMenuOpen(false)}>
+              <button className="w-full btn-premium !py-5 text-base flex items-center justify-center gap-3 bg-[var(--primary)] text-black border-[var(--primary)] font-black uppercase tracking-tighter">
+                Secure Command Center <ShieldCheck className="size-5" />
+              </button>
+            </Link>
+            
+            <div className="mt-8 flex justify-center gap-8">
+               <span className="text-[0.6rem] font-bold tracking-widest text-white/20 uppercase">v5.0.2 PRODUCTION</span>
+            </div>
           </div>
         </div>
       </div>

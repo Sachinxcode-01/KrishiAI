@@ -69,7 +69,7 @@ export default function AnalysisProgress({ analyzing, result, error, image, onRe
         </div>
 
         {/* Right: Neural Processing HUD */}
-        <div className="glass-panel p-16 flex flex-col justify-center relative overflow-hidden">
+        <div className="glass-panel p-8 md:p-16 flex flex-col justify-center relative overflow-hidden">
           <div className="absolute inset-0 scanner-glow pointer-events-none opacity-20" />
           
           <div className="relative size-32 mb-12 mx-auto">
