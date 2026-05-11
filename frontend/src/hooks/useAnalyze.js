@@ -11,7 +11,7 @@ export const useAnalyze = () => {
   const [compressionInfo, setCompressionInfo] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
 
-  const analyzeCrop = async (imageFile, description = '') => {
+  const analyzeCrop = async (imageFile, description = '', mode = 'standard') => {
     setAnalyzing(true);
     setError(null);
     setResult(null);

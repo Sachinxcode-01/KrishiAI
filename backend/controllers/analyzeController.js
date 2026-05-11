@@ -3,13 +3,13 @@ const admin = require('../config/firebase');
 
 const analyze = async (req, res, next) => {
   try {
-    const { image, description, location } = req.body;
+    const { image, description, location, mode } = req.body;
 
     if (!image) {
       return res.status(400).json({ success: false, message: 'No image provided' });
     }
 
-    const diagnosisData = await analyzeImage(image, description);
+    const diagnosisData = await analyzeImage(image, description, mode || 'standard');
 
     // Auto-save to history
     let savedId = null;

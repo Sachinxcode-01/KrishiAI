@@ -8,6 +8,8 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
   const [description, setDescription] = useState('');
   const fileInputRef = useRef(null);
 
+  const [deepMode, setDeepMode] = useState(false);
+
   const handleFile = (selectedFile) => {
     if (selectedFile && selectedFile.type.startsWith('image/')) {
       setFile(selectedFile);
@@ -177,20 +179,44 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
               />
             </div>
 
-            <div className="p-6 rounded-2xl bg-[var(--primary)]/5 border border-[var(--primary)]/10 space-y-3">
-              <div className="flex items-center gap-3">
-                <Zap className="size-4 text-[var(--primary)]" />
-                <span className="font-display font-bold text-[0.65rem] tracking-[0.2em] text-[var(--primary)] uppercase">Smart Optimization</span>
+            {/* Deep Mode Toggle */}
+            <div 
+              onClick={() => setDeepMode(!deepMode)}
+              className={`p-6 rounded-2xl border transition-all duration-500 cursor-pointer group/deep
+                ${deepMode 
+                  ? 'bg-[var(--primary)]/10 border-[var(--primary)]/40 shadow-[0_0_30px_rgba(0,255,135,0.1)]' 
+                  : 'bg-white/5 border-white/10 hover:border-white/20'}
+              `}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className={`size-8 rounded-lg flex items-center justify-center transition-colors duration-500
+                    ${deepMode ? 'bg-[var(--primary)] text-black' : 'bg-white/5 text-white/40'}
+                  `}>
+                    <Zap className={`size-4 ${deepMode ? 'fill-current' : ''}`} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className={`font-display font-bold text-[0.65rem] tracking-[0.2em] uppercase transition-colors
+                      ${deepMode ? 'text-[var(--primary)]' : 'text-white'}
+                    `}>Deep Diagnostic Mode</span>
+                    <span className="font-mono text-[0.5rem] opacity-40 uppercase tracking-widest">NVIDIA_NEMOTRON_12B</span>
+                  </div>
+                </div>
+                <div className={`w-10 h-5 rounded-full p-1 transition-colors duration-500 ${deepMode ? 'bg-[var(--primary)]' : 'bg-white/10'}`}>
+                  <div className={`size-3 rounded-full bg-white transition-transform duration-500 ${deepMode ? 'translate-x-5' : 'translate-x-0'}`} />
+                </div>
               </div>
               <p className="text-[10px] text-[var(--muted)] font-medium leading-relaxed uppercase tracking-[0.05em]">
-                Image will be automatically compressed client-side to ensure fastest processing time in rural areas.
+                {deepMode 
+                  ? 'Advanced multi-stage reasoning enabled. Slower but high-precision analysis.' 
+                  : 'Fast standard analysis enabled. Best for clear single-image diagnosis.'}
               </p>
             </div>
           </div>
 
           <button 
             disabled={!file || analyzing}
-            onClick={() => onAnalyze(file, description)}
+            onClick={() => onAnalyze(file, description, deepMode ? 'deep' : 'standard')}
             className={`group w-full py-7 mt-8 rounded-3xl font-display font-black text-xs uppercase tracking-[0.5em] transition-all duration-700 relative overflow-hidden border-2
               ${!file || analyzing 
                 ? 'bg-white/5 text-white/50 border-white/10 cursor-not-allowed' 

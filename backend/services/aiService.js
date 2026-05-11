@@ -3,8 +3,15 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const axios = require('axios');
+
 // Initialize Google Generative AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
+
+// NVIDIA NIM Configuration
+const NVIDIA_INVOKE_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
+const NVIDIA_MODEL = "nvidia/nemotron-nano-12b-v2-vl";
+const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY;
 
 const SYSTEM_PROMPT = `
 You are Dr. KrishiAI, a senior agricultural scientist with 20+ years of experience 
@@ -42,41 +49,98 @@ Schema:
 }
 `;
 
-const analyzeImage = async (base64Image, description) => {
-  try {
-    console.log(`[${new Date().toISOString()}] Calling Gemini AI (Vision)...`);
-    
-    // Parse the data URI to extract mimeType and base64 string
-    const mimeType = base64Image.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || "image/jpeg";
-    const data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+/**
+ * Primary Analysis using Gemini 2.0 Flash
+ */
+const analyzeWithGemini = async (base64Image, description) => {
+  console.log(`[${new Date().toISOString()}] Calling Gemini AI (Vision)...`);
+  const mimeType = base64Image.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)?.[1] || "image/jpeg";
+  const data = base64Image.replace(/^data:image\/\w+;base64,/, "");
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-    const prompt = `${SYSTEM_PROMPT}\n\nFarmer's Description: ${description || "Analyze this image for crop diseases."}\nReturn ONLY the raw JSON object.`;
-    
-    const imageParts = [{
-      inlineData: {
-        data,
-        mimeType
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const prompt = `${SYSTEM_PROMPT}\n\nFarmer's Description: ${description || "Analyze this image for crop diseases."}\nReturn ONLY the raw JSON object.`;
+  
+  const imageParts = [{
+    inlineData: { data, mimeType }
+  }];
+
+  const result = await model.generateContent([prompt, ...imageParts]);
+  let text = result.response.text();
+  return parseAIResponse(text);
+};
+
+/**
+ * Deep Diagnostic Analysis using NVIDIA Nemotron Nano
+ */
+const analyzeWithNvidia = async (base64Image, description) => {
+  console.log(`[${new Date().toISOString()}] Calling NVIDIA Nemotron (Deep Diagnostic)...`);
+  
+  const headers = {
+    "Authorization": `Bearer ${NVIDIA_API_KEY}`,
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  };
+
+  const payload = {
+    "model": NVIDIA_MODEL,
+    "messages": [
+      {
+        "role": "system",
+        "content": "/think" // Enable reasoning mode
+      },
+      {
+        "role": "user",
+        "content": [
+          { "type": "text", "text": `${SYSTEM_PROMPT}\n\nFarmer's Description: ${description || "Perform a deep analysis of this crop image."}\nReturn ONLY the raw JSON object.` },
+          {
+            "type": "image_url",
+            "image_url": { "url": base64Image }
+          }
+        ]
       }
-    }];
+    ],
+    "max_tokens": 4096,
+    "temperature": 0.2 // Lower temperature for more consistent JSON
+  };
 
-    const result = await model.generateContent([prompt, ...imageParts]);
-    let text = result.response.text();
-    
-    // Clean up potential markdown formatting from Gemini
-    text = text.trim();
-    if (text.startsWith('```json')) {
-        text = text.replace(/^```json/, '').replace(/```$/, '').trim();
-    } else if (text.startsWith('```')) {
-        text = text.replace(/^```/, '').replace(/```$/, '').trim();
+  const response = await axios.post(NVIDIA_INVOKE_URL, payload, { headers });
+  const text = response.data.choices[0].message.content;
+  return parseAIResponse(text);
+};
+
+/**
+ * Unified Analyze Image with Fallback Logic
+ */
+const analyzeImage = async (base64Image, description, mode = 'standard') => {
+  try {
+    if (mode === 'deep') {
+      return await analyzeWithNvidia(base64Image, description);
     }
-
-    console.log(`[${new Date().toISOString()}] Gemini Vision Response received.`);
-    return JSON.parse(text);
+    
+    // Try Gemini first, fallback to NVIDIA on failure
+    try {
+      return await analyzeWithGemini(base64Image, description);
+    } catch (geminiError) {
+      console.warn(`⚠️ Gemini failed: ${geminiError.message}. Switching to NVIDIA fallback.`);
+      return await analyzeWithNvidia(base64Image, description);
+    }
   } catch (error) {
-    console.error('Gemini AI Error:', error.message);
+    console.error('Unified AI Error:', error.message);
     throw error;
   }
+};
+
+/**
+ * Helper to clean and parse AI JSON responses
+ */
+const parseAIResponse = (text) => {
+  let cleaned = text.trim();
+  if (cleaned.startsWith('```json')) {
+    cleaned = cleaned.replace(/^```json/, '').replace(/```$/, '').trim();
+  } else if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```/, '').replace(/```$/, '').trim();
+  }
+  return JSON.parse(cleaned);
 };
 
 const chatWithAssistant = async (question, context, lang, onChunk) => {
@@ -115,16 +179,7 @@ const diagnoseText = async (symptoms) => {
     
     const result = await model.generateContent(prompt);
     let text = result.response.text();
-    
-    // Clean up potential markdown formatting from Gemini
-    text = text.trim();
-    if (text.startsWith('```json')) {
-        text = text.replace(/^```json/, '').replace(/```$/, '').trim();
-    } else if (text.startsWith('```')) {
-        text = text.replace(/^```/, '').replace(/```$/, '').trim();
-    }
-
-    return JSON.parse(text);
+    return parseAIResponse(text);
   } catch (error) {
     console.error('Gemini Text AI Error:', error.message);
     throw error;
