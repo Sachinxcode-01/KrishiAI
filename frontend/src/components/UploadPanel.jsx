@@ -142,7 +142,11 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
 
           <div className="grid grid-cols-2 gap-4">
             <button 
-              onClick={() => fileInputRef.current.click()}
+              onClick={() => {
+                // Tactical Hack: Dynamically add 'capture' to force camera app on mobile
+                fileInputRef.current.setAttribute('capture', 'environment');
+                fileInputRef.current.click();
+              }}
               className="group relative h-24 bg-white/5 border border-white/10 hover:bg-[var(--primary)] hover:border-[var(--primary)] rounded-3xl transition-all duration-500 overflow-hidden"
             >
               <div className="absolute top-2 left-2 size-2 border-t border-l border-white/20 group-hover:border-black/40" />
@@ -152,7 +156,11 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
               </div>
             </button>
             <button 
-              onClick={() => fileInputRef.current.click()}
+              onClick={() => {
+                // Ensure 'capture' is removed for gallery selection
+                fileInputRef.current.removeAttribute('capture');
+                fileInputRef.current.click();
+              }}
               className="group relative h-24 bg-white/5 border border-white/10 hover:border-white/30 rounded-3xl transition-all duration-500 overflow-hidden"
             >
               <div className="absolute top-2 right-2 size-2 border-t border-r border-white/20" />
