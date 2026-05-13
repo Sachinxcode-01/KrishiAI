@@ -4,11 +4,11 @@ import AnalysisProgress from './AnalysisProgress';
 import SpecimenStream from './SpecimenStream';
 import { Sparkles, ShieldCheck, Activity } from 'lucide-react';
 
-export default function AppSection() {
+export default function AppSection({ lang }) {
   const { analyzeCrop, analyzing, result, error, currentImage, resetAnalysis } = useAnalyze();
 
   return (
-    <section id="detect" className="py-40 px-[6%] relative overflow-hidden">
+    <section id="detect" className="py-20 md:py-40 px-[6%] relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-[var(--primary)]/30 to-transparent opacity-50" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 size-[600px] bg-[var(--primary)]/5 blur-[120px] rounded-full -translate-y-1/2 pointer-events-none" />
@@ -26,11 +26,14 @@ export default function AppSection() {
           </div>
           
           <h2 className="text-5xl md:text-8xl font-display font-black text-white uppercase tracking-tighter italic mb-6 md:mb-8 leading-[0.9] px-4">
-            EXPERT <span className="text-[var(--primary)] text-stroke">DIAGNOSIS</span>
+            {lang === 'en' ? 'EXPERT' : 'ತಜ್ಞ'}<br />
+            <span className="text-[var(--primary)] text-stroke">{lang === 'en' ? 'DIAGNOSIS' : 'ತಪಾಸಣೆ'}</span>
           </h2>
           
-          <p className="font-sans text-[var(--muted)] text-base md:text-xl max-w-2xl leading-relaxed">
-            Upload a high-resolution specimen for real-time autonomous analysis and precision treatment protocols.
+          <p className={`font-sans text-[var(--muted)] text-base md:text-xl max-w-2xl leading-relaxed text-neat full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
+            {lang === 'en' 
+              ? 'Upload a high-resolution specimen for real-time autonomous analysis and precision treatment protocols.'
+              : 'ನೈಜ-ಸಮಯದ ಸ್ವಾಯತ್ತ ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ನಿಖರ ಚಿಕಿತ್ಸಾ ಪ್ರೋಟೋಕಾಲ್ಗಳಿಗಾಗಿ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಮಾದರಿಯನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ.'}
           </p>
         </div>
 
@@ -49,7 +52,7 @@ export default function AppSection() {
           {/* Right: Primary Interaction Area */}
           <div className="lg:col-span-9 relative">
             {!result && !analyzing && !error ? (
-              <UploadPanel onAnalyze={analyzeCrop} analyzing={analyzing} />
+              <UploadPanel onAnalyze={analyzeCrop} analyzing={analyzing} lang={lang} />
             ) : (
               <AnalysisProgress 
                 analyzing={analyzing} 
@@ -57,6 +60,7 @@ export default function AppSection() {
                 error={error} 
                 image={currentImage}
                 onReset={resetAnalysis} 
+                lang={lang}
               />
             )}
           </div>

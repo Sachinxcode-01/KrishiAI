@@ -1,12 +1,12 @@
-export default function MarqueeTicker() {
+export default function MarqueeTicker({ lang }) {
   const items = [
-    { label: "SYSTEM_LOAD", value: "32%" },
-    { label: "ANOMALIES_DETECTED", value: "1,204" },
-    { label: "KVK_NODES_ACTIVE", value: "84" },
-    { label: "NEURAL_LINK", value: "ESTABLISHED" },
-    { label: "REGION", value: "KARNATAKA_SURVEILLANCE" },
-    { label: "DATA_PACKETS", value: "TRANSCEIVING" },
-    { label: "ಕೃಷಿ AI", value: "ಸಿದ್ಧವಾಗಿದೆ" }
+    { label: lang === 'en' ? "SYSTEM_LOAD" : "ಸಿಸ್ಟಮ್_ಲೋಡ್", value: "32%" },
+    { label: lang === 'en' ? "ANOMALIES_DETECTED" : "ಪತ್ತೆಯಾದ_ರೋಗಗಳು", value: "1,204" },
+    { label: lang === 'en' ? "KVK_NODES_ACTIVE" : "ಸಕ್ರಿಯ_ನೋಡ್‌ಗಳು", value: "84" },
+    { label: lang === 'en' ? "NEURAL_LINK" : "ನ್ಯೂರಲ್_ಲಿಂಕ್", value: lang === 'en' ? "ESTABLISHED" : "ಸ್ಥಾಪಿಸಲಾಗಿದೆ" },
+    { label: lang === 'en' ? "REGION" : "ಪ್ರದೇಶ", value: lang === 'en' ? "KARNATAKA_SURVEILLANCE" : "ಕರ್ನಾಟಕ_ಕಣ್ಗಾವಲು" },
+    { label: lang === 'en' ? "DATA_PACKETS" : "ಡೇಟಾ_ಪ್ಯಾಕೆಟ್‌ಗಳು", value: lang === 'en' ? "TRANSCEIVING" : "ರವಾನಿಸಲಾಗುತ್ತಿದೆ" },
+    { label: "ಕೃಷಿ AI", value: lang === 'en' ? "READY" : "ಸಿದ್ಧವಾಗಿದೆ" }
   ];
 
   return (
@@ -22,7 +22,7 @@ export default function MarqueeTicker() {
                 <span className="font-mono text-[0.65rem] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">
                   [{item.label}]
                 </span>
-                <span className="font-display font-black text-xs text-white uppercase tracking-tighter">
+                <span className={`font-display font-black text-xs text-white uppercase tracking-tighter ${lang === 'kn' ? 'font-kannada' : ''}`}>
                   {item.value}
                 </span>
                 <div className="size-1 bg-[var(--primary)]/30 rounded-full" />

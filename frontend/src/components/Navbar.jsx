@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShieldCheck, ArrowRight } from 'lucide-react';
 
-export default function Navbar() {
+export default function Navbar({ lang, setLang }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -81,7 +81,21 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="hidden md:block">
+      <div className="hidden md:flex items-center gap-4">
+        <div className="flex items-center p-1 bg-white/5 border border-white/10 rounded-xl">
+          <button 
+            onClick={() => setLang('en')}
+            className={`px-3 py-1.5 rounded-lg font-mono text-[0.65rem] font-bold tracking-widest transition-all ${lang === 'en' ? 'bg-[var(--primary)] text-black' : 'text-white/40 hover:text-white'}`}
+          >
+            EN
+          </button>
+          <button 
+            onClick={() => setLang('kn')}
+            className={`px-3 py-1.5 rounded-lg font-mono text-[0.65rem] font-bold tracking-widest transition-all ${lang === 'kn' ? 'bg-[var(--primary)] text-black' : 'text-white/40 hover:text-white'}`}
+          >
+            KN
+          </button>
+        </div>
         <Link to="/map">
           <button className="btn-premium btn-premium-primary !py-3 !px-8 text-[0.8rem] flex items-center gap-2 group">
             Secure Portal <ShieldCheck className="size-4 transition-transform group-hover:scale-110" />
@@ -159,14 +173,19 @@ export default function Navbar() {
           </div>
           
           <div className="mt-auto pt-10">
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/5 backdrop-blur-xl mb-6">
-              <span className="block font-mono text-[0.6rem] font-bold tracking-[0.3em] text-[var(--primary)] uppercase mb-2">
-                System Status
-              </span>
-              <div className="flex items-center gap-3">
-                <div className="size-2 rounded-full bg-[var(--primary)] animate-pulse" />
-                <span className="text-sm font-bold text-white/80">Neural Nodes: Synchronized</span>
-              </div>
+            <div className="flex items-center p-1 bg-white/5 border border-white/10 rounded-2xl mb-4">
+              <button 
+                onClick={() => setLang('en')}
+                className={`flex-1 py-3 rounded-xl font-mono text-[0.7rem] font-bold tracking-widest transition-all ${lang === 'en' ? 'bg-[var(--primary)] text-black' : 'text-white/40'}`}
+              >
+                ENGLISH
+              </button>
+              <button 
+                onClick={() => setLang('kn')}
+                className={`flex-1 py-3 rounded-xl font-mono text-[0.7rem] font-bold tracking-widest transition-all ${lang === 'kn' ? 'bg-[var(--primary)] text-black' : 'text-white/40'}`}
+              >
+                KANNADA
+              </button>
             </div>
             
             <Link to="/map" onClick={() => setMobileMenuOpen(false)}>

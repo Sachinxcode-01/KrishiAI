@@ -67,11 +67,11 @@ export default function HistoryCard({ item, onDelete, onView }) {
 
       {/* Info */}
       <div className="space-y-4 cursor-pointer" onClick={() => onView(item)}>
-        <div className="flex justify-between items-start">
-          <h4 className="font-display font-bold text-lg text-white uppercase tracking-tight">
+        <div className="flex justify-between items-start gap-4">
+          <h4 className={`font-display font-bold text-lg text-white uppercase tracking-tight full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
             {item.diseaseName}
           </h4>
-          <div className={`px-2 py-0.5 border rounded text-[10px] font-bold uppercase tracking-widest ${getSeverityColor(item.severity)}`}>
+          <div className={`px-2 py-0.5 border rounded text-[10px] font-bold uppercase tracking-widest shrink-0 ${getSeverityColor(item.severity)}`}>
             {item.severity}
           </div>
         </div>
@@ -80,14 +80,14 @@ export default function HistoryCard({ item, onDelete, onView }) {
           <div className="flex items-center gap-1.5">
             <Calendar className="size-3" /> {formatDate(item.created_at || item.createdAt)}
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 full-text">
             🌿 {item.cropName}
           </div>
         </div>
 
-        <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-          <span className="font-kannada text-[var(--muted)] text-sm">{item.diseaseNameKannada}</span>
-          <ExternalLink className="size-4 text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="pt-4 border-t border-white/5 flex items-center justify-between gap-4">
+          <span className="font-kannada text-[var(--muted)] text-sm full-text text-neat">{item.diseaseNameKannada}</span>
+          <ExternalLink className="size-4 text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
         </div>
       </div>
     </div>

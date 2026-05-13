@@ -24,7 +24,7 @@ print(f"Using Validation Directory: {VALID_DIR}")
 # 2. Setup Hyperparameters
 IMG_SIZE = 224 # MobileNetV2 uses 224x224 images
 BATCH_SIZE = 32
-EPOCHS = 10 
+EPOCHS = 50 # Increased epochs, EarlyStopping will handle the actual stop point
 
 # 3. Data Generators
 train_datagen = ImageDataGenerator(
@@ -91,6 +91,22 @@ model.compile(
     metrics=['accuracy']
 )
 
+# Add Callbacks for better convergence
+early_stopping = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    patience=5,
+    restore_best_weights=True,
+    verbose=1
+)
+
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
+    monitor='val_loss',
+    factor=0.2,
+    patience=3,
+    min_lr=1e-6,
+    verbose=1
+)
+
 # 5. Train the Model
 print("Starting Training!")
 history = model.fit(
@@ -98,7 +114,8 @@ history = model.fit(
     steps_per_epoch=train_generator.samples // BATCH_SIZE,
     validation_data=valid_generator,
     validation_steps=valid_generator.samples // BATCH_SIZE,
-    epochs=EPOCHS
+    epochs=EPOCHS,
+    callbacks=[early_stopping, reduce_lr]
 )
 
 # 6. Save the Model

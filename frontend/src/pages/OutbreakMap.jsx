@@ -223,8 +223,8 @@ const OutbreakMap = ({ lang }) => {
               {lang === 'en' ? 'Geospatial_Surveillance_Matrix' : 'ಭೌಗೋಳಿಕ ಬುದ್ಧಿವಂತಿಕೆ'}
             </span>
           </motion.div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-black tracking-tighter italic leading-none uppercase flex flex-wrap items-center gap-x-3 md:gap-x-4">
-            <span className="block overflow-hidden h-fit py-2 md:py-4 pr-4 md:pr-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tighter italic leading-none uppercase flex flex-wrap items-center gap-x-2 md:gap-x-4">
+            <span className="block overflow-hidden h-fit py-1 md:py-4 pr-3 md:pr-6">
               <motion.span
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -234,7 +234,7 @@ const OutbreakMap = ({ lang }) => {
                 KRISHI
               </motion.span>
             </span>
-            <span className="block overflow-hidden h-fit py-2 md:py-4 pr-6 md:pr-8">
+            <span className="block overflow-hidden h-fit py-1 md:py-4 pr-4 md:pr-8">
               <motion.span
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -245,7 +245,7 @@ const OutbreakMap = ({ lang }) => {
               </motion.span>
             </span>
           </h1>
-          <p className="text-white/40 text-[10px] sm:text-[11px] md:text-[12px] font-black uppercase tracking-[0.2em] max-w-xl leading-relaxed italic">
+          <p className={`text-white/40 text-[10px] sm:text-[11px] md:text-[12px] font-black uppercase tracking-[0.2em] max-w-xl leading-relaxed italic text-neat full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
             {lang === 'en'
               ? 'Real-time monitoring of crop pathogens and agricultural expert nodes across the regional network.'
               : 'ಪ್ರದೇಶದಾದ್ಯಂತ ಬೆಳೆ ರೋಗಕಾರಕಗಳು ಮತ್ತು ಕೃಷಿ ತಜ್ಞರ ಕೇಂದ್ರಗಳ ನೈಜ-ಸಮಯದ ಮೇಲ್ವಿಚಾರಣೆ.'}
@@ -283,7 +283,7 @@ const OutbreakMap = ({ lang }) => {
             className={`flex-1 px-4 sm:px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.4em] transition-all flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap ${activeTab === 'kvks' ? 'bg-primary text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'text-white/20 hover:text-white/40'}`}
           >
             <Shield className="size-3 md:size-4" />
-            {lang === 'en' ? 'Expert_Nodes' : 'ಹತ್ತಿರದ ಕೃಷಿ ಕೇಂದ್ರ'}
+            {lang === 'en' ? 'Expert_Nodes' : 'ತಜ್ಞರ ಕೇಂದ್ರಗಳು'}
           </button>
         </div>
       </div>
@@ -298,14 +298,17 @@ const OutbreakMap = ({ lang }) => {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-white/20 group-focus-within:text-primary transition-colors" />
                 <input
                   type="text"
-                  placeholder={activeTab === 'outbreaks' ? "SEARCH_ANOMALIES..." : "SEARCH_NODES..."}
+                  placeholder={lang === 'en' 
+                    ? (activeTab === 'outbreaks' ? "SEARCH_ANOMALIES..." : "SEARCH_NODES...")
+                    : (activeTab === 'outbreaks' ? "ಅಸಂಗತತೆ ಹುಡುಕಿ..." : "ಕೇಂದ್ರ ಹುಡುಕಿ...")
+                  }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-[10px] font-black uppercase tracking-widest text-white focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/10 italic"
                 />
               </div>
 
-              <div className="space-y-4 max-h-[45vh] overflow-y-auto custom-scrollbar pr-2">
+              <div className="space-y-4 max-h-[35vh] md:max-h-[45vh] overflow-y-auto custom-scrollbar pr-2">
                 {activeTab === 'outbreaks' ? (
                   outbreaks.length > 0 ? outbreaks.map((point, i) => (
                     <motion.div
@@ -320,7 +323,7 @@ const OutbreakMap = ({ lang }) => {
                         </span>
                         <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">{new Date(point.timestamp).toLocaleDateString()}</span>
                       </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-primary transition-colors italic uppercase tracking-tight">{point.diseaseName}</h4>
+                      <h4 className={`text-sm font-black text-white group-hover:text-primary transition-colors italic uppercase tracking-tight full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>{point.diseaseName}</h4>
                       <div className="flex items-center gap-3 mt-3">
                         <Activity className="size-3 text-white/10" />
                         <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">{point.cropName} • LOCAL_NODE_{i}</p>
@@ -343,7 +346,7 @@ const OutbreakMap = ({ lang }) => {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                           <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_#10b981]" />
-                          <h4 className="text-sm font-black text-white group-hover:text-primary transition-colors italic uppercase tracking-tight">{kvk.label}</h4>
+                          <h4 className={`text-sm font-black text-white group-hover:text-primary transition-colors italic uppercase tracking-tight full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>{kvk.label}</h4>
                         </div>
                         <ChevronRight className="size-4 text-white/10 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </div>
@@ -369,7 +372,9 @@ const OutbreakMap = ({ lang }) => {
               <div className="relative space-y-4 md:space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="size-1.5 md:size-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">System_Logs</span>
+                  <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                    {lang === 'en' ? 'System_Logs' : 'ಸಿಸ್ಟಮ್ ಲಾಗ್'}
+                  </span>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <AnimatePresence mode="popLayout">
@@ -400,20 +405,28 @@ const OutbreakMap = ({ lang }) => {
                   <div className="size-6 md:size-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
                     <Info className="size-3.5 md:size-4 text-primary" />
                   </div>
-                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Live_Insights</span>
+                  <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-primary italic ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                    {lang === 'en' ? 'Live_Insights' : 'ಲೈವ್ ಅಂಕಿಅಂಶ'}
+                  </span>
                 </div>
                 <div className="space-y-4 md:space-y-6">
                   <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
-                    <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Surveillance_Sector</span>
+                    <span className={`text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em] ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                      {lang === 'en' ? 'Surveillance_Sector' : 'ಮೇಲ್ವಿಚಾರಣಾ ವಲಯ'}
+                    </span>
                     <p className="text-sm md:text-lg font-display font-black text-white italic tracking-tighter mt-1">KARNATAKA_ALPHA</p>
                   </div>
                   <div className="grid grid-cols-2 gap-3 md:gap-4">
                     <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
-                      <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">Anomalies</span>
+                      <span className={`text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em] ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                        {lang === 'en' ? 'Anomalies' : 'ದೋಷಗಳು'}
+                      </span>
                       <p className="text-lg md:text-2xl font-display font-black text-red-500 italic tracking-tighter mt-1">{outbreaks.length}</p>
                     </div>
                     <div className="p-3 md:p-4 bg-black/20 rounded-xl border border-white/5">
-                      <span className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em]">KVK_Nodes</span>
+                      <span className={`text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-[0.4em] ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                        {lang === 'en' ? 'KVK_Nodes' : 'ಕೆವಿಕೆ ಕೇಂದ್ರ'}
+                      </span>
                       <p className="text-lg md:text-2xl font-display font-black text-primary italic tracking-tighter mt-1">{KVKS.length}</p>
                     </div>
                   </div>
@@ -424,7 +437,9 @@ const OutbreakMap = ({ lang }) => {
               <div className="mt-8 flex-1 overflow-y-auto space-y-6 md:space-y-8 pr-2 custom-scrollbar max-h-[300px] md:max-h-none">
                 <div>
                   <div className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Localized_Intelligence</h3>
+                    <h3 className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                      {lang === 'en' ? 'Localized_Intelligence' : 'ಸ್ಥಳೀಯ ಬುದ್ಧಿವಂತಿಕೆ'}
+                    </h3>
                     <div className="size-1.5 md:size-2 rounded-full bg-[var(--primary)] animate-pulse" />
                   </div>
                   <TacticalWeather />
@@ -432,7 +447,9 @@ const OutbreakMap = ({ lang }) => {
 
                 <div>
                   <div className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic">Specimen_Stream</h3>
+                    <h3 className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white italic ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                      {lang === 'en' ? 'Specimen_Stream' : 'ಮಾದರಿ ಸ್ಟ್ರೀಮ್'}
+                    </h3>
                     <div className="flex gap-1">
                       <div className="size-1 bg-white/20 rounded-full" />
                       <div className="size-1 bg-white/40 rounded-full animate-pulse" />
@@ -578,7 +595,7 @@ const OutbreakMap = ({ lang }) => {
                   </div>
                   <MarkerLabel position="bottom" className="text-red-400 font-black tracking-[0.2em] text-[8px] bg-black/60 px-2 py-1 rounded border border-white/10 mt-2 backdrop-blur-md">ANOMALY_DETECTION</MarkerLabel>
                 </MarkerContent>
-                <MarkerPopup className="w-80 p-0 bg-black/95 backdrop-blur-3xl border-white/10 overflow-hidden rounded-[2rem] shadow-2xl">
+                <MarkerPopup className="w-full max-w-[calc(100vw-2.5rem)] md:w-80 p-0 bg-black/95 backdrop-blur-3xl border-white/10 overflow-hidden rounded-[2rem] shadow-2xl">
                   <div className="bg-red-500/20 p-6 border-b border-white/5 relative">
                     <div className="absolute inset-0 specimen-grid opacity-20" />
                     <div className="relative flex items-center gap-4">
@@ -587,7 +604,7 @@ const OutbreakMap = ({ lang }) => {
                       </div>
                       <div>
                         <span className="text-[9px] font-black uppercase tracking-[0.4em] text-red-500">Pathogen_Detected</span>
-                        <h3 className="text-xl font-display font-black text-white italic tracking-tighter uppercase">{point.diseaseName}</h3>
+                        <h3 className={`text-xl font-display font-black text-white italic tracking-tighter uppercase full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>{point.diseaseName}</h3>
                       </div>
                     </div>
                   </div>
@@ -598,12 +615,12 @@ const OutbreakMap = ({ lang }) => {
                     </div>
                     <div className="grid grid-cols-2 gap-8 py-6 border-y border-white/5">
                       <div className="space-y-1">
-                        <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">Confidence</p>
+                        <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">{lang === 'en' ? 'Confidence' : 'ನಿಖರತೆ'}</p>
                         <p className="text-2xl font-display font-black text-primary italic">{(point.confidence * 100).toFixed(1)}%</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">Risk_Level</p>
-                        <p className="text-2xl font-display font-black text-red-500 italic">CRITICAL</p>
+                        <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">{lang === 'en' ? 'Risk_Level' : 'ಅಪಾಯದ ಮಟ್ಟ'}</p>
+                        <p className="text-2xl font-display font-black text-red-500 italic uppercase">{lang === 'en' ? 'CRITICAL' : 'ಗಂಭೀರ'}</p>
                       </div>
                     </div>
                     <button
@@ -613,12 +630,12 @@ const OutbreakMap = ({ lang }) => {
                     >
                       {isExecuting ? (
                         <>
-                          <Loader2 className="size-4 animate-spin" />
-                          Processing...
+                          <div className="size-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                          {lang === 'en' ? 'Processing...' : 'ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ...'}
                         </>
                       ) : (
                         <>
-                          Execute Protocol
+                          {lang === 'en' ? 'Execute Protocol' : 'ಪ್ರೋಟೋಕಾಲ್ ಜಾರಿಗೆ ತಂದಿದೆ'}
                           <ChevronRight className="size-4" />
                         </>
                       )}
@@ -637,7 +654,7 @@ const OutbreakMap = ({ lang }) => {
                   </div>
                   <MarkerLabel position="bottom" className="text-emerald-400 font-black tracking-[0.2em] text-[8px] bg-black/60 px-2 py-1 rounded border border-white/10 mt-2 backdrop-blur-md uppercase">{kvk.label}</MarkerLabel>
                 </MarkerContent>
-                <MarkerPopup className="w-80 p-0 bg-black/95 backdrop-blur-3xl border-white/10 shadow-2xl rounded-[2.5rem] overflow-hidden">
+                <MarkerPopup className="w-full max-w-[calc(100vw-2.5rem)] md:w-80 p-0 bg-black/95 backdrop-blur-3xl border-white/10 shadow-2xl rounded-[2.5rem] overflow-hidden">
                   <div className="relative h-44 overflow-hidden">
                     <img
                       src={kvk.image}
@@ -667,7 +684,7 @@ const OutbreakMap = ({ lang }) => {
                     </div>
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/10 italic">
                       <p className="text-[8px] text-white/20 uppercase font-black tracking-[0.3em] mb-2">Core_Expertise</p>
-                      <p className="text-xs text-white/80 font-medium leading-relaxed">{kvk.specialization}</p>
+                      <p className={`text-xs text-white/80 font-medium leading-relaxed text-neat full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>{kvk.specialization}</p>
                     </div>
                     <div className="flex gap-3 pt-2">
                       <button
@@ -708,20 +725,26 @@ const OutbreakMap = ({ lang }) => {
           {[
             {
               step: "01",
-              title: "Surveillance",
-              desc: "Satellite and ground-level sensors feed live pathogen data into the neural network for real-time anomaly detection.",
+              title: lang === 'en' ? "Surveillance" : "ಕಣ್ಗಾವಲು",
+              desc: lang === 'en' 
+                ? "Satellite and ground-level sensors feed live pathogen data into the neural network for real-time anomaly detection."
+                : "ಉಪಗ್ರಹ ಮತ್ತು ನೆಲದ ಮಟ್ಟದ ಸಂವೇದಕಗಳು ನೈಜ-ಸಮಯದ ಅಸಂಗತತೆ ಪತ್ತೆಗಾಗಿ ಲೈವ್ ರೋಗಕಾರಕ ಡೇಟಾವನ್ನು ನರಮಂಡಲಕ್ಕೆ ಒದಗಿಸುತ್ತವೆ.",
               icon: Activity
             },
             {
               step: "02",
-              title: "Analysis",
-              desc: "Automated risk assessment categorizes outbreaks by severity, crop type, and regional transmission potential.",
+              title: lang === 'en' ? "Analysis" : "ವಿಶ್ಲೇಷಣೆ",
+              desc: lang === 'en'
+                ? "Automated risk assessment categorizes outbreaks by severity, crop type, and regional transmission potential."
+                : "ಸ್ವಯಂಚಾಲಿತ ಅಪಾಯದ ಮೌಲ್ಯಮಾಪನವು ತೀವ್ರತೆ, ಬೆಳೆ ಪ್ರಕಾರ ಮತ್ತು ಪ್ರಾದೇಶಿಕ ಪ್ರಸರಣ ಸಾಮರ್ಥ್ಯದ ಮೂಲಕ ಏಕಾಏಕಿ ರೋಗ ಹರಡುವಿಕೆಯನ್ನು ವರ್ಗೀಕರಿಸುತ್ತದೆ.",
               icon: Zap
             },
             {
               step: "03",
-              title: "Intervention",
-              desc: "The system identifies the nearest Expert Nodes (KVKs) and provides direct intervention protocols and navigation.",
+              title: lang === 'en' ? "Intervention" : "ಹಸ್ತಕ್ಷೇಪ",
+              desc: lang === 'en'
+                ? "The system identifies the nearest Expert Nodes (KVKs) and provides direct intervention protocols and navigation."
+                : "ಸಿಸ್ಟಮ್ ಹತ್ತಿರದ ತಜ್ಞರ ಕೇಂದ್ರಗಳನ್ನು (ಕೆವಿಕೆಗಳು) ಗುರುತಿಸುತ್ತದೆ ಮತ್ತು ನೇರ ಹಸ್ತಕ್ಷೇಪ ಪ್ರೋಟೋಕಾಲ್‌ಗಳು ಮತ್ತು ಸಂಚರಣೆಯನ್ನು ಒದಗಿಸುತ್ತದೆ.",
               icon: Shield
             }
           ].map((item, i) => (
@@ -731,10 +754,10 @@ const OutbreakMap = ({ lang }) => {
                 <span className="font-display font-black text-4xl text-white/5 italic">{item.step}</span>
                 <item.icon className="size-6 text-primary/40 group-hover:text-primary transition-colors" />
               </div>
-              <h3 className="text-xl font-display font-black text-white uppercase italic tracking-tighter mb-4 group-hover:text-primary transition-colors">
+              <h3 className={`text-xl font-display font-black text-white uppercase italic tracking-tighter mb-4 group-hover:text-primary transition-colors full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
                 {item.title}
               </h3>
-              <p className="text-[12px] font-sans font-semibold text-white/60 leading-relaxed uppercase tracking-wide group-hover:text-white/90 transition-colors">
+              <p className={`text-[12px] font-sans font-semibold text-white/60 leading-relaxed uppercase tracking-wide group-hover:text-white/90 transition-colors text-neat full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
                 {item.desc}
               </p>
             </div>

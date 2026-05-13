@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Upload, Camera, FileText, X, ImageIcon, Trash2, Zap } from 'lucide-react';
 
-export default function UploadPanel({ onAnalyze, analyzing }) {
+export default function UploadPanel({ onAnalyze, analyzing, lang }) {
   const [dragActive, setDragActive] = useState(false);
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
@@ -47,7 +47,9 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
           <div className="size-3 rounded-full bg-[var(--primary)] animate-pulse" />
-          <span className="font-display font-bold text-[0.7rem] tracking-[0.3em] text-[var(--primary)] uppercase">Specimen Selection</span>
+          <span className="font-display font-bold text-[0.7rem] tracking-[0.3em] text-[var(--primary)] uppercase">
+            {lang === 'en' ? 'Specimen Selection' : 'ಮಾದರಿ ಆಯ್ಕೆ'}
+          </span>
         </div>
         <div className="flex gap-2">
           <div className="size-2 rounded-full bg-[var(--primary)]" />
@@ -117,8 +119,12 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
                   <Upload className="size-8 text-[var(--primary)]" />
                 </div>
                 <div>
-                  <h4 className="font-display font-black text-2xl text-white uppercase tracking-tight mb-2">Upload Photo</h4>
-                  <p className="font-kannada font-bold text-[var(--muted)] text-lg">ನಮೂನೆಯನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</p>
+                  <h4 className="font-display font-black text-2xl text-white uppercase tracking-tight mb-2">
+                    {lang === 'en' ? 'Upload Photo' : 'ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ'}
+                  </h4>
+                  <p className="font-kannada font-bold text-[var(--muted)] text-lg">
+                    {lang === 'en' ? 'Select a specimen to analyze' : 'ವಿಶ್ಲೇಷಿಸಲು ಮಾದರಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ'}
+                  </p>
                 </div>
                 <p className="text-xs font-medium text-[var(--text-dim)] uppercase tracking-widest mt-2">JPEG, PNG up to 10MB</p>
               </div>
@@ -143,7 +149,6 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
           <div className="grid grid-cols-2 gap-4">
             <button 
               onClick={() => {
-                // Tactical Hack: Dynamically add 'capture' to force camera app on mobile
                 fileInputRef.current.setAttribute('capture', 'environment');
                 fileInputRef.current.click();
               }}
@@ -152,12 +157,13 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
               <div className="absolute top-2 left-2 size-2 border-t border-l border-white/20 group-hover:border-black/40" />
               <div className="flex flex-col items-center justify-center gap-1 relative z-10">
                 <Camera className="size-5 text-[var(--primary)] group-hover:text-black transition-colors duration-500" />
-                <span className="font-display font-black text-[0.6rem] uppercase tracking-[0.3em] text-white group-hover:text-black transition-colors duration-500">Camera</span>
+                <span className="font-display font-black text-[0.6rem] uppercase tracking-[0.3em] text-white group-hover:text-black transition-colors duration-500">
+                  {lang === 'en' ? 'Camera' : 'ಕ್ಯಾಮೆರಾ'}
+                </span>
               </div>
             </button>
             <button 
               onClick={() => {
-                // Ensure 'capture' is removed for gallery selection
                 fileInputRef.current.removeAttribute('capture');
                 fileInputRef.current.click();
               }}
@@ -166,7 +172,9 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
               <div className="absolute top-2 right-2 size-2 border-t border-r border-white/20" />
               <div className="flex flex-col items-center justify-center gap-1 relative z-10">
                 <ImageIcon className="size-5 text-white/40 group-hover:text-[var(--primary)] transition-colors duration-500" />
-                <span className="font-display font-black text-[0.6rem] uppercase tracking-[0.3em] text-white/40 group-hover:text-white transition-colors duration-500">Gallery</span>
+                <span className="font-display font-black text-[0.6rem] uppercase tracking-[0.3em] text-white/40 group-hover:text-white transition-colors duration-500">
+                  {lang === 'en' ? 'Gallery' : 'ಗ್ಯಾಲರಿ'}
+                </span>
               </div>
             </button>
           </div>
@@ -177,10 +185,10 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
               <label className="flex items-center gap-3 font-display font-bold text-[0.7rem] tracking-[0.25em] text-[var(--text-dim)] uppercase">
-                <FileText className="size-4" /> Description (Optional)
+                <FileText className="size-4" /> {lang === 'en' ? 'Description (Optional)' : 'ವಿವರಣೆ (ಐಚ್ಛಿಕ)'}
               </label>
               <textarea 
-                placeholder="Briefly describe the symptoms (e.g., yellow spots on edges)..."
+                placeholder={lang === 'en' ? "Briefly describe the symptoms..." : "ರೋಗದ ಲಕ್ಷಣಗಳನ್ನು ವಿವರಿಸಿ..."}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full h-[180px] bg-white/5 border border-white/10 rounded-2xl p-6 text-white/90 text-lg placeholder:text-white/40 outline-none focus:border-[var(--primary)] focus:bg-white/10 focus:shadow-[0_0_20px_rgba(0,255,135,0.1)] transition-all resize-none"
@@ -190,34 +198,34 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
             {/* Deep Mode Toggle */}
             <div 
               onClick={() => setDeepMode(!deepMode)}
-              className={`p-6 rounded-2xl border transition-all duration-500 cursor-pointer group/deep
+              className={`p-4 md:p-6 rounded-2xl border transition-all duration-500 cursor-pointer group/deep
                 ${deepMode 
                   ? 'bg-[var(--primary)]/10 border-[var(--primary)]/40 shadow-[0_0_30px_rgba(0,255,135,0.1)]' 
                   : 'bg-white/5 border-white/10 hover:border-white/20'}
               `}
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className={`size-8 rounded-lg flex items-center justify-center transition-colors duration-500
+              <div className="flex items-center justify-between mb-2 md:mb-3">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <div className={`size-7 md:size-8 rounded-lg flex items-center justify-center transition-colors duration-500
                     ${deepMode ? 'bg-[var(--primary)] text-black' : 'bg-white/5 text-white/40'}
                   `}>
-                    <Zap className={`size-4 ${deepMode ? 'fill-current' : ''}`} />
+                    <Zap className={`size-3 md:size-4 ${deepMode ? 'fill-current' : ''}`} />
                   </div>
                   <div className="flex flex-col">
-                    <span className={`font-display font-bold text-[0.65rem] tracking-[0.2em] uppercase transition-colors
+                    <span className={`font-display font-bold text-[0.55rem] md:text-[0.65rem] tracking-[0.2em] uppercase transition-colors
                       ${deepMode ? 'text-[var(--primary)]' : 'text-white'}
-                    `}>Deep Diagnostic Mode</span>
-                    <span className="font-mono text-[0.5rem] opacity-40 uppercase tracking-widest">NVIDIA_NEMOTRON_12B</span>
+                    `}>{lang === 'en' ? 'Deep Diagnostic Mode' : 'ಆಳವಾದ ರೋಗನಿರ್ಣಯ ಮೋಡ್'}</span>
+                    <span className="font-mono text-[0.45rem] md:text-[0.5rem] opacity-40 uppercase tracking-widest">NVIDIA_NEMOTRON_12B</span>
                   </div>
                 </div>
-                <div className={`w-10 h-5 rounded-full p-1 transition-colors duration-500 ${deepMode ? 'bg-[var(--primary)]' : 'bg-white/10'}`}>
-                  <div className={`size-3 rounded-full bg-white transition-transform duration-500 ${deepMode ? 'translate-x-5' : 'translate-x-0'}`} />
+                <div className={`w-8 h-4 md:w-10 md:h-5 rounded-full p-1 transition-colors duration-500 ${deepMode ? 'bg-[var(--primary)]' : 'bg-white/10'}`}>
+                  <div className={`size-2 md:size-3 rounded-full bg-white transition-transform duration-500 ${deepMode ? 'translate-x-4 md:translate-x-5' : 'translate-x-0'}`} />
                 </div>
               </div>
-              <p className="text-[10px] text-[var(--muted)] font-medium leading-relaxed uppercase tracking-[0.05em]">
+              <p className="text-[9px] md:text-[10px] text-[var(--muted)] font-medium leading-relaxed uppercase tracking-[0.05em]">
                 {deepMode 
-                  ? 'Advanced multi-stage reasoning enabled. Slower but high-precision analysis.' 
-                  : 'Fast standard analysis enabled. Best for clear single-image diagnosis.'}
+                  ? (lang === 'en' ? 'Advanced multi-stage reasoning enabled. Slower but high-precision analysis.' : 'ಸುಧಾರಿತ ವಿಶ್ಲೇಷಣೆ ಸಕ್ರಿಯವಾಗಿದೆ. ನಿಧಾನ ಆದರೆ ನಿಖರ.') 
+                  : (lang === 'en' ? 'Fast standard analysis enabled. Best for clear single-image diagnosis.' : 'ವೇಗದ ವಿಶ್ಲೇಷಣೆ ಸಕ್ರಿಯವಾಗಿದೆ. ಸ್ಪಷ್ಟ ಚಿತ್ರಗಳಿಗೆ ಉತ್ತಮ.')}
               </p>
             </div>
           </div>
@@ -225,13 +233,12 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
           <button 
             disabled={!file || analyzing}
             onClick={() => onAnalyze(file, description, deepMode ? 'deep' : 'standard')}
-            className={`group w-full py-7 mt-8 rounded-3xl font-display font-black text-xs uppercase tracking-[0.5em] transition-all duration-700 relative overflow-hidden border-2
+            className={`group w-full py-5 md:py-7 mt-6 md:mt-8 rounded-3xl font-display font-black text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.5em] transition-all duration-700 relative overflow-hidden border-2
               ${!file || analyzing 
                 ? 'bg-white/5 text-white/50 border-white/10 cursor-not-allowed' 
                 : 'bg-[var(--primary)] text-black border-[var(--primary)] shadow-[0_0_50px_rgba(0,255,135,0.3)] hover:shadow-[0_0_80px_rgba(0,255,135,0.5)]'}
             `}
           >
-            {/* Technical Background Scan Line */}
             {!analyzing && file && (
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent h-1/2 w-full z-0 animate-scan" />
             )}
@@ -241,12 +248,12 @@ export default function UploadPanel({ onAnalyze, analyzing }) {
                 {analyzing ? (
                   <>
                     <span className="size-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
-                    <span>Processing...</span>
+                    <span>{lang === 'en' ? 'Processing...' : 'ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ...'}</span>
                   </>
                 ) : (
                   <>
                     <Zap className="size-5 fill-current transition-transform group-hover:scale-125 duration-500" />
-                    <span>Execute Analysis</span>
+                    <span>{lang === 'en' ? 'Execute Analysis' : 'ವಿಶ್ಲೇಷಣೆ ನಡೆಸಿ'}</span>
                   </>
                 )}
               </div>

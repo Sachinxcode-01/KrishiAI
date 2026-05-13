@@ -6,7 +6,7 @@ import AppSection from '../components/AppSection';
 import Features from '../components/Features';
 import RegionalAdvisory from '../components/RegionalAdvisory';
 
-export default function Home() {
+export default function Home({ lang }) {
   useEffect(() => {
     // Page-specific scroll trigger refresh
     if (window.ScrollTrigger) {
@@ -14,25 +14,25 @@ export default function Home() {
     }
     
     // Set page title
-    document.title = "Krishi AI | Advanced Crop Disease Detection";
-  }, []);
+    document.title = lang === 'en' ? "Krishi AI | Advanced Crop Disease Detection" : "ಕೃಷಿ AI | ಮುಂದುವರಿದ ಬೆಳೆ ರೋಗ ಪತ್ತೆ ಹಚ್ಚುವಿಕೆ";
+  }, [lang]);
 
   return (
     <div className="home-page">
       {/* Cinematic Hero */}
-      <Hero />
+      <Hero lang={lang} />
       
       {/* Live Data Ticker */}
-      <MarqueeTicker />
+      <MarqueeTicker lang={lang} />
 
       {/* Threat Intelligence */}
-      <RegionalAdvisory />
+      <RegionalAdvisory lang={lang} />
       
       {/* Core Logic Section */}
-      <AppSection />
+      <AppSection lang={lang} />
       
       {/* Educational Section */}
-      <Features />
+      <Features lang={lang} />
       
       {/* Subtle Bottom Spacer */}
       <div className="h-32" />

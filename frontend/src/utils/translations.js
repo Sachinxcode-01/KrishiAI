@@ -55,6 +55,10 @@ export const translations = {
     manualDesc: "Describe symptoms to identify disease.",
     manualPlaceholder: "e.g. Rice leaves turning brown and wilting...",
     manualBtn: "Diagnose Symptoms",
+    processing: "Processing Neural Array...",
+    diagnosisComplete: "Neural Diagnosis Complete",
+    resetProtocol: "RESET_PROTOCOL",
+    symptomLogStream: "Symptom_Log_Stream",
   },
   kn: {
     tagline: "ಬೆಳೆ ರೋಗ ತಕ್ಷಣ ಪತ್ತೆ ಮಾಡಿ",
@@ -112,5 +116,9 @@ export const translations = {
     manualDesc: "ರೋಗವನ್ನು ಗುರುತಿಸಲು ಲಕ್ಷಣಗಳನ್ನು ವಿವರಿಸಿ.",
     manualPlaceholder: "ಉದಾ: ಭತ್ತದ ಎಲೆಗಳು ಕಂದು ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತಿವೆ...",
     manualBtn: "ಲಕ್ಷಣಗಳನ್ನು ಪರೀಕ್ಷಿಸಿ",
+    processing: "ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ...",
+    diagnosisComplete: "ವಿಶ್ಲೇಷಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ",
+    resetProtocol: "ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ",
+    symptomLogStream: "ಲಕ್ಷಣಗಳ ಪಟ್ಟಿ",
   }
 };

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-export default function ResultCard({ result, onReset }) {
+export default function ResultCard({ result, onReset, lang }) {
   const { speak, stop, isSpeaking } = useVoice();
   const navigate = useNavigate();
   const [openSection, setOpenSection] = useState('summary');
@@ -40,7 +40,6 @@ export default function ResultCard({ result, onReset }) {
       const doc = new jsPDF('p', 'mm', 'a4');
       const card = document.querySelector('.result-card-anim');
       
-      // Temporary style adjustments for PDF capture
       const originalStyle = card.style.cssText;
       card.style.maxWidth = '800px';
       
@@ -72,11 +71,41 @@ export default function ResultCard({ result, onReset }) {
   };
 
   const sections = [
-    { id: 'summary', title: 'What We Found', icon: Info, content: result.description, kannada: result.descriptionKannada },
-    { id: 'cause', title: 'Clinical Cause', icon: AlertTriangle, content: result.causes, kannada: result.causesKannada },
-    { id: 'treatment', title: 'Treatment Protocol', icon: Zap, content: result.treatment, kannada: result.treatmentKannada },
-    { id: 'medicine', title: 'Biomedical Advice', icon: AlertCircle, content: result.medicineAdvice, kannada: result.medicineAdviceKannada },
-    { id: 'prevention', title: 'Prevention Strategy', icon: ShieldCheck, content: result.prevention, kannada: result.preventionKannada },
+    { 
+      id: 'summary', 
+      title: lang === 'en' ? 'What We Found' : 'ನಾವು ಕಂಡುಕೊಂಡದ್ದು', 
+      icon: Info, 
+      content: result.description, 
+      kannada: result.descriptionKannada 
+    },
+    { 
+      id: 'cause', 
+      title: lang === 'en' ? 'Clinical Cause' : 'ರೋಗದ ಕಾರಣ', 
+      icon: AlertTriangle, 
+      content: result.causes, 
+      kannada: result.causesKannada 
+    },
+    { 
+      id: 'treatment', 
+      title: lang === 'en' ? 'Treatment Protocol' : 'ಚಿಕಿತ್ಸಾ ಕ್ರಮಗಳು', 
+      icon: Zap, 
+      content: result.treatment, 
+      kannada: result.treatmentKannada 
+    },
+    { 
+      id: 'medicine', 
+      title: lang === 'en' ? 'Biomedical Advice' : 'ಔಷಧೋಪಚಾರದ ಸಲಹೆ', 
+      icon: AlertCircle, 
+      content: result.medicineAdvice, 
+      kannada: result.medicineAdviceKannada 
+    },
+    { 
+      id: 'prevention', 
+      title: lang === 'en' ? 'Prevention Strategy' : 'ತಡೆಗಟ್ಟುವ ಕ್ರಮಗಳು', 
+      icon: ShieldCheck, 
+      content: result.prevention, 
+      kannada: result.preventionKannada 
+    },
   ];
 
   const getSeverityStyles = (sev) => {
@@ -102,20 +131,24 @@ export default function ResultCard({ result, onReset }) {
           </div>
           <div className="space-y-2 flex-1">
             <div className="flex items-center justify-center sm:justify-start gap-3">
-              <span className="font-mono text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.4em] text-[var(--muted)] uppercase">Diagnosis_Report</span>
+              <span className="font-mono text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.4em] text-[var(--muted)] uppercase">
+                {lang === 'en' ? 'Diagnosis_Report' : 'ರೋಗನಿರ್ಣಯ_ವರದಿ'}
+              </span>
               <div className="size-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
             </div>
             <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-white uppercase italic tracking-tighter leading-[0.85]">
-              {result.diseaseName}
+              {lang === 'en' ? result.diseaseName : result.diseaseNameKannada}
             </h3>
-            <p className="font-kannada text-xl md:text-2xl lg:text-3xl text-[var(--primary)] font-bold">
-              {result.diseaseNameKannada}
-            </p>
+            {lang === 'en' && result.diseaseNameKannada && (
+              <p className="font-kannada text-xl md:text-2xl text-[var(--primary)] font-bold">
+                {result.diseaseNameKannada}
+              </p>
+            )}
           </div>
         </div>
 
         <button 
-          onClick={() => isSpeaking ? stop() : speak(`${result.diseaseName}. ${result.description}`)}
+          onClick={() => isSpeaking ? stop() : speak(`${lang === 'en' ? result.diseaseName : result.diseaseNameKannada}. ${lang === 'en' ? result.description : result.descriptionKannada}`)}
           className={`w-full md:w-auto px-6 md:px-8 py-4 rounded-2xl flex items-center justify-center gap-4 border transition-all duration-500 group ${
             isSpeaking 
               ? 'bg-[var(--primary)] text-black border-[var(--primary)] shadow-[0_0_30px_var(--primary-glow)]' 
@@ -123,7 +156,7 @@ export default function ResultCard({ result, onReset }) {
           }`}
         >
           <span className="font-mono text-[0.65rem] md:text-[0.7rem] font-black uppercase tracking-[0.2em]">
-            {isSpeaking ? 'Interrupt_Playback' : 'Execute_Audio_Link'}
+            {isSpeaking ? (lang === 'en' ? 'Interrupt_Playback' : 'ಪ್ಲೇಬ್ಯಾಕ್_ನಿಲ್ಲಿಸಿ') : (lang === 'en' ? 'Execute_Audio_Link' : 'ಆಡಿಯೋ_ಲಿಂಕ್_ಪ್ರಾರಂಭಿಸಿ')}
           </span>
           {isSpeaking ? <VolumeX className="size-5 animate-pulse" /> : <Volume2 className="size-5 group-hover:scale-110 transition-transform" />}
         </button>
@@ -134,25 +167,32 @@ export default function ResultCard({ result, onReset }) {
         <div className="lg:col-span-4 space-y-8">
           <div className="space-y-6 p-8 rounded-3xl bg-white/[0.02] border border-white/5 backdrop-blur-3xl">
             <div className="space-y-4">
-              <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">Specimen_Classification</label>
+              <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">
+                {lang === 'en' ? 'Specimen_Classification' : 'ಮಾದರಿ_ವರ್ಗೀಕರಣ'}
+              </label>
               <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
                 <span className="text-2xl">🌿</span>
-                <span className="font-display font-black text-xl text-white uppercase tracking-tight">{result.cropName}</span>
+                <span className="font-display font-black text-xl text-white uppercase tracking-tight">
+                  {lang === 'en' ? result.cropName : (result.cropNameKannada || result.cropName)}
+                </span>
               </div>
             </div>
 
             <div className="space-y-4">
-              <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">Anomalous_Severity</label>
+              <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">
+                {lang === 'en' ? 'Anomalous_Severity' : 'ರೋಗದ_ತೀವ್ರತೆ'}
+              </label>
               <div className={`flex items-center gap-3 p-4 rounded-2xl border ${getSeverityStyles(result.severity)}`}>
                 <AlertCircle className="size-5" />
                 <span className="font-display font-black text-xl uppercase tracking-tight">{result.severity}</span>
               </div>
             </div>
 
-            {/* Confidence Visualization */}
             <div className="space-y-4 pt-4 border-t border-white/5">
               <div className="flex justify-between items-end">
-                <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">AI_Certainty</label>
+                <label className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-white/30 uppercase">
+                  {lang === 'en' ? 'AI_Certainty' : 'AI_ಖಚಿತತೆ'}
+                </label>
                 <span className="font-display font-black text-2xl text-[var(--primary)]">{result.confidence}%</span>
               </div>
               <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
@@ -175,21 +215,19 @@ export default function ResultCard({ result, onReset }) {
               ) : (
                 <Download className="size-5 group-hover:-translate-y-1 transition-transform" />
               )}
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">{isGeneratingPdf ? 'Generating_Report...' : 'Download_PDF_Report'}</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">
+                {isGeneratingPdf ? (lang === 'en' ? 'Generating_Report...' : 'ವರದಿ_ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ...') : (lang === 'en' ? 'Download_PDF_Report' : 'PDF_ವರದಿ_ಡೌನ್ಲೋಡ್')}
+              </span>
             </button>
             
             <button 
-              onClick={() => {
-                if (result.location) {
-                  navigate('/map', { state: { focusLocation: result.location } });
-                } else {
-                  navigate('/map');
-                }
-              }}
+              onClick={() => navigate('/map', { state: { focusLocation: result.location } })}
               className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group bg-primary/10 border-primary/20 hover:bg-primary/20 text-primary"
             >
               <Globe className="size-5 group-hover:rotate-180 transition-transform duration-1000" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Locate_on_Command_Map</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">
+                {lang === 'en' ? 'Locate_on_Command_Map' : 'ಮ್ಯಾಪ್ನಲ್ಲಿ_ನೋಡಿ'}
+              </span>
             </button>
 
             <button 
@@ -197,7 +235,9 @@ export default function ResultCard({ result, onReset }) {
               className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group bg-white/5 border-white/10 hover:bg-white/10"
             >
               <MessageSquare className="size-5 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Consult_AI_Expert</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">
+                {lang === 'en' ? 'Consult_AI_Expert' : 'AI_ಸಲಹೆಗಾರರನ್ನು_ಕೇಳಿ'}
+              </span>
             </button>
 
             <button 
@@ -205,7 +245,9 @@ export default function ResultCard({ result, onReset }) {
               className="w-full btn-premium !py-5 md:!py-6 flex items-center justify-center gap-4 group"
             >
               <RefreshCw className="size-5 group-hover:rotate-180 transition-transform duration-700" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">New_Specimen_Scan</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">
+                {lang === 'en' ? 'New_Specimen_Scan' : 'ಹೊಸ_ಮಾದರಿ_ಸ್ಕ್ಯಾನ್'}
+              </span>
             </button>
           </div>
         </div>
@@ -235,15 +277,21 @@ export default function ResultCard({ result, onReset }) {
               {openSection === section.id && (
                 <div className="px-6 md:px-8 pb-8 md:pb-10 space-y-6 md:space-y-8 animate-fade-in">
                   <div className="h-px w-full bg-gradient-to-r from-white/10 via-transparent to-transparent" />
-                  <p className="text-base md:text-lg text-white/70 leading-relaxed font-sans">
-                    {section.content}
+                  
+                  {/* Primary Language View */}
+                  <p className={`text-lg md:text-xl text-white/90 text-neat full-text ${lang === 'kn' ? 'font-kannada font-medium' : 'font-sans'}`}>
+                    {lang === 'en' ? section.content : section.kannada}
                   </p>
-                  <div className="p-6 md:p-8 rounded-2xl md:rounded-[2rem] bg-[var(--primary)]/5 border border-[var(--primary)]/10 relative overflow-hidden group/kannada">
-                    <div className="absolute top-0 right-0 p-4 opacity-10">
-                      <span className="font-kannada text-2xl md:text-4xl font-black">ಕನ್ನಡ</span>
+
+                  {/* Secondary/Regional View (Optional toggle or always show smaller) */}
+                  <div className="p-6 md:p-8 rounded-2xl md:rounded-[2rem] bg-white/[0.02] border border-white/5 relative overflow-hidden group/secondary">
+                    <div className="absolute top-0 right-0 p-4 opacity-5">
+                      <span className="font-mono text-[0.6rem] font-bold uppercase tracking-[0.3em]">
+                        {lang === 'en' ? 'REGIONAL_ADVISORY' : 'ENGLISH_PROTOCOL'}
+                      </span>
                     </div>
-                    <p className="font-kannada text-xl md:text-2xl text-white/90 font-medium leading-relaxed relative z-10">
-                      {section.kannada}
+                    <p className={`text-base md:text-lg text-white/50 text-neat full-text ${lang === 'en' ? 'font-kannada' : 'font-sans italic'}`}>
+                      {lang === 'en' ? section.kannada : section.content}
                     </p>
                   </div>
                 </div>
@@ -257,14 +305,14 @@ export default function ResultCard({ result, onReset }) {
               onClick={handleShare}
               className="flex items-center justify-center gap-3 py-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all font-mono text-[0.7rem] font-bold tracking-widest uppercase text-white/60"
             >
-              <Share2 className="size-4" /> Share_Data
+              <Share2 className="size-4" /> {lang === 'en' ? 'Share_Data' : 'ಹಂಚಿಕೊಳ್ಳಿ'}
             </button>
             <button 
               onClick={handleCopy}
               className="flex items-center justify-center gap-3 py-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all font-mono text-[0.7rem] font-bold tracking-widest uppercase text-white/60"
             >
               {copied ? <ShieldCheck className="size-4 text-[var(--primary)]" /> : <Copy className="size-4" />}
-              {copied ? 'Data_Synced' : 'Copy_Log'}
+              {copied ? (lang === 'en' ? 'Data_Synced' : 'ಸಿಂಕ್ ಆಗಿದೆ') : (lang === 'en' ? 'Copy_Log' : 'ಕಾಪಿ ಮಾಡಿ')}
             </button>
           </div>
         </div>

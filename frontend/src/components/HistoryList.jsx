@@ -61,7 +61,7 @@ const HistoryList = ({ lang, history, onDelete, onViewItem }) => {
                     </span>
                   </div>
                   
-                  <h3 className="text-sm font-bold text-white truncate group-hover:text-primary transition-colors">
+                  <h3 className={`text-sm font-bold text-white full-text group-hover:text-primary transition-colors ${lang === 'kn' ? 'font-kannada' : ''}`}>
                     {lang === 'en' ? item.diseaseName : item.diseaseNameKannada}
                   </h3>
                   

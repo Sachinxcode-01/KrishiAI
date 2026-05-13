@@ -18,6 +18,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
+  const [lang, setLang] = useState('en');
+
   useEffect(() => {
     if (!loading) {
       initAnimations();
@@ -53,16 +55,16 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
       </div>
 
-      <Navbar />
+      <Navbar lang={lang} setLang={setLang} />
       
       <main className="relative z-10">
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/map" element={<OutbreakMap />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/" element={<Home lang={lang} />} />
+          <Route path="/history" element={<HistoryPage lang={lang} />} />
+          <Route path="/library" element={<LibraryPage lang={lang} />} />
+          <Route path="/map" element={<OutbreakMap lang={lang} />} />
+          <Route path="/about" element={<AboutPage lang={lang} />} />
+          <Route path="/chat" element={<ChatPage lang={lang} />} />
         </Routes>
       </main>
 

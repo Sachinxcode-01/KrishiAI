@@ -139,8 +139,8 @@ const ChatBot = ({ lang, context }) => {
             <Cpu className="size-8 text-primary animate-pulse" />
           </div>
           <div>
-            <h3 className="text-white font-black tracking-tighter text-2xl uppercase italic">
-              Neural <span className="text-primary">Core</span>
+            <h3 className={`text-white font-black tracking-tighter text-2xl uppercase italic ${lang === 'kn' ? 'font-kannada' : ''}`}>
+              {lang === 'en' ? 'Neural ' : 'ನರ '}<span className="text-primary">{lang === 'en' ? 'Core' : 'ಕೇಂದ್ರ'}</span>
             </h3>
             <div className="flex items-center gap-3 mt-1">
               <div className="flex items-center gap-1.5">
@@ -177,8 +177,8 @@ const ChatBot = ({ lang, context }) => {
               className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}
             >
               <div className="flex items-center gap-2 mb-3 px-2">
-                <span className={`text-[8px] font-black uppercase tracking-[0.4em] ${m.role === 'user' ? 'text-primary' : 'text-white/40'}`}>
-                  {m.role === 'user' ? 'AUTH_USER' : 'INTELLIGENCE_AGENT'}
+                <span className={`text-[8px] font-black uppercase tracking-[0.4em] ${m.role === 'user' ? 'text-primary' : 'text-white/40'} ${lang === 'kn' ? 'font-kannada' : ''}`}>
+                  {m.role === 'user' ? (lang === 'en' ? 'AUTH_USER' : 'ಬಳಕೆದಾರ') : (lang === 'en' ? 'INTELLIGENCE_AGENT' : 'AI ಸಹಾಯಕ')}
                 </span>
                 <div className={`h-px w-8 ${m.role === 'user' ? 'bg-primary/40' : 'bg-white/10'}`} />
               </div>
@@ -187,7 +187,7 @@ const ChatBot = ({ lang, context }) => {
                 m.role === 'user' 
                   ? 'bg-primary text-black rounded-tr-none shadow-[0_10px_40px_rgba(16,185,129,0.2)]' 
                   : 'bg-white/5 text-text/90 border border-white/10 backdrop-blur-xl rounded-tl-none'
-              }`}>
+              } ${lang === 'kn' ? 'font-kannada' : ''}`}>
                 {m.content}
                 {m.role === 'assistant' && (
                   <button 
@@ -249,8 +249,8 @@ const ChatBot = ({ lang, context }) => {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               placeholder={isListening 
-                ? "AWAITING_INPUT..." 
-                : "SPECIFY_QUERY..."
+                ? (lang === 'en' ? "AWAITING_INPUT..." : "ಕಾಯಲಾಗುತ್ತಿದೆ...") 
+                : (lang === 'en' ? "SPECIFY_QUERY..." : "ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ...")
               }
               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-[13px] text-white focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20 font-mono tracking-wider"
             />

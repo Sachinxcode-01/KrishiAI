@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { ArrowRight, Play, Sparkles } from 'lucide-react';
 import heroBg from '../assets/hero-bg.png';
 
-export default function Hero() {
+export default function Hero({ lang }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -38,7 +38,30 @@ export default function Hero() {
       duration: 2,
       ease: 'sine.inOut'
     });
-  }, []);
+  }, [lang]);
+
+  const stats = [
+    { 
+      value: '97.4%', 
+      label: lang === 'en' ? 'Model Accuracy' : 'ಮಾದರಿ ನಿಖರತೆ', 
+      detail: lang === 'en' ? 'Precision Diagnosis' : 'ನಿಖರವಾದ ರೋಗನಿರ್ಣಯ' 
+    },
+    { 
+      value: '38+', 
+      label: lang === 'en' ? 'Crop Species' : 'ಬೆಳೆ ಪ್ರಭೇದಗಳು', 
+      detail: lang === 'en' ? 'Vast Database' : 'ಬೃಹತ್ ಡೇಟಾಬೇಸ್' 
+    },
+    { 
+      value: '0.8s', 
+      label: lang === 'en' ? 'Inference' : 'ವೇಗ', 
+      detail: lang === 'en' ? 'Real-time Speed' : 'ನೈಜ-ಸಮಯದ ವೇಗ' 
+    },
+    { 
+      value: '24/7', 
+      label: lang === 'en' ? 'AI Support' : 'AI ಬೆಂಬಲ', 
+      detail: lang === 'en' ? 'Expert Guidance' : 'ತಜ್ಞರ ಮಾರ್ಗದರ್ಶನ' 
+    }
+  ];
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center pt-40 px-6 overflow-hidden bg-[#020B06]">
@@ -49,7 +72,7 @@ export default function Hero() {
       {/* Floating HUD Elements */}
       <div className="absolute top-20 left-20 hidden lg:block animate-float-tactical">
         <div className="flex flex-col gap-2 p-4 border-l border-t border-[var(--primary)]/30 rounded-tl-xl bg-[var(--primary)]/5 backdrop-blur-sm">
-          <span className="text-tactical">[SURVEILLANCE: ACTIVE]</span>
+          <span className="text-tactical">[{lang === 'en' ? 'SURVEILLANCE: ACTIVE' : 'ಕಣ್ಗಾವಲು: ಸಕ್ರಿಯವಾಗಿದೆ'}]</span>
           <span className="text-tactical">REF_ID: KRISHI_NX_001</span>
           <div className="flex gap-1 mt-2">
             {[1, 2, 3, 4, 5].map(i => <div key={i} className="size-1 bg-[var(--primary)] animate-pulse" style={{ animationDelay: `${i * 200}ms` }} />)}
@@ -76,34 +99,46 @@ export default function Hero() {
           <img src="/krishiAI.png" alt="Krishi AI Logo" className="w-full h-full object-contain p-2" />
         </div>
         {/* Cinematic Heading */}
-        <h1 className="hero-heading font-black mb-10 pt-10">
+        <h1 className={`hero-heading font-black mb-10 pt-10 ${lang === 'kn' ? 'leading-tight' : ''}`}>
           <span className="block overflow-hidden h-fit">
-            <span className="hero-reveal block text-white">Protecting</span>
+            <span className="hero-reveal block text-white uppercase italic tracking-tighter">
+              {lang === 'en' ? 'Protecting' : 'ನಿಮ್ಮ'}
+            </span>
           </span>
           <span className="block overflow-hidden h-fit scale-[0.8] xs:scale-[0.85] sm:scale-90 md:scale-100">
-            <span className="hero-reveal block text-[var(--primary)]">Your</span>
+            <span className="hero-reveal block text-[var(--primary)] uppercase italic tracking-tighter">
+              {lang === 'en' ? 'Your' : 'ಬೆಳೆಯ'}
+            </span>
           </span>
           <span className="block overflow-hidden h-fit">
-            <span className="hero-reveal block text-gradient">Harvest</span>
+            <span className="hero-reveal block text-gradient uppercase italic tracking-tighter">
+              {lang === 'en' ? 'Harvest' : 'ರಕ್ಷಣೆ'}
+            </span>
           </span>
         </h1>
 
         {/* Description */}
-        <p className="hero-fade max-w-2xl font-sans text-lg md:text-xl text-[var(--text-secondary)] mb-12 leading-relaxed">
-          The most advanced AI diagnostic suite for modern farming. Detect diseases in seconds, 
-          optimize yields, and secure your livelihood with precision intelligence.
-          <span className="block font-kannada font-bold text-[var(--primary)] mt-4">
-            ರೈತರ ಏಳಿಗೆಗಾಗಿ ಅತ್ಯಾಧುನಿಕ ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ತಂತ್ರಜ್ಞಾನ.
-          </span>
+        <p className={`hero-fade max-w-2xl font-sans text-lg md:text-xl text-[var(--text-secondary)] mb-12 leading-relaxed px-4 text-neat full-text ${lang === 'kn' ? 'font-kannada' : ''}`}>
+          {lang === 'en' ? (
+            <>
+              The most advanced AI diagnostic suite for modern farming. Detect diseases in seconds, 
+              optimize yields, and secure your livelihood with precision intelligence.
+            </>
+          ) : (
+            <>
+              ಆಧುನಿಕ ಕೃಷಿಗಾಗಿ ಅತ್ಯಾಧುನಿಕ AI ರೋಗನಿರ್ಣಯ ಸೂಟ್. ಸೆಕೆಂಡುಗಳಲ್ಲಿ ರೋಗಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಿ, 
+              ಇಳುವರಿಯನ್ನು ಉತ್ತಮಗೊಳಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಜೀವನೋಪಾಯವನ್ನು ಭದ್ರಪಡಿಸಿಕೊಳ್ಳಿ.
+            </>
+          )}
         </p>
 
         {/* CTA Group */}
-        <div className="hero-fade flex flex-col sm:flex-row justify-center items-center gap-6 mb-24 w-full sm:w-auto">
+        <div className="hero-fade flex flex-col sm:flex-row justify-center items-center gap-6 mb-24 w-full sm:w-auto px-6">
           <button 
             onClick={() => document.getElementById('detect')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-premium btn-premium-primary group w-full sm:w-auto"
           >
-            Analyze My Crop
+            {lang === 'en' ? 'Analyze My Crop' : 'ನನ್ನ ಬೆಳೆಯನ್ನು ಪರೀಕ್ಷಿಸಿ'}
             <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
           </button>
           <button 
@@ -111,18 +146,13 @@ export default function Hero() {
             className="btn-premium btn-premium-secondary group w-full sm:w-auto"
           >
             <Play className="mr-2 size-5 fill-current" />
-            Explore Library
+            {lang === 'en' ? 'Explore Library' : 'ಗ್ರಂಥಾಲಯವನ್ನು ಅನ್ವೇಷಿಸಿ'}
           </button>
         </div>
 
         {/* Stats Row */}
         <div className="hero-fade grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 w-full border-t border-white/10 pt-12 md:pt-16 mt-auto">
-          {[
-            { value: '97.4%', label: 'Model Accuracy', detail: 'Precision Diagnosis' },
-            { value: '38+', label: 'Crop Species', detail: 'Vast Database' },
-            { value: '0.8s', label: 'Inference', detail: 'Real-time Speed' },
-            { value: '24/7', label: 'AI Support', detail: 'Expert Guidance' }
-          ].map((stat, i) => (
+          {stats.map((stat, i) => (
             <div key={i} className="flex flex-col items-center">
               <span className="font-display font-black text-2xl md:text-3xl text-white mb-1">{stat.value}</span>
               <span className="font-sans text-[0.55rem] md:text-[0.6rem] font-bold tracking-[0.2em] text-[var(--primary)] uppercase mb-1">

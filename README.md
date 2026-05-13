@@ -84,5 +84,11 @@ npm run dev
 - [ ] **Community Outbreak Alerts**: Push notifications for farmers when a disease is detected within a 10km radius.
 - [ ] **GPU-Accelerated Processing**: Optimizing the agent pipeline for real-time video stream analysis.
 
+## 🤝 Contributing
+
+We welcome contributions from the community! Whether it's fixing a bug, adding a new feature, or improving documentation, your help is appreciated.
+
+Please read our **[Contributing Guide](CONTRIBUTING.md)** for details on our code of conduct and the process for submitting pull requests.
+
 ---
 Developed with ❤️ for Indian Farmers to empower the next generation of agriculture.

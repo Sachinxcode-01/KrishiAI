@@ -1,26 +1,32 @@
 import { motion } from 'framer-motion';
 import { Camera, Cpu, Sparkles, PlusCircle } from 'lucide-react';
 
-export default function Features() {
+export default function Features({ lang }) {
   const steps = [
     {
       icon: Camera,
-      title: 'Capture Leaf',
-      desc: 'Take a clear photo of the diseased leaf using your mobile camera or upload from gallery.',
+      title: lang === 'en' ? 'Capture Leaf' : 'ಎಲೆಯನ್ನು ಸೆರೆಹಿಡಿಯಿರಿ',
+      desc: lang === 'en' 
+        ? 'Take a clear photo of the diseased leaf using your mobile camera or upload from gallery.'
+        : 'ನಿಮ್ಮ ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಬಳಸಿ ರೋಗಗ್ರಸ್ತ ಎಲೆಯ ಸ್ಪಷ್ಟ ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಿ ಅಥವಾ ಗ್ಯಾಲರಿಯಿಂದ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.',
       kannada: 'ಎಲೆಯ ಫೋಟೋ ತೆಗೆಯಿರಿ',
       step: '01'
     },
     {
       icon: Cpu,
-      title: 'AI Analysis',
-      desc: 'Gemini Vision AI scans every detail of the leaf and identifies the exact disease in seconds.',
+      title: lang === 'en' ? 'AI Analysis' : 'AI ವಿಶ್ಲೇಷಣೆ',
+      desc: lang === 'en'
+        ? 'Gemini Vision AI scans every detail of the leaf and identifies the exact disease in seconds.'
+        : 'ಜೆಮಿನಿ ವಿಷನ್ AI ಎಲೆಯ ಪ್ರತಿಯೊಂದು ವಿವರವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತದೆ ಮತ್ತು ಸೆಕೆಂಡುಗಳಲ್ಲಿ ನಿಖರವಾದ ರೋಗವನ್ನು ಗುರುತಿಸುತ್ತದೆ.',
       kannada: 'ಜೆಮಿನಿ AI ರೋಗ ಪತ್ತೆ ಮಾಡುತ್ತದೆ',
       step: '02'
     },
     {
       icon: PlusCircle,
-      title: 'Get Cure',
-      desc: 'Receive complete treatment steps and medicine names in both Kannada and English.',
+      title: lang === 'en' ? 'Get Cure' : 'ಪರಿಹಾರ ಪಡೆಯಿರಿ',
+      desc: lang === 'en'
+        ? 'Receive complete treatment steps and medicine names in both Kannada and English.'
+        : 'ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಎರಡರಲ್ಲೂ ಸಂಪೂರ್ಣ ಚಿಕಿತ್ಸಾ ಹಂತಗಳು ಮತ್ತು ಔಷಧದ ಹೆಸರುಗಳನ್ನು ಪಡೆಯಿರಿ.',
       kannada: 'ಚಿಕಿತ್ಸೆ ಮತ್ತು ಔಷಧ ಮಾಹಿತಿ ಪಡೆಯಿರಿ',
       step: '03'
     }
@@ -62,14 +68,21 @@ export default function Features() {
           <div className="flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/5">
             <Sparkles className="size-3 text-[var(--primary)]" />
             <span className="font-mono text-[0.6rem] font-bold tracking-[0.3em] text-[var(--primary)] uppercase">
-              How It Works
+              {lang === 'en' ? 'How It Works' : 'ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ'}
             </span>
           </div>
-          <h2 className="font-display font-black text-4xl md:text-6xl text-white uppercase mb-6 tracking-tighter">
-            Seamless <span className="text-gradient">Workflow</span>
+          <h2 className={`font-display font-black text-4xl md:text-6xl text-white uppercase mb-6 tracking-tighter ${lang === 'kn' ? 'font-kannada' : ''}`}>
+            {lang === 'en' ? (
+              <>Seamless <span className="text-gradient">Workflow</span></>
+            ) : (
+              <><span className="text-gradient">ಸುಲಭವಾದ</span> ಕೆಲಸದ ಹರಿವು</>
+            )}
           </h2>
-          <p className="font-sans text-[var(--text-secondary)] text-base md:text-lg max-w-2xl leading-relaxed">
-            Enterprise-grade intelligence simplified into three intuitive steps.
+          <p className={`text-[var(--text-secondary)] text-base md:text-lg max-w-2xl leading-relaxed text-neat full-text ${lang === 'kn' ? 'font-kannada' : 'font-sans'}`}>
+            {lang === 'en' 
+              ? 'Enterprise-grade intelligence simplified into three intuitive steps.'
+              : 'ಮೂರು ಸರಳ ಹಂತಗಳಲ್ಲಿ ಅತ್ಯಾಧುನಿಕ ತಂತ್ರಜ್ಞಾನದ ಸದುಪಯೋಗ ಪಡಿಸಿಕೊಳ್ಳಿ.'
+            }
           </p>
         </motion.div>
 
@@ -101,16 +114,18 @@ export default function Features() {
                   <item.icon className="size-8 text-[var(--primary)] group-hover:text-black transition-colors duration-500" />
                 </div>
 
-                <h3 className="font-display font-bold text-2xl text-white mb-4 uppercase tracking-tight relative z-10 group-hover:text-[var(--primary)] transition-colors duration-500">
+                <h3 className={`font-display font-bold text-2xl text-white mb-4 uppercase tracking-tight relative z-10 group-hover:text-[var(--primary)] transition-colors duration-500 ${lang === 'kn' ? 'font-kannada text-xl' : ''}`}>
                   {item.title}
                 </h3>
                 
-                <p className="font-sans text-[var(--muted)] text-base leading-relaxed mb-10 relative z-10">
+                <p className={`text-[var(--muted)] text-base leading-relaxed mb-10 relative z-10 text-neat full-text ${lang === 'kn' ? 'font-kannada text-sm' : 'font-sans'}`}>
                   {item.desc}
                 </p>
 
                 <div className="pt-8 border-t border-white/5 flex flex-col gap-2 mt-auto relative z-10">
-                  <span className="font-mono text-[0.6rem] font-bold text-[var(--primary)] uppercase tracking-[0.3em]">Action</span>
+                  <span className="font-mono text-[0.6rem] font-bold text-[var(--primary)] uppercase tracking-[0.3em]">
+                    {lang === 'en' ? 'Action' : 'ಕ್ರಮ'}
+                  </span>
                   <span className="font-kannada font-bold text-xl text-white/90">{item.kannada}</span>
                 </div>
               </div>

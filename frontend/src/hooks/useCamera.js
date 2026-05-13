@@ -6,6 +6,11 @@ export const useCamera = () => {
   const videoRef = useRef(null);
 
   const startCamera = useCallback(async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setError('Camera API not supported in this browser or connection is not secure (HTTPS required)');
+      return;
+    }
+
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' }, // Back camera
@@ -17,7 +22,13 @@ export const useCamera = () => {
       }
     } catch (err) {
       console.error('Camera error:', err);
-      setError('Could not access camera');
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        setError('Camera permission denied. Please enable camera access in your browser settings.');
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        setError('No camera found on this device.');
+      } else {
+        setError('Could not access camera. Please ensure no other app is using it.');
+      }
     }
   }, []);
 
@@ -36,7 +47,7 @@ export const useCamera = () => {
     canvas.height = videoRef.current.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    
+
     return canvas.toDataURL('image/jpeg');
   }, []);
 

@@ -57,7 +57,7 @@ export default function SpecimenStream() {
               </span>
             </div>
 
-            <h4 className="font-display font-black text-xs text-white uppercase truncate tracking-tight mb-2 group-hover:text-[var(--primary)] transition-colors">
+            <h4 className="font-display font-black text-xs text-white uppercase full-text tracking-tight mb-2 group-hover:text-[var(--primary)] transition-colors">
               {item.diseaseName}
             </h4>
 
